@@ -23,3 +23,24 @@
       </div>
     </div>
   </nav>
+{{-- this is section for admin sections --}}
+@if (Auth::user()->role == 'superadmin')
+  <nav class="navbar navbar-expand-lg bg-dark p-0">
+    <div class="container">
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link text-light" aria-current="page" href="/">Dashboard</a>
+          <a class="nav-link text-light" aria-current="page" href="/">Students</a>
+          <a class="nav-link text-light" aria-current="page" href="/">Admins</a>
+          <a class="nav-link text-light" aria-current="page" href="/">Teachers</a>
+          <a class="nav-link text-light" aria-current="page" href="/">Attendece</a>
+          <a class="nav-link text-light" aria-current="page" href="/">Payment</a>
+          <a class="nav-link text-light" aria-current="page" href="/">Contacts</a>
+          <a class="nav-link text-light" aria-current="page" href="/">Messages</a>
+          <a class="nav-link text-light" aria-current="page" href="/">Addmission request</a>
+          <a class="nav-link text-light bg-success" aria-current="page" href="/">Site content</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+@endif
