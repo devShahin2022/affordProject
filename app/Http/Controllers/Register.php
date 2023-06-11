@@ -28,7 +28,7 @@ class Register extends Controller
                 if (Hash::check($request->username, $user->username)) {
                     $isExistUsername = true;
                 }
-                if ($request->phone == $user->emailOrPhone) {
+                if ($request->phone == $user->phone) {
                     $previousPhoneNumerUsers ++;
                 }
             }

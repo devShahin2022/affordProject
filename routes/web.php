@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Register;
 use App\Http\Middleware\hideLoginRedRouteMiddleware;
@@ -25,3 +26,8 @@ Route::get('/login',[LoginController::class,'login'])->name('login')->middleware
 Route::post('/login/process',[LoginController::class,'loginProcess'])->name('loginProcess')->middleware(hideLoginRedRouteMiddleware::class);
 Route::get('/profile',[ProfileController::class,'showProfile'])->name('showProfile')->middleware('auth');
 Route::post('/logout',[LoginController::class,'logout'])->name('logout');
+
+
+Route::post('/profile/add-question',[MessageController::class,'insertMsg'])->name('insertMsg')->middleware('auth');
+Route::get('/profile/pending-question',[MessageController::class,'showPendingQuestion'])->name('showPendingQuestion')->middleware('auth');;
+Route::get('/profile/prev-question-ans',[MessageController::class,'showPrevQuestion'])->name('showPrevQuestion')->middleware('auth');;

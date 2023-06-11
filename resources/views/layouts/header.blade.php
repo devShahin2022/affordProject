@@ -24,7 +24,7 @@
     </div>
   </nav>
 {{-- this is section for admin sections --}}
-@if (Auth::user()->role == 'superadmin')
+@if (Auth::user() && Auth::user()->role == 'superadmin')
   <nav class="navbar navbar-expand-lg bg-dark p-0">
     <div class="container">
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
