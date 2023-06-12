@@ -46,7 +46,7 @@ class Register extends Controller
             $register->password = Hash::make($request->psw);
             $register->role = "student";
             if($register->save()){
-                return back()->with('success',"User created success");
+                return redirect('/login')->with('success',"Register success! please login");
             }else{
                 return back()->with('fail',"Something went wrong!");
             }

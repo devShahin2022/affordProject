@@ -11,7 +11,7 @@
                     <button class="btn btn-primary btn-sm my-2">Edit photo</button>
                 </div>
                 <div class="my-4">
-                    <button class="btn btn-danger w-100 my-2">questions</button>
+                    <a href="{{route('showQuestion')}}"><button class="btn btn-danger w-100 my-2">questions</button></a>
                     <button class="btn btn-danger w-100 my-2">See current rank</button>
                     <button class="btn btn-danger w-100 my-2">Attendace</button>
                     <button class="btn btn-danger w-100 my-2">Payment history</button>
@@ -42,11 +42,9 @@
                     <button type="reset" class="btn btn-primary my-3">Reset</button>
                 </form>
                 <div>
-                <a href="{{route('showPendingQuestion')}}">
                   <h1 class='my-3'>Pending question @if (isset($data))
                     {{sizeof($data)}}
                   @endif</h1>
-                </a>
                   <div class="accordion" id="accordionPanelsStayOpenExample">
                     @if (isset($data))
                       @foreach ($data as $d)
@@ -61,7 +59,7 @@
                             <p class="lead"><strong>Me : </strong>{{$d->question}}</p>
                             <br>
                             @if ($d->question_img !== null)
-                              <img style="width:100%;height:auto;" src="{{$d->question_img}}" alt="image">
+                              <img style="width:100%;height:auto;" src="{{$d->question_img}}" alt="">
                             @endif
                           </div>
                         </div>
@@ -70,7 +68,7 @@
                     @endif
                   </div>
                 </div>
-                <a href="{{route('showPrevQuestion')}}"><h1 class='my-3'>Previous answer question @if (isset($prevData)){{sizeof($prevData)}} @endif</h1></a>
+                <h1 class='my-3'>Previous answer question @if (isset($prevData)){{sizeof($prevData)}} @endif</h1>
                   <div class="accordion" id="accordionPanelsStayOpenExample">
                     <div class="accordion" id="accordionPanelsStayOpenExample">
                       @if (isset($prevData))
@@ -86,14 +84,14 @@
                               <p class="lead"><strong>Me : </strong>{{$d->question}}</p>
                               <br>
                               @if ($d->question_img !== null)
-                                <img style="width:100%;height:auto;" src="{{$d->question_img}}" alt="image">
+                                <img style="width:100%;height:auto;" src="{{$d->question_img}}" alt="">
                               @endif
                               <br>
                               <br>
                               <p class="lead"><strong>From APC : </strong>{{$d->answer}}</p>
                               <br>
                               @if ($d->question_img !== null)
-                                <img style="width:100%;height:auto;" src="{{$d->reply_img}}" alt="image">
+                                <img style="width:100%;height:auto;" src="{{$d->reply_img}}" alt="">
                               @endif
                             </div>
                           </div>

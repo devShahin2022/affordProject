@@ -8,6 +8,9 @@
                 @if (session('fail'))
                     <p class="text-danger">{{session('fail')}}</p>
                 @endif
+                @if (session('success'))
+                    <p class="text-success">{{session('success')}}</p>
+                @endif
                 <form action="{{ route('loginProcess') }}" method="POST">
                     @csrf
                     @method("POST")

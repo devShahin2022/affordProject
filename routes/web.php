@@ -29,5 +29,8 @@ Route::post('/logout',[LoginController::class,'logout'])->name('logout');
 
 
 Route::post('/profile/add-question',[MessageController::class,'insertMsg'])->name('insertMsg')->middleware('auth');
-Route::get('/profile/pending-question',[MessageController::class,'showPendingQuestion'])->name('showPendingQuestion')->middleware('auth');;
-Route::get('/profile/prev-question-ans',[MessageController::class,'showPrevQuestion'])->name('showPrevQuestion')->middleware('auth');;
+Route::get('/profile/question',[MessageController::class,'showPendingQuestion'])->name('showQuestion')->middleware('auth');
+
+// admin section
+Route::get('/admin/messages-pending',[MessageController::class,'showAllPendingQuestion'])->name('showAllPendingQuestion')->middleware('auth');
+Route::post('/admin/msg-sending',[MessageController::class,'msgSending'])->name('submitAnswer')->middleware('auth');
