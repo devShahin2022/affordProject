@@ -2,10 +2,12 @@
 use App\Models\questionModel;
 use App\Models\Contact;
 use App\Models\User;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 
 $dataPending = questionModel::where('status',0)->get();
 $pendingContact = Contact::where('status',0)->get();
+$pendingAdmissionReq = Payment::where('status',0)->get();
 if(Auth::user()){
   $getUserData = User::where('id',Auth::user()->id)->first();
   $userRole = $getUserData->role;
@@ -79,8 +81,16 @@ if(Auth::user()){
                 </span>
               @endif
           </button></a>
-          <a class="nav-link text-light" aria-current="page" href="/">Addmission request</a>
-          <a class="nav-link text-light bg-success" aria-current="page" href="/">Site content</a>
+          <a class="nav-link text-light" aria-current="page" href="{{route('getsscXmReq')}}"><button type="" class="nav-link border-0 bg-transparent text-light p-0 position-relative">
+            Addmission request
+              @if (sizeof($pendingAdmissionReq) > 0)
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {{sizeof($pendingAdmissionReq)}} 
+                  <span class=""></span>
+                </span>
+              @endif
+          </button></a>
+          <a class="nav-link text-light" aria-current="page" href="/">Site-content</a>
         </div>
       </div>
     </div>

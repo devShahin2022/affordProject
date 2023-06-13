@@ -40,4 +40,54 @@ class sscExamBatchAdmController extends Controller
             return back()->with("fail","Something went wrong! Please try again letter.");
         }
     }
+    // for admin
+    public function getSScXmAdmissionRequest(){
+        $res = Payment::where('status',0)->get(); // uncheck payment request
+        $res1 = Payment::where('status',1)->latest()->get(); // approved request
+        $res2 = Payment::where('status',2)->latest()->get(); // check and unapproved request
+        return view("Admin.admissionRequest.sscXmReq",['newReq'=>$res,'approvedReq'=>$res1,'unapprovedReq'=>$res2]);
+    } 
+    public function approvedAmsReq(Request $request){
+        $id = $request->id;
+        $payment = Payment::where('id', $id)->first();
+        $userId = $payment->user_id;
+        $user = User::where('id', $userId)->first(); 
+        $payment->status = 1; // approved payment
+        if($payment->save()){
+            $user->account_type = 2; // acount premium and admission success
+            $user->save();
+            return back()->with('success',"Approved success");
+        }else{
+            return back()->with('fail',"something went wrong!");
+        }
+    }
+    public function unApprovedAmsReq(Request $request){
+        $id = $request->id;
+        $payment = Payment::where('id', $id)->first();
+        $userId = $payment->user_id;
+        $user = User::where('id', $userId)->first(); 
+        $payment->status = 2; // unapproved payment
+        if($payment->save()){
+            $user->account_type = 0; // basic account
+            $user->save();
+            return back()->with('success',"Unapproved success");
+        }else{
+            return back()->with('fail',"something went wrong!");
+        }
+    } 
+
+    public function deleteUnapprovedReq(Request $request){
+        $id = $request->id;
+        $payment = Payment::where('id', $id)->first();
+        $userId = $payment->user_id;
+        $user = User::where('id', $userId)->first(); 
+        if($payment->delete()){
+            $user->account_type = 0; // basic account
+            $user->save();
+            return back()->with('success',"delete success");
+        }else{
+            return back()->with('fail',"something went wrong!");
+        }
+    } 
+    
 }

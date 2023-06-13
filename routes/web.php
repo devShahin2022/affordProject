@@ -38,6 +38,12 @@ Route::post('/profile/add-question',[MessageController::class,'insertMsg'])->nam
 Route::get('/admin/messages-pending',[MessageController::class,'showAllPendingQuestion'])->name('showAllPendingQuestion')->middleware('auth');
 Route::post('/admin/msg-sending',[MessageController::class,'msgSending'])->name('submitAnswer')->middleware('auth');
 Route::get('/all-question-ans',[MessageController::class,'showAllQuestionAnswer'])->name('showAllQuestionAns'); // no auth
+Route::get('/admin/adm-req',[sscExamBatchAdmController::class,'getSScXmAdmissionRequest'])->name('getsscXmReq');
+Route::post('/admin/approved-adm-req',[sscExamBatchAdmController::class,'approvedAmsReq'])->name('approvedAddmissionReq');
+Route::post('/admin/unapproved-adm-req',[sscExamBatchAdmController::class,'unApprovedAmsReq'])->name('UnapprovedAddmissionReq');
+Route::post('/admin/delete-adm-req',[sscExamBatchAdmController::class,'deleteUnapprovedReq'])->name('deleteUnapprovedReq');
+
+
 
 
 
