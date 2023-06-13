@@ -43,6 +43,7 @@ class Register extends Controller
             $register = new User();
             $register->phone = $request->phone;
             $register->username = $request->username;
+            $register->account_type = 0; //pending requested , default 0 mean basic account, 1 mean premium account, 2 mean admission sssExam
             $register->password = Hash::make($request->psw);
             $register->role = "student";
             if($register->save()){

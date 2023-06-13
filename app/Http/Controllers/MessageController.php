@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
-    public function prevMsgRetrive(){
-        return "Hello";
-    }
+    
     public function insertMsg(Request $request){
         $validated = $request->validate([
             'question' => 'required|min:5',
@@ -33,13 +31,6 @@ class MessageController extends Controller
             return redirect()->back()->with('fail', 'Something went wrong!'); 
         }
     }
-    // show all pending question
-    public function showPendingQuestion(){
-        $res = questionModel::where('user_id',Auth::user()->id)->where("status",0)->get();
-        $res1 = questionModel::where('user_id',Auth::user()->id)->where("status",1)->get();
-        return view('ProfilePage.ProfilePage',['data' => $res ,'prevData'=>$res1]);
-    }
-
 
     // for admin panel section
      public function showAllPendingQuestion(){
@@ -74,7 +65,11 @@ class MessageController extends Controller
             }
         }else{
             return back();
-        }
-        
+        } 
+    }
+
+    public function showAllQuestionAnswer(){
+        $res = questionModel::where("status",1)->get();
+        return view('ShowALlQA.showQA',['data' => $res]);
     }
 }

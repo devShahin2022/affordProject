@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title','admin-messages')
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-md-6">
                   <h1 class='my-3'>Pending question @if (isset($data)) {{sizeof($data)}} @endif</h1>
