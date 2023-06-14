@@ -42,4 +42,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function search($keyword)
+    {
+        return $this->where('username', 'like', '%' . $keyword . '%')
+            ->orWhere('phone', 'like', '%' . $keyword . '%')
+            ->orWhere('full_name', 'like', '%' . $keyword . '%')
+            ->orWhere('role', 'like', '%' . $keyword . '%')
+            ->orWhere('status', 'like', '%' . $keyword . '%')
+            ->orWhere('account_type', 'like', '%' . $keyword . '%')
+            ->get();
+    }
 }

@@ -58,9 +58,8 @@ if(Auth::user()){
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-link text-light" aria-current="page" href="/">Dashboard</a>
-          <a class="nav-link text-light" aria-current="page" href="/">Students</a>
-          <a class="nav-link text-light" aria-current="page" href="/">Admins</a>
-          <a class="nav-link text-light" aria-current="page" href="/">Teachers</a>
+          <a class="nav-link text-light" aria-current="page" href="{{route('getAllUsers')}}">All users</a>
+          <a class="nav-link text-light" aria-current="page" href="{{route('privilige')}}">Admin Previlige</a>
           <a class="nav-link text-light" aria-current="page" href="/">Attendece</a>
           <a class="nav-link text-light" aria-current="page" href="/">Payment</a>
           <a class="nav-link text-light" aria-current="page" href="{{route('getAdminContacts')}}"><button type="" class="nav-link border-0 bg-transparent text-light p-0 position-relative">

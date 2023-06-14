@@ -7,6 +7,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Register;
 use App\Http\Controllers\sscExamBatchAdmController;
+use App\Http\Controllers\UsersTableController;
 use App\Http\Middleware\hideLoginRedRouteMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -42,9 +43,12 @@ Route::get('/admin/adm-req',[sscExamBatchAdmController::class,'getSScXmAdmission
 Route::post('/admin/approved-adm-req',[sscExamBatchAdmController::class,'approvedAmsReq'])->name('approvedAddmissionReq');
 Route::post('/admin/unapproved-adm-req',[sscExamBatchAdmController::class,'unApprovedAmsReq'])->name('UnapprovedAddmissionReq');
 Route::post('/admin/delete-adm-req',[sscExamBatchAdmController::class,'deleteUnapprovedReq'])->name('deleteUnapprovedReq');
-
-
-
+// admin users table section
+Route::get('/admin/all-users',[UsersTableController::class,'getAllUsers'])->name('getAllUsers');
+Route::get('/admin/admin-privilige',[UsersTableController::class,'privilige'])->name('privilige');
+Route::get('/admin/change/{name}/{id}/{csrf}',[UsersTableController::class,'changeRole'])->name('changeRole');
+Route::get('/admin/search',[UsersTableController::class,'searchUser'])->name('searchUser');
+Route::post('/admin/change-privilige',[UsersTableController::class,'changePrivilige'])->name('changePrivilige');
 
 
 // front site section

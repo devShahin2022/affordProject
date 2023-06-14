@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('role');
+            $table->string('photo_url')->nullable();
+            $table->string('full_name')->nullable();
+            $table->string('privilige')->nullable();
+            $table->string('email')->nullable();
             $table->string('status');
             $table->string('account_type'); //pending request=>  0 mean=> basic account, 1 mean => premium account, 2 mean=> admission sscExamBatch, 
             $table->timestamps();
