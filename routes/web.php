@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Register;
+use App\Http\Controllers\siteQuestionController;
 use App\Http\Controllers\sscExamBatchAdmController;
 use App\Http\Controllers\UsersTableController;
 use App\Http\Middleware\hideLoginRedRouteMiddleware;
@@ -49,6 +50,13 @@ Route::get('/admin/admin-privilige',[UsersTableController::class,'privilige'])->
 Route::get('/admin/change/{name}/{id}/{csrf}',[UsersTableController::class,'changeRole'])->name('changeRole');
 Route::get('/admin/search',[UsersTableController::class,'searchUser'])->name('searchUser');
 Route::post('/admin/change-privilige',[UsersTableController::class,'changePrivilige'])->name('changePrivilige');
+// admin site general content
+Route::get('/admin/site-general-content/add-board-mcq',[siteQuestionController::class,'addBoardMcqView'])->name('addBoardMcqView');
+Route::post('/admin/site-general-content/upload-mcq',[siteQuestionController::class,'storeMcq'])->name('getMcq');
+
+
+
+
 
 
 // front site section

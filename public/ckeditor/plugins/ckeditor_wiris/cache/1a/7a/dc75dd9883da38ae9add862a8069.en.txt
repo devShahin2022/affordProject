@@ -1,0 +1,1 @@
+{"result":{"text":"H subscript 2 S O subscript 4 open parentheses g close parentheses yields with heat space 250 minus sign 300 on top H subscript 2 O open parentheses g close parentheses space plus space C O subscript 2 open parentheses g close parentheses"},"status":"ok"}
