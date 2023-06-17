@@ -53,7 +53,13 @@ Route::post('/admin/change-privilige',[UsersTableController::class,'changePrivil
 // admin site general content
 Route::get('/admin/site-general-content/add-board-mcq',[siteQuestionController::class,'addBoardMcqView'])->name('addBoardMcqView');
 Route::post('/admin/site-general-content/upload-mcq',[siteQuestionController::class,'storeMcq'])->name('getMcq');
-
+Route::get('/admin/site-general-content/filter-mcq',[siteQuestionController::class,'findMcqByOptions'])->name('findMcqByOptions');
+Route::get('/admin/site-general-content/search-mcq',[siteQuestionController::class,'serachMcq'])->name('serachMcq');
+Route::post('/admin/site-general-content/change-mcq-status',[siteQuestionController::class,'changeMcqStatus'])->name('changeMcqStatus');
+Route::post('/admin/site-general-content/mcq-delete',[siteQuestionController::class,'deleteMcq'])->name('deleteMcq');
+Route::get('/admin/site-general-content/mcq/view/{id}/{mcqNo}',[siteQuestionController::class,'singleMcqView'])->name('singleMcqView');
+Route::get('/admin/site-general-content/mcq/update/{id}/{mcqNo}',[siteQuestionController::class,'McqUpdate'])->name('McqUpdate');
+// Route::post('/admin/site-general-content/mcq/update-process',[siteQuestionController::class,'McqUpdateStore'])->name('McqUpdate');
 
 
 

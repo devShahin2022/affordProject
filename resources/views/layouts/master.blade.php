@@ -8,9 +8,6 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/footers/">
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sidebars/">
     <title>@yield('title')</title>
-
-    {{-- for ck editor --}}
-    {{-- <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script> --}}
     <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
 </head>
 <style>
@@ -73,6 +70,25 @@ main {
   overflow-y: auto;
 }
 
+/* mcq options */
+.mcq_circle{
+    display: flex;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #484848;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    padding:1px;
+}
+.mcq_circle_border{
+    background-color: transparent;
+    border:1px solid #484848;
+    color: #484848;
+    padding:1px;
+}
+
   </style>
 
 <body>
@@ -81,21 +97,6 @@ main {
     @include("layouts.footer")
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="sidebars.js"></script>
-    {{-- for ckeditor --}}
-    {{-- <script>
-      // Initialize CKEditor with MathJax and ChemDraw plugins
-      CKEDITOR.replace('editor', {
-      baseFloatZIndex: 10005,
-      removeButtons: 'PasteFromWord'
-      });
-      function getEditorContent() {
-      var editor = CKEDITOR.instances.editor;
-      var content = editor.getData();
-      console.log(content);
-      // You can perform further operations with the HTML content
-  }
-  </script> --}}
-
   <script>
     ( function() {
         var mathElements = [
@@ -154,6 +155,9 @@ main {
         } );
     }() );
   </script>
+  <script src="{{asset('js/jsonData.js')}}"></script>
+  <script src="{{asset("js/manageChapter.js")}}"></script>
+  <script src="../../../resources/js/manageChapter.js"></script>
   <script>
     ( function() {
         var mathElements = [
