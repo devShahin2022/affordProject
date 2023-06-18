@@ -15,7 +15,7 @@ class MakeQuestionController extends Controller
             if( $lastAddedData->question_set !=NULL){
                 $data = AddMcq::where('subject_name',$lastAddedData->subject_name)->
                     where('chapter_name', $lastAddedData->chapter_name)->
-                    where('question_set', $lastAddedData->question_set)->get();
+                    where('question_set', $lastAddedData->question_set)->latest()->get();
             }
         }
        return view('SiteGeneralContent.MakeQuesForExam.makeMcqXm',['mcqs'=>$data]);

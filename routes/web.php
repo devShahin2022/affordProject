@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddCqController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
@@ -60,6 +61,14 @@ Route::post('/admin/site-general-content/change-mcq-status',[siteQuestionControl
 Route::post('/admin/site-general-content/mcq-delete',[siteQuestionController::class,'deleteMcq'])->name('deleteMcq');
 Route::get('/admin/site-general-content/mcq/view/{id}/{mcqNo}',[siteQuestionController::class,'singleMcqView'])->name('singleMcqView');
 Route::get('/admin/site-general-content/mcq/update/{id}/{mcqNo}',[siteQuestionController::class,'McqUpdate'])->name('McqUpdate');
+// route for cq for admin
+Route::get('/admin/site-general-content/get-cq/{statusReset}',[AddCqController::class,'getCq'])->name('getCq');
+Route::post('/admin/site-general-content/store-cq',[AddCqController::class,'storeCq'])->name('storeCq');
+
+
+
+
+
 
 
 // route for make exam question admin panel

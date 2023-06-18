@@ -91,7 +91,7 @@ main {
 
   </style>
 
-<body>
+<body onload="LoadInitData()">
     @include("layouts.header")
     @yield('content')
     @include("layouts.footer")
