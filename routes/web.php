@@ -3,6 +3,7 @@
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MakeQuestionController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Register;
@@ -59,9 +60,13 @@ Route::post('/admin/site-general-content/change-mcq-status',[siteQuestionControl
 Route::post('/admin/site-general-content/mcq-delete',[siteQuestionController::class,'deleteMcq'])->name('deleteMcq');
 Route::get('/admin/site-general-content/mcq/view/{id}/{mcqNo}',[siteQuestionController::class,'singleMcqView'])->name('singleMcqView');
 Route::get('/admin/site-general-content/mcq/update/{id}/{mcqNo}',[siteQuestionController::class,'McqUpdate'])->name('McqUpdate');
-// Route::post('/admin/site-general-content/mcq/update-process',[siteQuestionController::class,'McqUpdateStore'])->name('McqUpdate');
 
 
+// route for make exam question admin panel
+Route::get('/admin/site-general-content/mcq/make-xm-mcq',[MakeQuestionController::class,'showMakeMcqQuesXm'])->name('showMakeMcqQuesXm');
+Route::post('/admin/site-general-content/mcq-xm-store',[MakeQuestionController::class,'storeMcq'])->name('storeMakeXmMcq');
+Route::get('/admin/site-general-content/find',[MakeQuestionController::class,'findXmMcqByOptions'])->name('findXmMcqByOptions');
+Route::get('/admin/site-general-content/search',[MakeQuestionController::class,'serachMcqXm'])->name('serachMcqXm');
 
 
 

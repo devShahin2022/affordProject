@@ -37,7 +37,8 @@ return new class extends Migration
             $table->string('reply_report_msg')->nullable();
             $table->string('reply_report_msg_by')->nullable();
             $table->string('reporter_id')->nullable();
-            $table->string('quesetion_set')->nullable();
+            $table->string('question_set')->nullable();
+            $table->string('max_capacity')->nullable();
             $table->string('uploader_comment')->nullable();
             $table->timestamps();
         });

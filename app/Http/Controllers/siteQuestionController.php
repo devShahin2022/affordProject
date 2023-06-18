@@ -43,9 +43,6 @@ class siteQuestionController extends Controller
             return view('SiteGeneralContent.AddMcq.addMcqBoard',['mcqs'=>$lastAddedData, 'size'=>$size]);
         }
     }
-    public function autoCompleteSearch($sub, $quesCat, $board, $year){
-        
-    }
     public function storeMcq(Request $request){
         $validated = $request->validate([
             'question' => 'required',
