@@ -13,9 +13,8 @@ class AddCqController extends Controller
         if($statusReset == 1){ // 1 means reset form
             return view("SiteGeneralContent.AddCq.addCq",['currentData'=>$lastUploadedCq]);
         }
-        $lastUploadedCq = AddCq::where('addedBy',Auth::user()->username)->latest()->first(); // fetch by specific user perpose
+        $lastUploadedCq = AddCq::where('addedBy',Auth::user()->username)->latest()->get(); // fetch by specific user perpose
         // dd( $lastUploadedCq );
-
         return view("SiteGeneralContent.AddCq.addCq",['currentData'=>$lastUploadedCq]);
     }
     public function storeCq(Request $request){
@@ -119,6 +118,75 @@ class AddCqController extends Controller
         }else{
             return redirect()->route("getCq",['statusReset'=>0])->with('fail',"Something went wrong! Try again");
         }
+    }
 
+    // find data ..
+    function findCqData(Request $request){
+        $validated = $request->validate([
+            'departmentName' => 'required',
+            'subjectName' => 'required',
+            'chapterName' => 'required',
+            'questionCat' => 'required'
+        ]);
+
+        $flag = 0; // afford question
+
+        // return if select board or school name but not select board name+year or school name
+        if( $request->questionCat !=0){
+            if($request->questionCat == 'বোর্ড প্রশ্ন'){ // it's check board question
+                if( $request->year == 0 || $request->boardOrSchoolName == 0 ){
+                    return redirect()->route("getCq",['statusReset'=>0])->with('fail',"Fail! Board name or year name missing");
+                }
+                $flag = 1; //board question
+            }else if($request->questionCat == 'স্কুলের প্রশ্ন'){ //its check school question
+                if($request->boardOrSchoolName == 0){
+                    return redirect()->route("getCq",['statusReset'=>0])->with('fail',"Fail! Must be select school name");
+                }
+                $flag = 2; // means school question
+            }
+        }
+        // start basic information collection
+        $departmentName = $request->departmentName;
+        $subjectName = $request->subjectName;
+        $chapterName = $request->chapterName;
+        $questionCat = $request->questionCat;
+        $boardOrSchoolName = $request->boardOrSchoolName;
+        if(isset($request->year)){
+            $year = $request->year;
+        }
+        $getCqs = NULL;
+        // data fectch... various criterias
+        // if afford question
+        if($flag == 0){
+            $getCqs = AddCq::where('departmentName', $departmentName)->
+            where('subjectName',$subjectName)->where('chapterName', $chapterName)->
+            where('questionCat', $questionCat)->latest()->get();
+        }
+        // for board question
+        if($flag == 1){
+            $getCqs = AddCq::where('departmentName', $departmentName)->
+            where('subjectName',$subjectName)->where('chapterName', $chapterName)->
+            where('questionCat', $questionCat)->
+            where('boardOrSchoolName',$boardOrSchoolName)->where('year',$year)->latest()->get();
+        }
+        // for school question
+        if($flag == 2){
+            $getCqs = AddCq::where('departmentName', $departmentName)->
+            where('subjectName',$subjectName)->where('chapterName', $chapterName)->
+            where('questionCat', $questionCat)->
+            where('boardOrSchoolName',$boardOrSchoolName)->latest()->get();
+        }
+        // send find data to front end
+        return view("SiteGeneralContent.AddCq.addCq",['currentData'=>$getCqs]);
+    }
+
+    // for search field
+    public function findBuSearch(Request $request){
+        $validated = $request->validate([
+            'search' => 'required'
+        ]);
+        $cqs = new AddCq();
+        $res = $cqs->search($request->search)->all();
+        return view("SiteGeneralContent.AddCq.addCq",['currentData'=>$res,'searchText'=>$request->search]);
     }
 }

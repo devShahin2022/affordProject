@@ -64,6 +64,8 @@ Route::get('/admin/site-general-content/mcq/update/{id}/{mcqNo}',[siteQuestionCo
 // route for cq for admin
 Route::get('/admin/site-general-content/get-cq/{statusReset}',[AddCqController::class,'getCq'])->name('getCq');
 Route::post('/admin/site-general-content/store-cq',[AddCqController::class,'storeCq'])->name('storeCq');
+Route::get('/admin/site-general-content/find-cq',[AddCqController::class,'findCqData'])->name('findCqData');
+Route::get('/admin/site-general-content/find-search',[AddCqController::class,'findBuSearch'])->name('findBuSearch');
 
 
 
