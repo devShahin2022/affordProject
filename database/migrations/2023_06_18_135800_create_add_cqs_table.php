@@ -40,6 +40,9 @@ return new class extends Migration
             $table->string('reporterId')->nullable();
             $table->string('addedBy')->nullable();
             $table->string('replyBy')->nullable();
+            $table->string('maxCqCapcity')->nullable();
+            $table->string('isXmQuestion')->default(0);
+            $table->string('setNo')->nullable();
 
             $table->timestamps();
         });

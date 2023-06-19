@@ -2,9 +2,8 @@
 @section('title',"add cq")
 @section('content')
     <div class="container">
-        <h1 class="bg-light p-2 mt-1 mb-3">Add a cq</h1>
+        <h1 class="bg-light p-2 mt-1 mb-3">Make a exam question</h1>
         <div class="row">
-            {{-- for uploading a cq information --}}
             <div class="col-md-6">
                 @if ($errors->any())
                 <div class="alert alert-danger">
@@ -21,9 +20,9 @@
                 @if (session('success'))
                 <p class="text-success">{{session('success')}}</p>
                 @endif
-                <a href="{{ route('getCq', ['statusReset'=> 1 ]) }}"><button class="btn btn-outline-secondary my-2">Reset form</button></a>
-                <a href="{{ route('getCq', ['statusReset'=> 0 ]) }}"><button class="btn btn-transparent my-2">Restore</button></a>
-                <form action="{{route('storeCq')}}" method="POST" enctype="multipart/form-data">
+                <a href="{{ route('cqExamQuestionView', ['statusReset'=> 1 ]) }}"><button class="btn btn-outline-secondary my-2">Reset form</button></a>
+                <a href="{{ route('cqExamQuestionView', ['statusReset'=> 0 ]) }}"><button class="btn btn-transparent my-2">Restore</button></a>
+                <form action="{{route('storeExamQuestion')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-6">
@@ -62,43 +61,17 @@
                             @endif
                         </div>
                         <div class="col-md-6">
-
                             <span class=""><span style="font-size: 1.6rem" class="text-danger me-1">*</span>প্রশ্ন ক্যাটাগরি</span>
-                            @if(isset($currentData[0]))
-                                <select name="questionCat" class="form-select" aria-label="Default select example">
-                                    <option value="{{$currentData[0]->questionCat}}" selected> {{$currentData[0]->questionCat}} </option>
-                                </select>
-                            @else
-                                <select  name="questionCat" class="form-select pushQuesCatId" aria-label="Default select example">
-        
-                                </select>
-                            @endif
- 
+                            <select name="questionCat" class="form-select" aria-label="Default select example">
+                                <option value="বাই অ্যাফোর্ড প্রশ্ন" selected>বাই অ্যাফোর্ড প্রশ্ন</option> 
+                                {{-- default set by afford --}}
+                            </select>
                         </div>
-                        <div class="col-md-6">
-                            <span class=""><span style="font-size: 1.6rem" class="text-danger me-1">*</span>বোর্ড / স্কুল</span>
-                            @if(isset($currentData) && sizeof($currentData)>0)
-                            <select name="boardOrSchoolName" class="form-select" aria-label="Default select example">
-                                <option value="{{$currentData[0]->boardOrSchoolName}}" selected> {{$currentData[0]->boardOrSchoolName}} </option>
-                            </select>
-                            @else
-                            <select name="boardOrSchoolName" class="form-select pushBoardOrSchoolId" aria-label="Default select example">
-    
-                            </select>
-                            @endif
-
-                        </div>
-                        <div class="col-md-6">
-                            <span class=""><span style="font-size: 1.6rem" class="text-danger me-1">*</span>সাল</span>
-                            @if(isset($currentData)  && sizeof($currentData)>0)
-                            <select name="year" class="form-select" aria-label="Default select example">
-                                <option value="{{$currentData[0]->year}}" selected> {{$currentData[0]->year}} </option>
-                            </select>
-                            @else
-                            <select  name="year" class="form-select pushYearId" aria-label="Default select example">
-    
-                            </select>
-                            @endif
+                        <div class="col-md-12">
+                            <span class=""><span style="font-size: 1.6rem" class="text-danger me-1">*</span> এই সেটে কত গুলো সৃজনশীল প্রশ্ন রাখতে চাঁচ্ছ ... </span>
+                            <input value="@if($currentData!=NULL && sizeof($currentData)>0){{$currentData[0]->maxCqCapcity}} @endif" type="text" class="form-control" name="maxCqCapcity">
+                            <span>উপরের তথ্য ভিত্তিক সেট - @if($currentData!=NULL && sizeof($currentData)>0) {{$currentData[0]->setNo}} @else 0 @endif </span>
+                            <input name="makeSureIsExitSet" type="hidden" value="@if($currentData!=NULL && sizeof($currentData)>0){{$currentData[0]->setNo}}@else 0 @endif">
                         </div>
                     </div>
                     {{-- here start question information --}}
@@ -168,7 +141,7 @@
             {{-- right section for find and search data ans show cq --}}
             <div class="col-md-6">
                 <h2 class="bg-light my-1 mb-3 p-2">See your previous uploaded cq</h2>
-                <form action="{{route('findCqData')}}" method="GET">
+                <form action="{{route('findXmCqQues')}}" method="GET">
                     @csrf
                     <div class="row">
                         <div class="col-3 mt-2">
@@ -214,28 +187,20 @@
                                 </select>
                             @endif
                         </div>
+                        
                         <div class="col-3 mt-2">
-                            @if(isset($currentData) && sizeof($currentData)>0)
-                            <select name="boardOrSchoolName" class="form-select" aria-label="Default select example">
-                                <option value="{{$currentData[0]->boardOrSchoolName}}" selected> {{$currentData[0]->boardOrSchoolName}} </option>
+                            <select name='questionSet' class="form-select" aria-label="Default select example">
+                                @if (isset($currentData[0]))
+                                @for ($i=1; $i<=$currentData[0]->setNo; $i++)
+                                <option @if($currentData[0]->setNo == $i) selected @endif value='{{$i}}'>Set - {{$i}}</option>
+                                @endfor
+                                @else
+                                    <option value='0'>First choose subject</option>
+                                @endif
                             </select>
-                            @else
-                            <select  name="boardOrSchoolName" class="form-select pushBoardOrSchoolId" aria-label="Default select example">
-    
-                            </select>
-                            @endif
                         </div>
-                        <div class="col-3 mt-2">
-                            @if(isset($currentData) && sizeof($currentData)>0)
-                            <select name="year" class="form-select" aria-label="Default select example">
-                                <option value="{{$currentData[0]->year}}" selected> {{$currentData[0]->year}} </option>
-                            </select>
-                            @else
-                            <select name="year" class="form-select pushYearId" aria-label="Default select example">
-    
-                            </select>
-                            @endif
-                        </div>
+
+
                         <div class="col-sm-3 mt-2">
                             <button type="submit" class="btn btn-primary w-100">Find data</button>
                         </div>
@@ -245,7 +210,7 @@
                     </div>
                 </form>
                 {{-- search bar --}}
-                <form action="{{route('findBuSearch')}}" method="GET">
+                <form action="{{route('findXmCQSearch')}}" method="GET">
                     @csrf
                     <div class="row mt-3" >
                         <div class="col-8 mt-2">
@@ -279,7 +244,7 @@
                             <img src="{{$eahCq->uddipakPhoto}}" class="w-100" alt="">
                         @endif
                         @if (isset($eahCq->uddipakText))
-                         <p>   <?php echo '<span>'. $eahCq->uddipakText .'</span>'; ?> </p>
+                            <p>   <?php echo '<span>'. $eahCq->uddipakText .'</span>'; ?> </p>
                         @endif
                         <p>(ক) <?php echo '<span>'. $eahCq->question1 .'</span>'; ?> </p>
                         <p>(খ) <?php echo '<span>'. $eahCq->question2 .'</span>'; ?> </p>

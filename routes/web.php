@@ -69,7 +69,14 @@ Route::get('/admin/site-general-content/find-search',[AddCqController::class,'fi
 Route::post('/admin/site-general-content/a_d',[AddCqController::class,'activeOrDeactive'])->name('activeOrDeactive');
 Route::post('/admin/site-general-content/cq-delete',[AddCqController::class,'deleteCq'])->name('deleteCq');
 Route::get('/admin/site-general-content/cq-view/{serial}/{id}',[AddCqController::class,'viewSingleCq'])->name('viewSingleCq');
+Route::get('/admin/site-general-content/cq-view/update/{serial}/{id}',[AddCqController::class,'viewSingleCqUpdate'])->name('viewSingleCqUpdate');
+Route::post('/admin/site-general-content/cq-view/update/',[AddCqController::class,'updateCq'])->name('updateCq');
 
+// create xm cq question
+Route::get('/admin/site-general-content/xm-cq-q/{statusReset}',[AddCqController::class,'cqExamQuestionView'])->name('cqExamQuestionView');
+Route::post('/admin/site-general-content/xm-cq-q/store',[AddCqController::class,'storeExamQuestion'])->name('storeExamQuestion');
+Route::get('/admin/site-general-content/xm-cq-find',[AddCqController::class,'findXmCqQues'])->name('findXmCqQues');
+Route::get('/admin/site-general-content/xm-cq-search',[AddCqController::class,'findXmCQSearch'])->name('findXmCQSearch');
 
 
 
