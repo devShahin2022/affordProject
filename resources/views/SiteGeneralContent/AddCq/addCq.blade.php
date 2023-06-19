@@ -256,14 +256,24 @@
                         </div>
                     </div>
                 </form>
+                @if(isset($currentData) && sizeof($currentData)>0 && !isset($searchText))
+                <p class="lead bg-light p-2 mb-2"> total- {{sizeof($currentData)}}</p>
+                @endif
                 @if (isset($searchText))
                 <p class="lead bg-light p-2 mb-2">searched result for `{{$searchText}}` total- {{sizeof($currentData)}} found</p>
+                @endif
+                @if (isset($currentData) && sizeof($currentData)>0)
+                    <div class="d-flex flex-wrap sticky-top bg-dark text-light">
+                        @for ($i=0; $i<sizeof($currentData); $i++)
+                        <a href="#question_{{$i+1}}" class="nav-link p-1 m-1 text-decoration-underline">Question-{{$i + 1}}</a>
+                        @endfor
+                    </div>
                 @endif
                 <hr>
                 {{-- show current uploaded data --}}
                 @if (isset($currentData) && sizeof($currentData)>0)
                     @foreach ($currentData as $eahCq)
-                    <div class="border border-dark my-2 p-2 border-rounded">
+                    <div id="question_{{$loop->index+1}}" class="border border-dark my-2 p-2 border-rounded">
                         <p> সৃজনশীল- {{ $loop->index + 1 }}</p>
                         @if (isset($eahCq->uddipakPhoto))
                             <img src="{{$eahCq->uddipakPhoto}}" class="w-100" alt="">
@@ -274,7 +284,7 @@
                         <p>(ক) <?php echo '<span>'. $eahCq->question1 .'</span>'; ?> </p>
                         <p>(খ) <?php echo '<span>'. $eahCq->question2 .'</span>'; ?> </p>
                         <p>(গ) <?php echo '<span>'. $eahCq->question3 .'</span>'; ?> </p>
-                        @if (isset($eahCq->uddipakPhoto))
+                        @if ($eahCq->question4)
                         <p>(ঘ) <?php echo '<span>'. $eahCq->question4 .'</span>'; ?> </p>
                         @endif
                         @if (isset($eahCq->answerPhoto1) || isset($eahCq->answerPhoto2) ||  isset($eahCq->answerPhoto3) || isset($eahCq->answerPhoto4) || 
@@ -286,21 +296,21 @@
                             <img src="{{$eahCq->answerPhoto1}}" class="w-100" alt="">
                             @endif
                             @if(isset($eahCq->answerQuestion1))
-                            <p class="">{{ $eahCq->answerQuestion1 }}</p>
+                            <p class=""><?php echo '<span>'. $eahCq->answerQuestion1 .'</span>' ?></p>
                             @endif
                             <p class="lead">(খ)</p>
                             @if (isset($eahCq->answerPhoto2))
                             <img src="{{$eahCq->answerPhoto2}}" class="w-100" alt="">
                             @endif
                             @if(isset($eahCq->answerQuestion2))
-                            <p class="">{{ $eahCq->answerQuestion2 }}</p>
+                            <p class=""><?php echo '<span>'. $eahCq->answerQuestion2 .'</span>' ?></p>
                             @endif
                             <p class="lead">(গ)</p>
                             @if (isset($eahCq->answerPhoto3))
                             <img src="{{$eahCq->answerPhoto3}}" class="w-100" alt="">
                             @endif
                             @if(isset($eahCq->answerQuestion3))
-                            <p class="">{{ $eahCq->answerQuestion3 }}</p>
+                            <p class=""><?php echo '<span>'. $eahCq->answerQuestion3 .'</span>' ?></p>
                             @endif
                             @if (isset($eahCq->answerQuestion4) || isset($eahCq->answerPhoto4))
                                 <p class="lead">(ঘ)</p>
@@ -308,7 +318,7 @@
                                 <img src="{{$eahCq->answerPhoto4}}" class="w-100" alt="">
                                 @endif
                                 @if(isset($eahCq->answerQuestion4))
-                                <p class="">{{ $eahCq->answerQuestion4 }}</p>
+                                <p class=""><?php echo '<span>'. $eahCq->answerQuestion4 .'</span>' ?></p>
                                 @endif  
                             @endif
                         @endif
@@ -316,23 +326,21 @@
                         {{-- action section --}}
                         <div>
                             <div class="py-2 px-1 d-flex justify-content-end flex-wrap">
-                                <form method="POST" action="#">
+                                <form method="POST" action="{{route('deleteCq')}}">
                                     @csrf
-                                    <input name="id" type="hidden" value="">
+                                    <input name="id" type="hidden"  value="{{$eahCq->id}}">
                                     <button title="click to delete" type="submit" class="btn btn-transparent"><span class="badge text-bg-danger">Delete it</span></button>
                                 </form>
-                                <form method="POST" action="">
+                                <form method="POST" action="{{route('activeOrDeactive')}}">
                                     @csrf
-                                    <input name="id" type="hidden" value="">
-                                    <input name="status_val" type="hidden" value="">
-    
-                                        {{-- <button title="click to make deactive" type="submit" class="btn btn-transparent"><span class="badge text-bg-success">it's active</span></button> --}}
-    
-                                        <button title="click to make active" type="submit" class="btn btn-transparent"><span class="badge text-bg-secondary">it's deactive</span></button>
-    
+                                    @if ($eahCq->status == 1)
+                                    <button title="click to make deactive" type="submit" class="btn btn-transparent"><span class="badge text-bg-success">it's active</span></button>
+                                    @else
+                                    <button title="click to make active" type="submit" class="btn btn-transparent"><span class="badge text-bg-secondary">it's deactive</span></button>
+                                    @endif
+                                    <input name="id" type="hidden" value="{{$eahCq->id}}">
                                 </form>
-    
-                                <a href="" class="active nav-link me-2"><button title="click to make active" type="submit" class="btn btn-transparent"><span class="badge text-bg-info">View</span></button></a>
+                                <a  href="{{ route('viewSingleCq', ['serial'=>($loop->index+1),"id"=>$eahCq->id]) }}" class="active nav-link me-2"><button title="click to make active" type="submit" class="btn btn-transparent"><span class="badge text-bg-info">View</span></button></a>
                                 <a href="" class="active nav-link me-2"><button title="click to make active" type="submit" class="btn btn-transparent"><span class="badge text-bg-primary">Edit</span></button></a>
                             </div>
                             <small class="text-muted text-end d-block"><i> - Added by : {{$eahCq->addedBy}}</i></small>

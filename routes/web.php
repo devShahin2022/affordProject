@@ -66,6 +66,9 @@ Route::get('/admin/site-general-content/get-cq/{statusReset}',[AddCqController::
 Route::post('/admin/site-general-content/store-cq',[AddCqController::class,'storeCq'])->name('storeCq');
 Route::get('/admin/site-general-content/find-cq',[AddCqController::class,'findCqData'])->name('findCqData');
 Route::get('/admin/site-general-content/find-search',[AddCqController::class,'findBuSearch'])->name('findBuSearch');
+Route::post('/admin/site-general-content/a_d',[AddCqController::class,'activeOrDeactive'])->name('activeOrDeactive');
+Route::post('/admin/site-general-content/cq-delete',[AddCqController::class,'deleteCq'])->name('deleteCq');
+Route::get('/admin/site-general-content/cq-view/{serial}/{id}',[AddCqController::class,'viewSingleCq'])->name('viewSingleCq');
 
 
 

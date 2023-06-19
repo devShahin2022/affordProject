@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AddCq;
+use App\Models\AddMcq;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,35 +50,35 @@ class AddCqController extends Controller
         // first processing image upload
         if(isset($request->uddipakPhoto)){
             $imageName = 'afford_uddipak'.time() . '.' . $request->uddipakPhoto->getClientOriginalExtension();
-            $path = $request->file('file')->storeAs('images', $imageName, 'public');
+            $path = $request->file('uddipakPhoto')->storeAs('images', $imageName, 'public');
             $imgLinkUddipak = url('storage/images/'.$imageName);
             $addCq->uddipakPhoto = $imgLinkUddipak;
         }
         // uddipak image process
         if(isset($request->answerPhoto1)){
             $imageName = 'afford_answer1'.time() . '.' . $request->answerPhoto1->getClientOriginalExtension();
-            $path = $request->file('file')->storeAs('images', $imageName, 'public');
+            $path = $request->file('answerPhoto1')->storeAs('images', $imageName, 'public');
             $answerPhoto1 = url('storage/images/'.$imageName);
             $addCq->answerPhoto1 = $answerPhoto1;
         }
          // uddipak image process
          if(isset($request->answerPhoto2)){
             $imageName = 'afford_answer2'.time() . '.' . $request->answerPhoto2->getClientOriginalExtension();
-            $path = $request->file('file')->storeAs('images', $imageName, 'public');
+            $path = $request->file('answerPhoto2')->storeAs('images', $imageName, 'public');
             $answerPhoto2 = url('storage/images/'.$imageName);
             $addCq->answerPhoto2 = $answerPhoto2;
         }
          // uddipak image process
          if(isset($request->answerPhoto3)){
             $imageName = 'afford_answer3'.time() . '.' . $request->answerPhoto3->getClientOriginalExtension();
-            $path = $request->file('file')->storeAs('images', $imageName, 'public');
+            $path = $request->file('answerPhoto3')->storeAs('images', $imageName, 'public');
             $answerPhoto3 = url('storage/images/'.$imageName);
             $addCq->answerPhoto3 = $answerPhoto3;
         }
          // uddipak image process
          if(isset($request->answerPhoto4)){
             $imageName = 'afford_answer4'.time() . '.' . $request->answerPhoto4->getClientOriginalExtension();
-            $path = $request->file('file')->storeAs('images', $imageName, 'public');
+            $path = $request->file('answerPhoto4')->storeAs('images', $imageName, 'public');
             $answerPhoto4 = url('storage/images/'.$imageName);
             $addCq->answerPhoto4 = $answerPhoto4;
         }
@@ -188,5 +189,30 @@ class AddCqController extends Controller
         $cqs = new AddCq();
         $res = $cqs->search($request->search)->all();
         return view("SiteGeneralContent.AddCq.addCq",['currentData'=>$res,'searchText'=>$request->search]);
+    }
+    // deactive cq publition
+    public function activeOrDeactive(Request $request){
+        $cq = AddCq::where('id',$request->id)->first();
+        if($cq->status == 1){
+            $cq->status = 0;
+        }else{
+            $cq->status = 1;
+        }
+        $cq->save();
+        return back()->with('success', 'Status changed!');
+    }
+    // delete cq
+    public function deleteCq(Request $request){
+        $cq = AddCq::where('id',$request->id)->first();
+        if($cq->delete()){
+            return back()->with('success', 'Cq delete success');
+        }else{
+            return  back()->with("fail","Something went wrong");
+        }
+    }
+    // view single cq
+    public function viewSingleCq($serial, $id){
+        $eachCqData = AddCq::where('id',$id)->first();
+        return view("SiteGeneralContent.Cqview.singleCqView",['currentData'=>$eachCqData,'serial'=>$serial]);
     }
 }
