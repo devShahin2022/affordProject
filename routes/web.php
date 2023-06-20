@@ -52,8 +52,11 @@ Route::get('/admin/admin-privilige',[UsersTableController::class,'privilige'])->
 Route::get('/admin/change/{name}/{id}/{csrf}',[UsersTableController::class,'changeRole'])->name('changeRole');
 Route::get('/admin/search',[UsersTableController::class,'searchUser'])->name('searchUser');
 Route::post('/admin/change-privilige',[UsersTableController::class,'changePrivilige'])->name('changePrivilige');
+
+
+
 // admin site general content
-Route::get('/admin/site-general-content/add-board-mcq',[siteQuestionController::class,'addBoardMcqView'])->name('addBoardMcqView');
+Route::get('/admin/site-general-content/add-board-mcq/{statusReset}',[siteQuestionController::class,'addBoardMcqView'])->name('addBoardMcqView');
 Route::post('/admin/site-general-content/upload-mcq',[siteQuestionController::class,'storeMcq'])->name('getMcq');
 Route::get('/admin/site-general-content/filter-mcq',[siteQuestionController::class,'findMcqByOptions'])->name('findMcqByOptions');
 Route::get('/admin/site-general-content/search-mcq',[siteQuestionController::class,'serachMcq'])->name('serachMcq');
@@ -61,6 +64,8 @@ Route::post('/admin/site-general-content/change-mcq-status',[siteQuestionControl
 Route::post('/admin/site-general-content/mcq-delete',[siteQuestionController::class,'deleteMcq'])->name('deleteMcq');
 Route::get('/admin/site-general-content/mcq/view/{id}/{mcqNo}',[siteQuestionController::class,'singleMcqView'])->name('singleMcqView');
 Route::get('/admin/site-general-content/mcq/update/{id}/{mcqNo}',[siteQuestionController::class,'McqUpdate'])->name('McqUpdate');
+
+
 // route for cq for admin
 Route::get('/admin/site-general-content/get-cq/{statusReset}',[AddCqController::class,'getCq'])->name('getCq');
 Route::post('/admin/site-general-content/store-cq',[AddCqController::class,'storeCq'])->name('storeCq');

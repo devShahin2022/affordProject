@@ -199,8 +199,6 @@
                                 @endif
                             </select>
                         </div>
-
-
                         <div class="col-sm-3 mt-2">
                             <button type="submit" class="btn btn-primary w-100">Find data</button>
                         </div>

@@ -20,124 +20,105 @@
             @if (session('success'))
             <p class="lead alert alert-success ">{{ session('success')}} </p>
             @endif
+            <a href="{{ route('addBoardMcqView', ['statusReset'=> 1 ]) }}"><button class="btn btn-outline-secondary my-2">Reset form</button></a>
+            <a href="{{ route('addBoardMcqView', ['statusReset'=> 0 ]) }}"><button class="btn btn-transparent my-2">Restore</button></a>
            <form method="POST" action="{{route('getMcq')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="col-6 mt-2">
+                    <div class="col-6">
+                            <span class=""><span style="font-size: 1.6rem" class="text-danger me-1">*</span>বিভাগ</span>
+                        @if(isset($currentData[0]))
+                            <select name="departmentName" class="form-select" aria-label="Default select example">
+                                <option value="{{$currentData[0]->departmentName}}" selected> {{$currentData[0]->departmentName}} </option>
+                            </select>
+                        @else
+                            <select name="departmentName" class="form-select pushDepartMentId" aria-label="Default select example">
+
+                            </select>
+                        @endif
+                    </div>
+                    <div class="col-6">
                         <span class=""><span style="font-size: 1.6rem" class="text-danger me-1">*</span>সাবজেক্ট নাম</span>
-                
-                        <select name='subjectName' class="form-select" aria-label="Default select example">
-                            <option value='0'>Select type </option>
-                            @if(isset($mcqs[0]))
-                                <option onclick="onClickSubject(1)"  @if($mcqs[0]->subject_name == 'পদার্থ') selected @endif value='পদার্থ' >পদার্থ</option>
-                                <option onclick="onClickSubject(2)"  @if($mcqs[0]->subject_name == 'রসায়ন') selected @endif value='রসায়ন' >রসায়ন</option>
-                                <option onclick="onClickSubject(3)"  @if($mcqs[0]->subject_name == 'সাধারণ গনিত') selected @endif value='সাধারণ গনিত' >সাধারণ গনিত</option>
-                            @else
-                                <option  onclick="onClickSubject(1)" value='পদার্থ' >পদার্থ</option>
-                                <option onclick="onClickSubject(2)"  value='রসায়ন' >রসায়ন</option>
-                                <option onclick="onClickSubject(3)"  value='সাধারণ গনিত' >সাধারণ গনিত</option>
-                            @endif
-                        </select>
+                        @if(isset($currentData[0]))
+                            <select name="subjectName" class="form-select" aria-label="Default select example">
+                                <option value="{{$currentData[0]->subjectName}}" selected> {{$currentData[0]->subjectName}} </option>
+                            </select>
+                        @else
+                            <select name="subjectName" class="form-select pushSubjectNameId" aria-label="Default select example">
+                            </select>
+                        @endif
                     </div>
-                    <div class="col-6 mt-2">
+                    <div class="col-md-6">
+                        <span class=""><span style="font-size: 1.6rem" class="text-danger me-1">*</span>চেপ্টার নাম</span>
+                        @if(isset($currentData) && sizeof($currentData)>0)
+                        <select name="chapterName" class="form-select" aria-label="Default select example">
+                            <option value="{{$currentData[0]->chapterName}}" selected> {{$currentData[0]->chapterName}} </option>
+                        </select>
+                        @else
+                        <select name="chapterName" class="form-select pushChapterNameId" aria-label="Default select example">
+
+                        </select>
+                        @endif
+                    </div>
+                    <div class="col-md-6">
+
                         <span class=""><span style="font-size: 1.6rem" class="text-danger me-1">*</span>প্রশ্ন ক্যাটাগরি</span>
-                        <select name='question_cat' class="form-select" aria-label="Default select example">
-                            <option value='0' >Select type </option>
-                            @if (isset($mcqs[0]))
-                                <option @if($mcqs[0]->question_cat == 1) selected @endif value='1' >বোর্ড প্রশ্ন</option>
-                                <option @if($mcqs[0]->question_cat == 2) selected @endif value='2' >স্বনামধন্য স্কুল</option>
-                                <option @if($mcqs[0]->question_cat == 3) selected @endif value='3' >বাই অ্যাফোরড</option> 
-                            @else
-                                <option value='1' >বোর্ড প্রশ্ন</option>
-                                <option value='2' >স্বনামধন্য স্কুল</option>
-                                <option value='3' >বাই অ্যাফোরড</option> 
-                            @endif
-                        </select>
-                    </div>
-                    <div class="col-6 mt-2">
-                        <span class=" "><span style="font-size: 1.6rem" class="text-danger me-1">*</span>সাল</span>
-                        <select name='year' class="form-select" aria-label="Default select example">
-                            <option value='0'>Select year</option>
-                            @if (isset($mcqs[0]))
-                                @for ($i=2015; $i<=2023; $i++)
-                                    <option @if($mcqs[0]->year == $i) selected @endif value='{{$i}}'>
-                                        {{$i}}
-                                    </option>
-                                @endfor
-                            @else
-                                @for ($i=2015; $i<=2023; $i++)
-                                <option value='{{$i}}'>
-                                    {{$i}}
-                                </option>
-                                @endfor
-                            @endif
-                        </select>
-                    </div>
-                    <div class="col-6 mt-2">
-                        <span class=""><span style="font-size: 1.6rem" class="text-danger me-1">*</span>প্রশ্নের ধরন</span>
-                        <select name='question_type' class="form-select" aria-label="Default select example">
-                            <option value='0' >Select one</option>
-                            @if(isset($mcqs[0]))
-                                <option @if($mcqs[0]->question_type == 1) selected @endif value='1' >বহুপদী</option>
-                                <option @if($mcqs[0]->question_type == 2) selected @endif value='2' >সাধারণ</option>
-                            @else
-                                <option value='1' >বহুপদী</option>
-                                <option value='2' >সাধারণ</option>
-                            @endif
-                        </select>
-                    </div>
-                    <div class="col-6 mt-2">
-                        <span class=""><span style="font-size: 1.6rem" class="text-danger me-1">*</span>বোর্ড সিলেক্ট</span>
-                        <select name='board' class="form-select" aria-label="Default select example">
-                            <option value='0'>Select board</option>
-                            @if(isset($mcqs[0]))
-                                @for ($i=1; $i<=10; $i++)
-                                    <option @if($mcqs[0]->Board_name!=0 && $mcqs[0]->Board_name!=NULL &&  explode("-", $mcqs[0]->Board_name)[1] == $i) selected @endif value='board-{{$i}}'>
-                                        @if ($i==1) dhaka board  @endif
-                                        @if ($i==2) Rajshahi board  @endif
-                                        @if ($i==3) Comila board  @endif
-                                        @if ($i==4) Dinajpur board  @endif
-                                        @if ($i==5) Barisal board  @endif
-                                        @if ($i==6) Sylhet board  @endif
-                                        @if ($i==7) Jessore board  @endif
-                                        @if ($i==8) Chittagong board  @endif
-                                        @if ($i==9)  Madrasah board @endif
-                                        @if ($i==10) All board(2018)   @endif
-                                    </option>
-                                @endfor
-                            @else
-                            @for ($i=1; $i<=10; $i++)
-                            <option value='board-{{$i}}'>
-                                @if ($i==1) dhaka board  @endif
-                                @if ($i==2) Rajshahi board  @endif
-                                @if ($i==3) Comila board  @endif
-                                @if ($i==4) Dinajpur board  @endif
-                                @if ($i==5) Barisal board  @endif
-                                @if ($i==6) Sylhet board  @endif
-                                @if ($i==7) Jessore board  @endif
-                                @if ($i==8) Chittagong board  @endif
-                                @if ($i==9)  Madrasah board @endif
-                                @if ($i==10) All board(2018)   @endif
-                            </option>
-                        @endfor
-                            @endif
-                        </select>
-                    </div>
-                    {{-- new add --}}
+                        @if(isset($currentData[0]))
+                            <select name="questionCat" class="form-select" aria-label="Default select example">
+                                <option value="{{$currentData[0]->questionCat}}" selected> {{$currentData[0]->questionCat}} </option>
+                            </select>
+                        @else
+                            <select  name="questionCat" class="form-select pushQuesCatId" aria-label="Default select example">
+    
+                            </select>
+                        @endif
 
-                    <div class="col-6 mt-2">
-                        <span class=""><span style="font-size: 1.6rem" class="text-danger me-1">*</span>সিলেক্ট  চেপ্টার</span>
-                        <select id="pushChapterId" name='chapterName' class="form-select" aria-label="Default select example">
-                            @if (isset($mcqs[0]))
-                                <option value='{{$mcqs[0]->chapter_name}}'>{{$mcqs[0]->chapter_name}} Selected current</option>
-                            @else
-                                <option value='0'>First choose subject</option>
-                            @endif
-                        </select>
                     </div>
+                    <div class="col-md-6">
+                        <span class=""><span style="font-size: 1.6rem" class="text-danger me-1">*</span>বোর্ড / স্কুল</span>
+                        @if(isset($currentData) && sizeof($currentData)>0)
+                        <select name="boardOrSchoolName" class="form-select" aria-label="Default select example">
+                            <option value="{{$currentData[0]->boardOrSchoolName}}" selected> {{$currentData[0]->boardOrSchoolName}} </option>
+                        </select>
+                        @else
+                        <select name="boardOrSchoolName" class="form-select pushBoardOrSchoolId" aria-label="Default select example">
 
-                    {{-- end --}}
+                        </select>
+                        @endif
+                    </div>
+                    <div class="col-md-6">
+                        <span class=""><span style="font-size: 1.6rem" class="text-danger me-1">*</span>প্রশ্নের ধরণ</span>
+                        @if(isset($currentData) && sizeof($currentData)>0)
+                            <select name="question_type" class="form-select" aria-label="Default select example">
+                                @if ($currentData[0]->question_type == 1)
+                                <option value="1" selected>সাধারণ</option>
+                                @endif
+                                @if ($currentData[0]->question_type ==2)
+                                <option value="2" selected>বহুপদী</option>
+                                @endif
+                            </select>
+                        @else
+                            <select class="form-select" name="question_type" id="">
+                                <option value="0">select one</option>
+                                <option value="1">সাধারণ</option>
+                                <option value="2">বহুপদী</option>
+                            </select>
+                        @endif
+                    </div>
+                    <div class="col-md-6">
+                        <span class=""><span style="font-size: 1.6rem" class="text-danger me-1">*</span>সাল</span>
+                        @if(isset($currentData)  && sizeof($currentData)>0)
+                        <select name="year" class="form-select" aria-label="Default select example">
+                            <option value="{{$currentData[0]->year}}" selected> {{$currentData[0]->year}} </option>
+                        </select>
+                        @else
+                        <select  name="year" class="form-select pushYearId" aria-label="Default select example">
+
+                        </select>
+                        @endif
+                    </div>
                 </div>
+                {{-- here start question information --}}
                 <div>
                     <input name="id" type="hidden" value="0">
                     <span class="mt-2 d-block">যদি উদ্দীপকে / প্রশ্নে  ফটো থাকে তাহলে এখানে দাও।</span>
@@ -171,8 +152,6 @@
                             </div>
                         @endfor
                     </div>
-                    <span class=" mt-2 d-block">প্রশ্নের লিঙ্ক ID দাও (অপশনাল)</span>
-                    <input name='questionLinkId' type="text d-block" class="form-control"> 
                     <span class=" mt-2 d-block">ব্যাখা লিখ (অপশনাল)</span>
                     <textarea name="explain_mcq" id="editor"></textarea>
                     <span class=" mt-2 d-block">সিমিলার প্রশ্ন লেখ (অপশনাল)</span>
@@ -183,93 +162,81 @@
         </div>
         <div class="col-md-7">
             <div class="bg-light py-2 px-1">
-                <form method="GET" action="{{route('findMcqByOptions')}}">
+                <form action="{{route('findMcqByOptions')}}" method="GET">
                     @csrf
                     <div class="row">
                         <div class="col-3 mt-2">
-                            <select name='subjectName' class="form-select" aria-label="Default select example">
-                                <option value='0'>Select type </option>
-                                @if (isset($mcqs[0]))
-                                    <option @if($mcqs[0]->subject_name == 'পদার্থ') selected @endif value='পদার্থ' >পদার্থ</option>
-                                    <option @if($mcqs[0]->subject_name == 'রসায়ন') selected @endif value='রসায়ন' >রসায়ন</option>
-                                    <option @if($mcqs[0]->subject_name == 'সাধারণ গনিত') selected @endif value='সাধারণ গনিত' >সাধারণ গনিত</option>
-                                @else
-                                <option value='পদার্থ' >পদার্থ</option>
-                                <option value='রসায়ন' >রসায়ন</option>
-                                <option value='সাধারণ গনিত' >সাধারণ গনিত</option>
-                                @endif
+                            @if(isset($currentData)  && sizeof($currentData)>0)
+                            <select name="departmentName" class="form-select" aria-label="Default select example">
+                                <option value="{{$currentData[0]->departmentName}}" selected> {{$currentData[0]->departmentName}} </option>
                             </select>
+                            @else
+                                <select name="departmentName" class="form-select pushDepartMentId" aria-label="Default select example">
+
+                                </select>
+                            @endif
                         </div>
                         <div class="col-3 mt-2">
-                            <select name='question_cat' class="form-select" aria-label="Default select example">
-                                <option value='0' >Select type </option>
-                                @if (isset($mcqs[0]))
-                                    <option @if($mcqs[0]->question_cat == 1) selected @endif value='1' >বোর্ড প্রশ্ন</option>
-                                    <option @if($mcqs[0]->question_cat == 2) selected @endif value='2' >স্বনামধন্য স্কুল</option>
-                                    <option @if($mcqs[0]->question_cat == 3) selected @endif value='3' >বাই অ্যাফোরড</option>
-                                @else
-                                    <option value='1' >বোর্ড প্রশ্ন</option>
-                                    <option value='2' >স্বনামধন্য স্কুল</option>
-                                    <option value='3' >বাই অ্যাফোরড</option>
-                                @endif
-                            </select>
+                            @if(isset($currentData) && sizeof($currentData)>0)
+                                <select name="subjectName" class="form-select" aria-label="Default select example">
+                                    <option value="{{$currentData[0]->subjectName}}" selected> {{$currentData[0]->subjectName}} </option>
+                                </select>
+                            @else
+                                <select name="subjectName" class="form-select pushSubjectNameId" aria-label="Default select example">
+                                </select>
+                            @endif
                         </div>
                         <div class="col-3 mt-2">
-                            <select name='year' class="form-select" aria-label="Default select example">
-                                <option value='0'>Select year</option>
-                                @if (isset($mcqs[0]))
-                                    @for ($i=2015; $i<=2023; $i++)
-                                    <option @if($mcqs[0]->year == $i) selected @endif value='{{$i}}'>
-                                        {{$i}}
-                                    </option>
-                                    @endfor
-                                @else
-                                    @for ($i=2015; $i<=2023; $i++)
-                                    <option value='{{$i}}'>
-                                        {{$i}}
-                                    </option>
-                                    @endfor
-                                @endif
+                            @if(isset($currentData) && sizeof($currentData)>0)
+                            <select name="chapterName" class="form-select" aria-label="Default select example">
+                                <option value="{{$currentData[0]->chapterName}}" selected> {{$currentData[0]->chapterName}} </option>
                             </select>
+                            @else
+                            <select name="chapterName" class="form-select pushChapterNameId" aria-label="Default select example">
+    
+                            </select>
+                            @endif
                         </div>
                         <div class="col-3 mt-2">
-                            <select name='board' class="form-select" aria-label="Default select example">
-                                <option value='0'>Select board</option>
-                                @if (isset($mcqs[0]))
-                                    @for ($i=1; $i<=10; $i++)
-                                        <option @if($mcqs[0]->Board_name!=0 && $mcqs[0]->Board_name!=NULL &&  explode("-", $mcqs[0]->Board_name)[1] == $i) selected @endif value='board-{{$i}}'>
-                                            @if ($i==1) dhaka board  @endif
-                                            @if ($i==2) Rajshahi board  @endif
-                                            @if ($i==3) Comila board  @endif
-                                            @if ($i==4) Dinajpur board  @endif
-                                            @if ($i==5) Barisal board  @endif
-                                            @if ($i==6) Sylhet board  @endif
-                                            @if ($i==7) Jessore board  @endif
-                                            @if ($i==8) Chittagong board  @endif
-                                            @if ($i==9)  Madrasah board @endif
-                                            @if ($i==10) All board(2018)   @endif
-                                        </option>
-                                    @endfor
-                                @else
-                                    @for ($i=1; $i<=10; $i++)
-                                    <option value='board-{{$i}}'>
-                                        @if ($i==1) dhaka board  @endif
-                                        @if ($i==2) Rajshahi board  @endif
-                                        @if ($i==3) Comila board  @endif
-                                        @if ($i==4) Dinajpur board  @endif
-                                        @if ($i==5) Barisal board  @endif
-                                        @if ($i==6) Sylhet board  @endif
-                                        @if ($i==7) Jessore board  @endif
-                                        @if ($i==8) Chittagong board  @endif
-                                        @if ($i==9)  Madrasah board @endif
-                                        @if ($i==10) All board(2018)   @endif
-                                    </option>
-                                    @endfor
-                                @endif
+                            @if(isset($currentData) && sizeof($currentData)>0)
+                                <select name="questionCat" class="form-select" aria-label="Default select example">
+                                    <option value="{{$currentData[0]->questionCat}}" selected> {{$currentData[0]->questionCat}} </option>
+                                </select>
+                            @else
+                                <select name="questionCat" class="form-select pushQuesCatId" aria-label="Default select example">
+        
+                                </select>
+                            @endif
+                        </div>
+                        <div class="col-3 mt-2">
+                            @if(isset($currentData) && sizeof($currentData)>0)
+                            <select name="boardOrSchoolName" class="form-select" aria-label="Default select example">
+                                <option value="{{$currentData[0]->boardOrSchoolName}}" selected> {{$currentData[0]->boardOrSchoolName}} </option>
                             </select>
+                            @else
+                            <select  name="boardOrSchoolName" class="form-select pushBoardOrSchoolId" aria-label="Default select example">
+    
+                            </select>
+                            @endif
+                        </div>
+                        <div class="col-3 mt-2">
+                            @if(isset($currentData) && sizeof($currentData)>0)
+                            <select name="year" class="form-select" aria-label="Default select example">
+                                <option value="{{$currentData[0]->year}}" selected> {{$currentData[0]->year}} </option>
+                            </select>
+                            @else
+                            <select name="year" class="form-select pushYearId" aria-label="Default select example">
+    
+                            </select>
+                            @endif
+                        </div>
+                        <div class="col-sm-3 mt-2">
+                            <button type="submit" class="btn btn-primary w-100">Find data</button>
+                        </div>
+                        <div class="col-sm-3 mt-2">
+                            <a href="{{ route('addBoardMcqView', ['statusReset'=> 1 ]) }}">Reset form</a>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 my-2">Find data</button>
                 </form>
                 <form method="GET" action="{{route('serachMcq')}}">
                     @csrf
@@ -283,13 +250,19 @@
                     </div>
                 </form>
             </div>
-            <p class="lead bg-dark text-light py-3 px-1">All data show from - @if (isset($mcqs) && isset($size))
-                {{sizeof($mcqs)}} of {{$size}}
-            @endif</p>
+            @if (isset($searchText))
+                <p class="lead bg-dark text-light py-3 px-1">search result `{{$searchText}}` for - @if (isset($currentData))
+                    {{sizeof($currentData)}} 
+                @endif</p>
+            @else
+                <p class="lead bg-dark text-light py-3 px-1">All data show from - @if (isset($currentData))
+                    {{sizeof($currentData)}} 
+                @endif</p>
+            @endif
             {{-- each mcq show --}}
-            @if($mcqs && sizeof($mcqs)>0)
+            @if($currentData && sizeof($currentData)>0)
                 <div style="background-image: linear-gradient(to bottom right, #dfdfdf, #b7b7b7); box-shadow: 0px 0px 32px #00000012;" class="px-1 py-3" style="width: 100%;">
-                        @foreach ($mcqs as $mcq)
+                        @foreach ($currentData as $mcq)
                         <div>
                             <div class="card-body">
                             @if($mcq->photo_url)
@@ -302,7 +275,7 @@
                                 <p class="">{{ $loop->index + 1 }}. <?php echo '<span>'.$mcq->question.'</span>'; ?></p>
                             @endif
                             <div class="row">
-                                @if ($mcq->question_type == 2 && sizeof(json_decode($mcq->answer))==1)
+                                @if ($mcq->question_type == 1 && sizeof(json_decode($mcq->answer))==1)
                                     <div class="col-6 d-flex">
                                         @if($mcq->option1)
                                             <p class="d-flex align-items-center"><span class='me-1 @if (json_decode($mcq->answer)[0] == 1) mcq_circle @else mcq_circle mcq_circle_border @endif' style="">a</span> <?php echo '<span>'.$mcq->option1.'</span>' ?></p>

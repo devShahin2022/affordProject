@@ -114,7 +114,7 @@ if(Auth::user()){
               </button>
               <div class="collapse show" id="home-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="{{route('addBoardMcqView')}}" class="link-dark d-inline-flex text-decoration-none rounded">এমসিকিউ অ্যাড কর</a></li>
+                  <li><a href="{{ route('addBoardMcqView', ['statusReset'=> 0 ]) }}" class="link-dark d-inline-flex text-decoration-none rounded">এমসিকিউ অ্যাড কর</a></li>
                   <li><a href="{{route('getCq', ['statusReset'=>0])}}" class="link-dark d-inline-flex text-decoration-none rounded">সিকিউ অ্যাড কর</a></li>
                   <li><a href="{{route('showMakeMcqQuesXm')}}" class="link-dark d-inline-flex text-decoration-none rounded">ক্রিয়েট এমসিকিউ এক্সাম কোয়েসচেন</a></li>
                   <li><a href="{{ route('cqExamQuestionView',['statusReset'=>0]) }}" class="link-dark d-inline-flex text-decoration-none rounded">ক্রিয়েট সিকিউ এক্সাম কোয়েসচেন</a></li>
