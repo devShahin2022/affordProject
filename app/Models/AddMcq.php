@@ -11,6 +11,7 @@ class AddMcq extends Model
 
     public function search($keyword)
     {
-        return $this->where('question', 'like', '%' . $keyword . '%')->get();
+        return $this->where('question', 'like', '%' . $keyword . '%')
+        ->orWhere('uploaded_by', 'like', '%' . $keyword . '%')->get();
     }
 }

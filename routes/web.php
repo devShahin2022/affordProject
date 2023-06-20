@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddCqController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GetallCqMcqAndReportController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MakeQuestionController;
@@ -88,11 +89,14 @@ Route::get('/admin/site-general-content/xm-cq-search',[AddCqController::class,'f
 
 
 
-// route for make exam question admin panel
-Route::get('/admin/site-general-content/mcq/make-xm-mcq',[MakeQuestionController::class,'showMakeMcqQuesXm'])->name('showMakeMcqQuesXm');
+// route for make exam question mcq admin panel
+Route::get('/admin/site-general-content/mcq/make-xm-mcq/{statusReset}',[MakeQuestionController::class,'showMakeMcqQuesXm'])->name('showMakeMcqQuesXm');
 Route::post('/admin/site-general-content/mcq-xm-store',[MakeQuestionController::class,'storeMcq'])->name('storeMakeXmMcq');
 Route::get('/admin/site-general-content/find',[MakeQuestionController::class,'findXmMcqByOptions'])->name('findXmMcqByOptions');
 Route::get('/admin/site-general-content/search',[MakeQuestionController::class,'serachMcqXm'])->name('serachMcqXm');
+
+// get all mcq
+Route::get('/admin/site-general-content/all-mcq',[GetallCqMcqAndReportController::class,'getAllMcq'])->name('getAllMcq');
 
 
 

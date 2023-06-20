@@ -2,7 +2,7 @@
 @section('title', "add mcq")
 @section('content')
 <div class="container">
-    <h3 class="p-3 bg-light mb-3 mt-1">Create a MCQ</h3>
+    <h3 class="p-3 bg-light mb-3 mt-1  text-muted">এম সি কিউ প্রশ্ন অ্যাড কর ...</h3>
     <div class="row">
         <div class="col-md-5 mb-3">
             @if ($errors->any())

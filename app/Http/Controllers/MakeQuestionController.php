@@ -8,68 +8,72 @@ use Illuminate\Support\Facades\Auth;
 
 class MakeQuestionController extends Controller
 {
-    public function showMakeMcqQuesXm(){
-        $lastAddedData = AddMcq::latest()->first();
-        $data = array();
-        if( $lastAddedData ){
-            if( $lastAddedData->question_set !=NULL){
-                $data = AddMcq::where('subject_name',$lastAddedData->subject_name)->
-                    where('chapter_name', $lastAddedData->chapter_name)->
-                    where('question_set', $lastAddedData->question_set)->latest()->get();
-            }
+    public function showMakeMcqQuesXm($statusReset){
+        $lastUploadedMcq = NULL; // handle reset form
+        if($statusReset == 1){ // 1 means reset form
+            return view("SiteGeneralContent.MakeQuesForExam.makeMcqXm",['currentData'=>$lastUploadedMcq]);
         }
-       return view('SiteGeneralContent.MakeQuesForExam.makeMcqXm',['mcqs'=>$data]);
-    }
+        $lastAddedData = AddMcq::where('uploaded_by',Auth::user()->username)->
+        where('isXmQuestion',1)->latest()->get();
+       
 
-    public function storeMcq(Request $request){
+        if(sizeof($lastAddedData)>0){
+            $lastUploadedMcq = AddMcq::where('uploaded_by',Auth::user()->username)->
+            where('question_set',$lastAddedData[0]->question_set)->
+            where('departmentName',$lastAddedData[0]->departmentName)->
+            where('subjectName',$lastAddedData[0]->subjectName)->
+            where('chapterName',$lastAddedData[0]->chapterName)->
+            where('questionCat',$lastAddedData[0]->questionCat)->get();
+            return view("SiteGeneralContent.MakeQuesForExam.makeMcqXm",['currentData'=>$lastUploadedMcq]);
+        }
+        if(sizeof($lastAddedData)==0){
+            return view("SiteGeneralContent.MakeQuesForExam.makeMcqXm",['currentData'=>$lastUploadedMcq]);
+        }
+    }
+    public function storeMcq(Request $request){ // actually its store custom exam question for cq
         $validated = $request->validate([
+            'departmentName' => 'required',
+            'subjectName' => 'required',
+            'chapterName' => 'required',
+            'questionCat' => 'required',
+            'question_type' => 'required',
             'question' => 'required',
             'option_1' => 'required',
             'option_2' => 'required',
             'option_3' => 'required',
             'answer' => 'required',
-            'chapterName'=>'required',
-            'setCapacity'=>'required |numeric',
-            'subjectName'=>'required'
+            'max_capacity' => 'required'
         ]);
         $addMcq = new AddMcq();
-        $flag = false; // its for upadate data handler
         // make sure question set already exits or not
         if($request->makeSureIsExitSet == 0){ //data set from frontend view
             $addMcq->question_set = 1;
-            $addMcq->max_capacity = $request->setCapacity;
+            $addMcq->max_capacity = $request->max_capacity;
         }
         if($request->makeSureIsExitSet !=0){ //data set from frontend view
-            $addMcq->question_set = $request->current_question_set;
+            $addMcq->max_capacity = $request->max_capacity;
+            $addMcq->question_set = $request->makeSureIsExitSet;
             $findLatestSetData = AddMcq::where('question_set',$request->makeSureIsExitSet)->
-                where('chapter_name',$request->chapterName)->
-                where('subject_name',$request->subjectName)->get();
-            if($findLatestSetData[0]->max_capacity != $request->setCapacity){
+                where('subjectName',$request->subjectName)->
+                where('chapterName',$request->chapterName)->get();
+            if($findLatestSetData[0]->max_capacity != $request->max_capacity){
                 for($i=0; $i<sizeof($findLatestSetData); $i++){
-                    $findLatestSetData[$i]->max_capacity = $request->setCapacity;
+                    $findLatestSetData[$i]->max_capacity = $request->max_capacity;
                     $findLatestSetData[$i]->save();
                 }
-                $addMcq->max_capacity = $request->setCapacity;
             }
-            if(sizeof($findLatestSetData) > $request->setCapacity-1){ // +1 for execute logics
+            if(sizeof($findLatestSetData) > $request->max_capacity-1){
                 $addMcq->question_set += 1 ;
             }
         }
-        if($request->id != 0){
-            $flag = true;
-            $addMcq = AddMcq::where('id',$request->id)->first();
-        }
-        if(!$request->answer){
-            return back()->with('fail',"Mcq ansewer not be empty . Please select minimum 1");
-        }
-
-        $addMcq->question_cat = 3; // 3 means only by afford
+        $addMcq->departmentName = $request->departmentName; 
+        $addMcq->questionCat = $request->questionCat; 
         $addMcq->question_type = $request->question_type;
-        $addMcq->chapter_name = $request->chapterName;
-        // board
-        
+        $addMcq->chapterName = $request->chapterName;
+        // check mark its a exam question
+        $addMcq->isXmQuestion = 1;
         $addMcq->uddipak = $request->uddipak;
-        $addMcq->subject_name = $request->subjectName;
+        $addMcq->subjectName = $request->subjectName;
 
         $addMcq->question = $request->question;
         $addMcq->option1 = $request->option_1;
@@ -89,9 +93,6 @@ class MakeQuestionController extends Controller
             $addMcq->photo_url = $imgLink;
         }
         if($addMcq->save()){
-            if($flag){
-                return redirect()->route('addBoardMcqView')->with("success","Data update success");
-            }
             return back()->with('success',"Mcq insert success");
         }
         if(!$addMcq->save()){
@@ -101,15 +102,17 @@ class MakeQuestionController extends Controller
 
     // find xm mcq
     public function findXmMcqByOptions(Request $request){
-        if($request->subjectName !=0 && $request->chapterName !=0 && $request->questionSet){
-            $res = AddMcq::where('subject_name',$request->subjectName)->
-                where('chapter_name',$request->chapterName)->
-                where('question_set',$request->questionSet)->get();
-                $lastAddedData = AddMcq::latest()->get();
-                return view('SiteGeneralContent.MakeQuesForExam.makeMcqXm',['mcqs'=>$res,'size'=> sizeof($lastAddedData)]);
-        }else{
-            return back();
-        }
+        $validated = $request->validate([
+            'departmentName' => 'required',
+            'subjectName' => 'required',
+            'chapterName' => 'required',
+            'question_set' => 'required'
+        ]);
+        $findData = AddMcq::where('departmentName',$request->departmentName)->
+                    where('subjectName',$request->subjectName)->
+                    where('chapterName',$request->chapterName)->
+                    where('question_set',$request->question_set)->latest()->get();
+        return view('SiteGeneralContent.MakeQuesForExam.makeMcqXm',['currentData'=>$findData,'findSize'=>sizeof($findData)]);
     }
     // search mcq
     public function serachMcqXm(Request $request){
@@ -118,7 +121,6 @@ class MakeQuestionController extends Controller
         ]);
         $mcqs = new AddMcq();
         $res = $mcqs->search($request->searchValue)->all();
-        $lastAddedData = AddMcq::latest()->get();
-        return view('SiteGeneralContent.MakeQuesForExam.makeMcqXm',['mcqs'=>$res, 'searchText'=> $request->searchValue, 'size'=> sizeof($lastAddedData)]);
+        return view('SiteGeneralContent.MakeQuesForExam.makeMcqXm',['currentData'=>$res, 'searchText'=> $request->searchValue, 'findSize'=> sizeof($res)]);
     }
 }

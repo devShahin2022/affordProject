@@ -39,6 +39,7 @@ return new class extends Migration
             $table->string('reporter_id')->nullable();
             $table->string('question_set')->nullable();
             $table->string('max_capacity')->nullable();
+            $table->string('isXmQuestion')->default(0);
             $table->string('uploader_comment')->nullable();
             $table->timestamps();
         });

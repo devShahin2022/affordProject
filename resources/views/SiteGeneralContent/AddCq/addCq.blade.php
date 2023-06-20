@@ -2,7 +2,7 @@
 @section('title',"add cq")
 @section('content')
     <div class="container">
-        <h1 class="bg-light p-2 mt-1 mb-3">Add a cq</h1>
+        <h1 class="bg-light p-2 mt-1 mb-3  text-muted">সৃজনশীল প্রশ্ন অ্যাড কর...</h1>
         <div class="row">
             {{-- for uploading a cq information --}}
             <div class="col-md-6">

@@ -2,7 +2,7 @@
 @section('title',"add cq")
 @section('content')
     <div class="container">
-        <h1 class="bg-light p-2 mt-1 mb-3">Make a exam question</h1>
+        <h1 class="bg-light p-2 mt-1 mb-3 text-muted">নিজের মত সৃজনশীল প্রশ্নের সেট তৈরি কর ... </h1>
         <div class="row">
             <div class="col-md-6">
                 @if ($errors->any())
