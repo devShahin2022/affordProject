@@ -3,11 +3,136 @@
 @section('content')
 
   <div class="container">
-    <h1 class="text-center my-2">আমাদের ফ্রি এক্সাম দিয়ে নিজেকে যাচাই করুন। </h1>
+    @if ($examData == null)
+     <h2 class="text-center my-2 mb-4">আমাদের বল অধ্যায়ের পরীক্ষা দিয়ে প্রমাণ করে দাও তুমি কতটা বলবান!!! </h2>
+    @else
+      @if ($examData &&  $examData->isEndExam ==null)
+      <h2 class="text-center my-2 mb-4">তোমার পরীক্ষাটি পেন্ডিং অবস্থায় আছে । ঝটপট নিচের বাটনটিতে ক্লিক করে পরীক্ষাটি সম্পন্ন করে ফেল!!!</h2>
+      @else
+       <h2 class="text-center my-2"> পরীক্ষায় অংশগ্রহণ করার জন্য ধন্যবাদ  </h2>
+       <p class="mb-4 text-muted text-center mb-4">আমাদের কথা কি তোমার বন্ধুদেরকে জানিয়েছ ?</p>
+      @endif
+    @endif
     <div id="confirmationModal" class="row">
         <div class="col-md-6">
+          @if ($examData && $examData->isEndExam != null)
+            @if ($examData->isclickedSeeResult == 1)
+              <p class="lead mt-3 bg-light p-2 mb-2">এরকম আরো এক্সাইটিং পরীক্ষা দিতে চাইলে এখনি তোমার অ্যাকাউন্টটিকে প্রিমিয়াম করে নাও  - </p>
+              <div class="bg-light">
+                <h3 class="bg-primary text-white p-2 mb-3">তোমার ফলাফল</h3>
+                <p><b>Correct answer :</b> {{$examData->correctAnswer}}</p>
+                <p><b>Wrong answer :</b> {{$examData->wrongAnswer}}</p>
+                <p><b>Skip answer :</b> {{$examData->untouch}}</p>
+                <p><b>Time spent :</b> {{ json_decode($examData->isEndExam) - json_decode($examData->isStartExam) }}ms</p>
+                <p><b>Feedback :</b> {{$examData->affordMsg}}</p>
+                <hr>
+                <h3 class="bg-primary text-white p-2 mb-3">ডিটেইলসে দেখ - {{$examData->totalQuestion}}</h3>
+              </div>
+              <div>
+                <div class="row">
+                  <?php  $optionArr4 = array(); $optionTagArr4 = ["a","b","c","d"];
+                  
+                  
+                  ?>
+                  @foreach ($examPaper as $q)
+                    @if ($q->question_type == 1)
+                      <?php  
+                       array_push($optionArr4,$q->option1, $q->option2,$q->option3,$q->option4);
+                      ?>
+                      {{-- show if image or uddipak exits --}}
+                      @isset($q->photo_url)
+                        <div class="col-6">
+                          <img src="{{$q->photo_url}}" class="w-100" alt="">
+                        </div>
+                      @endisset
+                      @isset($q->uddipak)
+                        <div class="col-6">
+                          <p>{{$q->uddipak}}</p>
+                        </div>
+                      @endisset
+                      @if (json_decode($examData->yourAnswers)[$loop->index][0] == json_decode($q->answer)[0])
+                        <p class="mt-2 text-success">{{$loop->index + 1}}. {{$q->question}}</p>
+                        @for($i=0; $i<4; $i++)
+                          @if (($i+1) == json_decode($q->answer)[0])
+                            <div class="col-6">
+                              <p class="text-success">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }} (Your answer correct)</p>
+                            </div>
+                          @else
+                            <div class="col-6">
+                              <p class="">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
+                            </div>
+                          @endif
+                        @endfor
+                      @else
+                        <p class="mt-2 text-danger">{{$loop->index + 1}}. {{$q->question}}</p>
+                        @for ($i=0; $i<4; $i++)
+                          @if (json_decode($q->answer)[0] == $i+1)
+                            <div class="col-6">
+                              <p class="text-success">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
+                            </div>
+                          @elseif (json_decode($examData->yourAnswers)[$loop->index][0] == $i+1)
+                            <div class="col-6">
+                              <p class="text-danger">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }} (Your answer wrong)</p>
+                            </div>
+                          @else
+                            <div class="col-6">
+                              <p class="">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
+                            </div>
+                          @endif
+                        @endfor
+                      @endif
+                      
+                      {{-- reasign array --}}
+                      <?php $optionArr4 = array(); ?>
+                    @else
+
+
+                    @endif
+                    {{-- add extra features --}}
+                    @if ($q->explain!=null || $q->similar_question!=null)
+                      <div class="accordion accordion-flush" id="accordionFlushExample{{$loop->index}}">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header" id="flush-headingOne">
+                            <button class="accordion-button collapsed border" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne{{$loop->index}}" aria-expanded="false" aria-controls="flush-collapseOne">
+                              বিস্তারিত দেখতে ক্লিক কর...
+                            </button>
+                          </h2>
+                          <div id="flush-collapseOne{{$loop->index}}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample{{$loop->index}}">
+                            <div class="accordion-body border">
+                              @isset($q->explain)
+                              <p class="lead">উত্তরের ব্যাখা - </p>
+                              <hr>
+                                <?php echo "<span>".$q->explain."</span>" ?>
+                              @endisset
+                              @isset($q->similar_question)
+                              <hr>
+                              <p class="lead">কিছু সিমিলার উত্তর- </p>
+                              <hr>
+                                <?php echo "<span>".$q->similar_question."</span>" ?>
+                              @endisset
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    @endif
+                  @endforeach
+                </div>
+              </div>
+            @else
+              <p class="mb-4 lead">ফলাফল দেখতে নিচের বাটনটিতে ক্লিক করে ফেল</p>
+              <form action="{{ route('seeFreeExamResult') }}" method="GET">
+                @csrf
+                  <button class="btn btn-primary w-100" type="submit">ফলাফল</button>
+              </form>
+              {{-- marketing info --}}
+              <p class="lead mt-3">এরকম আরো এক্সাইটিং পরীক্ষা দিতে চাইলে এখনি তোমার অ্যাকাউন্টটিকে প্রিমিয়াম করে নাও  - </p>
+            @endif
+          @else
             {{-- new visitor view --}}
             <div id="newVisitorView">
+              @if($examData != null)
+              <button onclick="freeExamCall()" class="btn btn-dark">Continue Exam</button>
+              @endif
                 <h4 class=" my-2 text-info">মনোযোগ দিয়ে পড়ুন</h4>
                 <p class="lead">পরিক্ষার বিষয়- সাধারণ গনিত </p>
                 <p class="lead">পরিক্ষার অধ্যায়- সেট </p>
@@ -28,9 +153,12 @@
                         আপনি যদি পরিক্ষার জন্য প্রস্তুত থাকেন তাহলে নিচের বাটনে ক্লিক করে পরীক্ষা শুরু করুন । 
                         <p class="text-danger">সতর্কতা- বাটন টি একবার ক্লিক করলেই তোমার সময় গণনা শুরু হবে । এবং উত্তর সাবমিট করা পর্যন্ত সময় গণনা করা হবে।</p>
                     </li>
-                    <button onclick="freeExamCall()" class="btn btn-dark">Start Exam</button>
+                    @if($examData == null)
+                      <button onclick="freeExamCall()" class="btn btn-dark">Start Exam</button>
+                    @endif
                 </ul>
             </div>
+          @endif
             {{--Exam question panel --}}
             <form id="submitExam" action="#">
               <div id="pushExamQuestionMcqId" class="border p-2 my-3 d-none">
@@ -43,45 +171,49 @@
         </div>
         {{-- right section --}}
         <div class="col-md-6">
-            <h4>পরিক্ষার ফলাফল</h4>
-            <p class="lead">মোট অংশগ্রহণকারী - </p>
-            <p class="lead text-center">প্রথম ১০০ জনের মার্ক</p>
+            <h4>লিডারবোর্ড</h4>
+            <p class="lead">মোট অংশগ্রহণকারী - @if ($allExaminer != null)
+              {{sizeof($allExaminer)}}
+            @endif</p>
+            <p class="lead text-center">প্রথম ১০০ জনের অবস্থান</p>
             <table class="table table-hover">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Mark</th>
+                    <th scope="col">Time</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                  </tr>
+                  @if($allExaminer != null)
+                    @foreach ($allExaminer as $d)
+                    <tr>
+                      <th scope="row">{{$loop->index +1}}</th>
+                      <td>{{$d->username}}</td>
+                      <td>{{$d->correctAnswer}}</td>
+                      <td>Time: {{json_decode($d->isEndExam) - json_decode($d->isStartExam)}}</td>
+                    </tr>
+                    @endforeach
+                  @endif
                 </tbody>
               </table>
-            <p class="lead">আপনার উত্তর মিলিয়ে নিন - </p>
         </div>
     </div>
   </div>
 
+
+
+
+
+
+
 {{-- default opening modal --}}
-<div class="modal fade "  id="exampleModalToggle"  aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+@if ($examData == null)
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+@else
+<div class="modal fade" id="" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+@endif
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
         <div class="modal-header">

@@ -42,6 +42,7 @@ Route::get('/profile/free-exam',[ExamManageController::class,'showFreeExam'])->n
 Route::get('/profile/free-exam-question-fetch',[ExamManageController::class,'FreeExamQuestionFetch']);
 Route::post('/profile/free-exam-data-store',[ExamManageController::class,'getUserAnswer']); //call by api js
 Route::post('/profile/ensure-user-click-start-exam',[ExamManageController::class,'userClickExamBtn']); //call by api js
+Route::get('/profile/see-exam-result',[ExamManageController::class,'seeFreeExamResult'])->name('seeFreeExamResult'); //see exam result
 
 
 

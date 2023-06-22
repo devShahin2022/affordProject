@@ -10,12 +10,10 @@ use Illuminate\Support\Facades\Auth;
 class ExamManageController extends Controller
 {
     public function showFreeExam(){
+    // ---------------------- Hard coded data for free exam ----------//
+        // default exam question find ... is exist or not //
+    // ---------------------- Hard coded data for free exam ----------//
         $username = Auth::user()->username;
-
-        // ---------------------- Hard coded data for free exam ----------//
-                            // default exam question find ... is exist or not //
-        // ---------------------- Hard coded data for free exam ----------//
-
         $res = ManageExam::where('username',$username)->
             where("departmentName","বিজ্ঞান বিভাগ")->
             where("subjectName","পদার্থবিজ্ঞান")->
@@ -23,7 +21,17 @@ class ExamManageController extends Controller
             where("questionCat","বাই অ্যাফোর্ড প্রশ্ন")->
             where("set","1")->get()->first();
 
-        return view("FreeExam.FreeExam",['examData'=> $res]);
+            // all data
+            $allData = ManageExam::where("departmentName","বিজ্ঞান বিভাগ")->
+            where("subjectName","পদার্থবিজ্ঞান")->
+            where("chapterName","বল")->
+            where("questionCat","বাই অ্যাফোর্ড প্রশ্ন")->
+            where("set","1")->latest()->get();
+
+            // get exam data
+            $examData = $this->FreeExamQuestionFetch();
+            return view("FreeExam.FreeExam",['examData'=> $res,'allExaminer'=>$allData,'examPaper'=>json_decode($examData)]);
+
     }
 
 
@@ -118,5 +126,33 @@ class ExamManageController extends Controller
             $res->save();
             return response()->json(['message' =>"success data insert"]);
         }
+    }
+
+    // show free exam result
+    public function seeFreeExamResult(){
+    // ---------------------- Hard coded data for free exam ----------//
+    // default exam question find ... is exist or not //
+    // ---------------------- Hard coded data for free exam ----------//
+    $username = Auth::user()->username;
+    $res = ManageExam::where('username',$username)->
+        where("departmentName","বিজ্ঞান বিভাগ")->
+        where("subjectName","পদার্থবিজ্ঞান")->
+        where("chapterName","বল")->
+        where("questionCat","বাই অ্যাফোর্ড প্রশ্ন")->
+        where("set","1")->get()->first();
+        
+        $res->isclickedSeeResult = 1;
+        $res->save();
+    // all data
+    $allData = ManageExam::where("departmentName","বিজ্ঞান বিভাগ")->
+    where("subjectName","পদার্থবিজ্ঞান")->
+    where("chapterName","বল")->
+    where("questionCat","বাই অ্যাফোর্ড প্রশ্ন")->
+    where("set","1")->latest()->get();
+
+    // get exam data
+    $examData = $this->FreeExamQuestionFetch();
+
+        return view("FreeExam.FreeExam",['examData'=> $res,'allExaminer'=>$allData, 'examPaper'=>json_decode($examData)]);
     }
 }

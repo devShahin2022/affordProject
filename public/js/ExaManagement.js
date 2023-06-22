@@ -1,9 +1,12 @@
-function showdynamicallyModal(){
+try{
+  function showdynamicallyModal(){
     var myModal = new bootstrap.Modal(document.getElementById('exampleModalToggle'))
     myModal.show();
-}
+  }
 showdynamicallyModal();
+}catch(error){
 
+}
 
 // start exam time 
 let currentTimeInMillisecondsStart = '';
@@ -14,9 +17,13 @@ let questionData = [];
 function freeExamCall(){
     _id("newVisitorView").classList.add('d-none');
     _id("pushExamQuestionMcqId").classList.remove('d-none');
-    const truck_modal = document.getElementById('exampleModalToggle');
-    const modal = bootstrap.Modal.getInstance(truck_modal);    
-    modal.hide();
+    try{
+      const truck_modal = document.getElementById('exampleModalToggle');
+      const modal = bootstrap.Modal.getInstance(truck_modal);    
+      modal.hide();
+    }catch(error){
+      console.log(error);
+    }
     // up all settings done let's push mcq question
     fetch('http://127.0.0.1:8000/profile/free-exam-question-fetch')
     .then(response => response.json())

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('subjectName');
             $table->string('chapterName');
             $table->string('questionCat');
+            $table->string('question_type');
             $table->string('set');
             $table->string('isStartExam');
             $table->string('isEndExam')->nullable();
@@ -28,6 +29,7 @@ return new class extends Migration
             $table->string('yourAnswers')->nullable();
             $table->string('affordMsg')->nullable();
             $table->string('status')->default(1);
+            $table->string('isclickedSeeResult')->default(0);
             $table->timestamps();
         });
     }
