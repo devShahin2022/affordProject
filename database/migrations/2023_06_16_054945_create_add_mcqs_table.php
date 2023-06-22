@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('uploaded_by');
             $table->string('status');
             $table->text('similar_question')->nullable();
-            $table->string('isReport')->nullable();
+            $table->string('isReport')->default(0);
             $table->string('reporter_msg')->nullable();
             $table->string('reply_report_msg')->nullable();
             $table->string('reply_report_msg_by')->nullable();

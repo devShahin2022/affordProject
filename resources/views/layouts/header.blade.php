@@ -16,12 +16,12 @@ if(Auth::user()){
 
 ?>
 <nav class="navbar navbar-expand-lg bg-light">
-    <div class="@if (Auth::user() && Auth::user()->role == 'superadmin') container-fluid @else  container  @endif">
+    <div class="@if (Auth::user() && Auth::user()->role == 'superadmin') container-fluid @else  container  @endif d-flex flex-wrap">
       <a class="navbar-brand" href="#"><span style="color:rgb(98, 194, 78);">AFFORT</span><small style="font-size:12px;color:rgb(98, 194, 78);" >private center</small></a>
-      <button class="btn btn-sm btn-outline-danger me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptionsLabel">Content-setting</button>
-      <button class="btn btn-sm btn-outline-dark me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptionsclassroom" aria-controls="offcanvasWithBothOptionsclassroomLabel">ক্লাসরুম</button>
-      <button class="btn btn-sm btn-outline-primary me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptionscoaching" aria-controls="offcanvasWithBothOptionscoachingLabel">কোচিং প্যানেল</button>
-      
+      <div>
+        <button class="btn btn-sm btn-outline-dark me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptionsclassroom" aria-controls="offcanvasWithBothOptionsclassroomLabel">ক্লাসরুম</button>
+        <button class="btn btn-sm btn-outline-primary me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptionscoaching" aria-controls="offcanvasWithBothOptionscoachingLabel">কোচিং প্যানেল</button>  
+      </div>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -30,18 +30,13 @@ if(Auth::user()){
           <a class="nav-link" aria-current="page" href="/">হোম</a>
           <a class="nav-link" aria-current="page" href="{{route('showAllQuestionAns')}}">প্রশ্ন/উত্তর </a>
           <a class="nav-link" href="{{route('showContact')}}">কন্টাক্ট-আস</a> 
-          <a class="nav-link" aria-current="page" href="#">ফ্রি-এক্সাম</a>
+          <a class="nav-link" aria-current="page" href="{{route("showFreeExam")}}">ফ্রি-এক্সাম</a>
+          <a class="nav-link" aria-current="page" href="#">আমাদের সম্পর্কে</a>
+          <a class="nav-link" aria-current="page" href="{#">আউটলাইন</a>
+          <a class="nav-link" aria-current="page"  href="{{route("showFaqs")}}">সাধারণ প্রশ্ন-উত্তর</a>
           @if (Auth::user())
             <a class="nav-link" href="{{route('showProfile')}}">প্রোফাইল</a>
-            @if ($userAccountType == 2 || $userRole === 'superadmin')
-            <a class="nav-link" aria-current="page" href="#">কোচিং-প্যানেল</a>
-            <a class="nav-link" aria-current="page" href="{#">ক্লাসরুম</a>
-            @endif
-            @if ($userAccountType == 1)
-            <a class="nav-link" aria-current="page" href="{#">ক্লাসরুম</a>
-            @endif 
           @endif
-          <a class="nav-link" aria-current="page" href="#">সাধারণ প্রশ্ন-উত্তর</a>
           @if (Auth::user())
             <form action="{{route('logout')}}" method="POST">
               @csrf
@@ -93,11 +88,11 @@ if(Auth::user()){
                 </span>
               @endif
           </button></a>
+          <button class="btn btn-sm btn-danger me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptionsLabel">Content-setting</button>
         </div>
       </div>
     </div>
   </nav>
-
   <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">সাইটের ডাটা সেটিংস</h5>
@@ -107,7 +102,6 @@ if(Auth::user()){
       <main class="d-flex flex-nowrap">
         <div class="flex-shrink-0" style="width: 100%;">
           <ul class="list-unstyled ps-0"> 
-            <p class="bg-light p-2">সাধারণ কন্টেন্ট</p>
             <li class="mb-1">
               <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
                 প্রশ্ন উত্তর
@@ -119,12 +113,11 @@ if(Auth::user()){
                   <li><a href="{{route('showMakeMcqQuesXm',['statusReset'=>0])}}" class="link-dark d-inline-flex text-decoration-none rounded">ক্রিয়েট এমসিকিউ এক্সাম কোয়েসচেন</a></li>
                   <li><a href="{{ route('cqExamQuestionView',['statusReset'=>0]) }}" class="link-dark d-inline-flex text-decoration-none rounded">ক্রিয়েট সিকিউ এক্সাম কোয়েসচেন</a></li>
                   <li><a href="{{ route('getAllMcq') }}" class="link-dark d-inline-flex text-decoration-none rounded">সকল এমসিকিউ কোয়েসচেন</a></li>
-                  <li><a href="" class="link-dark d-inline-flex text-decoration-none rounded">সকল সিকিউ কোয়েসচেন</a></li>
-                  <li><a href="" class="link-dark d-inline-flex text-decoration-none rounded">রিপোর্টেট কোয়েসচেন</a></li>
+                  <li><a href="{{ route('getAllCq') }}" class="link-dark d-inline-flex text-decoration-none rounded">সকল সিকিউ কোয়েসচেন</a></li>
+                  <li><a href="{{ route('repotedMcq') }}" class="link-dark d-inline-flex text-decoration-none rounded">রিপোর্টেট কোয়েসচেন</a></li>
                 </ul>
               </div>
             </li>
-            <p class="bg-light p-2">কোচিং কন্টেন্ট</p>
             <li class="mb-1">
               <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
                 Home
@@ -150,7 +143,6 @@ if(Auth::user()){
                 </ul>
               </div>
             </li>
-            <p class="bg-light p-2">প্রিমিয়াম কন্টেন্ট</p>
             <li class="mb-1">
               <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
                 Orders
@@ -164,8 +156,6 @@ if(Auth::user()){
                 </ul>
               </div>
             </li>
-            <p class="bg-light p-2">অন্যান্য তথ্যাবলি</p>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">রিপোর্ট প্রশ্ন</a></li>
           </ul>
         </div>
       </main>

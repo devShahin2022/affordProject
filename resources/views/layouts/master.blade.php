@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href=" 	https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/footers/">
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sidebars/">
@@ -157,6 +158,7 @@ main {
   </script>
   <script src="{{asset('js/jsonData.js')}}"></script>
   <script src="{{asset("js/manageChapter.js")}}"></script>
+  <script src="{{asset("js/ExaManagement.js")}}"></script>
   <script src="../../../resources/js/manageChapter.js"></script>
   <script>
     ( function() {

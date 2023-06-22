@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AddCqController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ExamManageController;
+use App\Http\Controllers\FaqsController;
 use App\Http\Controllers\GetallCqMcqAndReportController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
@@ -34,6 +36,14 @@ Route::post('/login/process',[LoginController::class,'loginProcess'])->name('log
 Route::get('/profile',[ProfileController::class,'showProfile'])->name('showProfile')->middleware('auth');
 Route::post('/logout',[LoginController::class,'logout'])->name('logout');
 Route::get('/profile/question',[ProfileController::class,'showQuestionPage'])->name('showQuestionPage')->middleware('auth');
+Route::get('/profile/faqs',[FaqsController::class,'showFaqs'])->name('showFaqs');
+// free exam management
+Route::get('/profile/free-exam',[ExamManageController::class,'showFreeExam'])->name('showFreeExam');
+Route::get('/profile/free-exam-question-fetch',[ExamManageController::class,'FreeExamQuestionFetch']);
+Route::post('/profile/free-exam-data-store',[ExamManageController::class,'getUserAnswer']); //call by api js
+Route::post('/profile/ensure-user-click-start-exam',[ExamManageController::class,'userClickExamBtn']); //call by api js
+
+
 
 
 Route::post('/profile/add-question',[MessageController::class,'insertMsg'])->name('insertMsg')->middleware('auth');
@@ -97,7 +107,8 @@ Route::get('/admin/site-general-content/search',[MakeQuestionController::class,'
 
 // get all mcq
 Route::get('/admin/site-general-content/all-mcq',[GetallCqMcqAndReportController::class,'getAllMcq'])->name('getAllMcq');
-
+Route::get('/admin/site-general-content/all-cq',[GetallCqMcqAndReportController::class,'getAllCq'])->name('getAllCq');
+Route::get('/admin/site-general-content/reorted-mcq',[GetallCqMcqAndReportController::class,'repotedMcq'])->name('repotedMcq');
 
 
 // front site section

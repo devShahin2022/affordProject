@@ -1,47 +1,19 @@
-const onClickSubject = (sub_code) =>{
-    document.getElementById("pushChapterId").innerHTML = '';
-    document.getElementById("pushChapterId").innerHTML = `<option value='0'> select one </option>`;
-    chapterData[sub_code-1].chapter.forEach((element,index) => {
-        document.getElementById("pushChapterId").innerHTML += `<option value='${sub_code}_${index+1}'> ${element} </option>`;
-    });
-}
-// its for make xm panel
-const onClickSubjectMakeXm = (sub_code) =>{
-    document.getElementById("pushChapterIdMakeXm").innerHTML = '';
-    document.getElementById("pushChapterIdMakeXm").innerHTML = `<option value='0'> select one </option>`;
-    chapterData[sub_code-1].chapter.forEach((element,index) => {
-        document.getElementById("pushChapterIdMakeXm").innerHTML += `<option value='${sub_code}_${index+1}'> ${element} </option>`;
-    });
-}
-
-
-// Automatic load call from onload functin
-// const LoadInitData = () =>{
-//     // dynamically push department
-//     document.getElementById("pushDepartMentId").innerHTML = '';
-//     document.getElementById("pushDepartMentId").innerHTML = `<option onclick='loadSubjectName(-1)' value='0'> select one </option>`;
-//     SiteStaticData.forEach((element,index) => {
-//         document.getElementById("pushDepartMentId").innerHTML += `<option onclick='loadSubjectName(${index})' value='${element.departMent}'> ${element.departMent} </option>`;
-//     });
-//     // dynamically load question category 
-//     document.getElementById('pushQuesCatId').innerHTML = '';
-//     document.getElementById('pushQuesCatId').innerHTML =  `<option onclick="loadBoardOrSchool(-1)" value='0'> select one </option>`;
-//     questionCategory.forEach((element,index) => {
-//         document.getElementById("pushQuesCatId").innerHTML += `<option onclick="loadBoardOrSchool(${index})" value='${element}'> ${element} </option>`;
-//     });
-// }
-
-
 
 // class make short
 function _class(d){
     return document.getElementsByClassName(d);
 }
 
+function _id(d){
+    return document.getElementById(d);
+}
+
 
 const LoadInitData = () =>{
-    // dynamically push department
+    // autoload exam free modal
 
+    // showdynamicallyModal();
+// dynamically push department
     for (let i = 0; i < 2; i++) {
         _class("pushDepartMentId")[i].innerHTML = '';
         _class("pushDepartMentId")[i].innerHTML = `<option onclick='loadSubjectName(-1)' value='0'> select one </option>`;

@@ -8,7 +8,7 @@
                 @if ($currentData->uddipakPhoto != NULL)
                     <img src="{{$currentData->uddipakPhoto }}" class="w-100 mb-1" alt="">
                 @endif
-                <p class="lead">{{$currentData->uddipakText }}</p>
+                <p class="lead"><?php echo "<span>".$currentData->uddipakText."</span>"; ?></p>
                 <p class="lead">(ক) {{$currentData->question1 }}</p>
                 <p class="lead">(খ) {{$currentData->question2 }}</p>
                 <p class="lead">(গ) {{$currentData->question3 }}</p>

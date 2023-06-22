@@ -2,7 +2,9 @@
 @section('title', "all mcq")
 @section('content')
 <div class="container">
-    <h3 class="p-3 bg-light mb-3 mt-1  text-muted">সকল এম সি কিউ প্রশ্ন...</h3>
+    <h3 class="p-3 bg-light mb-3 mt-1  text-muted">সকল এম সি কিউ প্রশ্ন@if ($currentData !=NULL)
+        {{sizeof($currentData)}}
+    @endif</h3>
     <div class="row">
             @if($currentData && sizeof($currentData)>0)
                 
