@@ -86,36 +86,36 @@ function freeExamCall(){
             currentTimeInMillisecondsStart = new Date().getTime();
 
             const csrfToken1 = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    const data1 = {
-        examStartTime: currentTimeInMillisecondsStart,
-        examPaperData : questionData
-    };
-    
+              const data1 = {
+                  examStartTime: currentTimeInMillisecondsStart,
+                  examPaperData : questionData
+              };
+              
 
-  // Options for the POST request
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': csrfToken1
-    },
-    body: JSON.stringify(data1)
-  };
-  // Send the POST request
-  fetch('http://127.0.0.1:8000/profile/free-exam-data-store', options)
-    .then(response => response.json())
-    .then(data => {
-        console.log('user clicked');
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+            // Options for the POST request
+            const options = {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken1
+              },
+              body: JSON.stringify(data1)
+            };
+            // Send the POST request
+            fetch('http://127.0.0.1:8000/profile/free-exam-data-store', options)
+              .then(response => response.json())
+              .then(data => {
+                  console.log('user clicked');
+              })
+              .catch(error => {
+                console.error('Error:', error);
+              });
 
 
-    })
-    .catch(error => {
-        console.log('Error:', error);
-    });
+        })
+        .catch(error => {
+            console.log('Error:', error);
+        });
 }
 
 let pushTmpData = [];
@@ -200,7 +200,6 @@ const data = {
     untouch : countUntouchMcq,
   };
   
-
   // Options for the POST request
   const options = {
     method: 'POST',
@@ -220,9 +219,10 @@ const data = {
         _id("pushResultFormId").classList.remove('d-none');
         _id("pushResultFormId").innerHTML = '<h3> আপনার পরীক্ষাটি সম্পন্ন হয়েছে।</h3>';
         _id("pushResultFormId").innerHTML += `
-            <form action="#">
-                <button class="btn btn-primary w-100" type="submit">ফলাফল</button>
-            </form>
+          <form action="{{ route('seeFreeExamResult') }}" method="GET">
+            @csrf
+              <button class="btn btn-primary w-100" type="submit">ফলাফল</button>
+          </form>
         `;
     })
     .catch(error => {

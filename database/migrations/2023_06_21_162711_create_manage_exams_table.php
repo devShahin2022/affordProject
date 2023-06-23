@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('subjectName');
             $table->string('chapterName');
             $table->string('questionCat');
-            $table->string('question_type');
             $table->string('set');
             $table->string('isStartExam');
             $table->string('isEndExam')->nullable();

@@ -50,38 +50,41 @@
                           <p>{{$q->uddipak}}</p>
                         </div>
                       @endisset
-                      @if (json_decode($examData->yourAnswers)[$loop->index][0] == json_decode($q->answer)[0])
-                        <p class="mt-2 text-success">{{$loop->index + 1}}. {{$q->question}}</p>
-                        @for($i=0; $i<4; $i++)
-                          @if (($i+1) == json_decode($q->answer)[0])
-                            <div class="col-6">
-                              <p class="text-success">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }} (Your answer correct)</p>
-                            </div>
-                          @else
-                            <div class="col-6">
-                              <p class="">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
-                            </div>
-                          @endif
-                        @endfor
+                      @if (is_array(json_decode($examData->yourAnswers)[$loop->index]))
+                        @if (json_decode($examData->yourAnswers)[$loop->index][0] == json_decode($q->answer)[0])
+                          <p class="mt-2 text-success">{{$loop->index + 1}}. {{$q->question}}</p>
+                          @for($i=0; $i<4; $i++)
+                            @if (($i+1) == json_decode($q->answer)[0])
+                              <div class="col-6">
+                                <p class="text-success">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }} (Your answer correct)</p>
+                              </div>
+                            @else
+                              <div class="col-6">
+                                <p class="">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
+                              </div>
+                            @endif
+                          @endfor
+                        @else
+                          <p class=" mt-2 text-danger">{{$loop->index + 1}}. {{$q->question}}</p>
+                          @for ($i=0; $i<4; $i++)
+                            @if (json_decode($q->answer)[0] == $i+1)
+                              <div class="col-6">
+                                <p class="text-success">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
+                              </div>
+                            @elseif (json_decode($examData->yourAnswers)[$loop->index][0] == $i+1)
+                              <div class="col-6">
+                                <p class="text-danger">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }} (Your answer wrong)</p>
+                              </div>
+                            @else
+                              <div class="col-6">
+                                <p class="">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
+                              </div>
+                            @endif
+                          @endfor
+                        @endif
                       @else
-                        <p class="mt-2 text-danger">{{$loop->index + 1}}. {{$q->question}}</p>
-                        @for ($i=0; $i<4; $i++)
-                          @if (json_decode($q->answer)[0] == $i+1)
-                            <div class="col-6">
-                              <p class="text-success">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
-                            </div>
-                          @elseif (json_decode($examData->yourAnswers)[$loop->index][0] == $i+1)
-                            <div class="col-6">
-                              <p class="text-danger">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }} (Your answer wrong)</p>
-                            </div>
-                          @else
-                            <div class="col-6">
-                              <p class="">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
-                            </div>
-                          @endif
-                        @endfor
+                        <h2>All answer skip</h2>
                       @endif
-                      
                       {{-- reasign array --}}
                       <?php $optionArr4 = array(); ?>
                     @else
@@ -188,12 +191,14 @@
                 <tbody>
                   @if($allExaminer != null)
                     @foreach ($allExaminer as $d)
-                    <tr>
-                      <th scope="row">{{$loop->index +1}}</th>
-                      <td>{{$d->username}}</td>
-                      <td>{{$d->correctAnswer}}</td>
-                      <td>Time: {{json_decode($d->isEndExam) - json_decode($d->isStartExam)}}</td>
-                    </tr>
+                    @if (  $d->isEndExam !=null)
+                      <tr>
+                        <th scope="row">{{$loop->index +1}}</th>
+                        <td>{{$d->username}}</td>
+                        <td>{{$d->correctAnswer}}</td>
+                        <td>Time: {{json_decode($d->isEndExam) - json_decode($d->isStartExam)}}</td>
+                      </tr>
+                    @endif
                     @endforeach
                   @endif
                 </tbody>
@@ -262,7 +267,8 @@
       <div class="modal-body">
 
         <h3> আপনার পরীক্ষাটি সম্পন্ন হয়েছে।</h3>
-        <form action="#">
+        <form action="{{ route('seeFreeExamResult') }}" method="GET">
+          @csrf
             <button class="btn btn-primary w-100" type="submit">ফলাফল</button>
         </form>
       </div>

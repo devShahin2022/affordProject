@@ -45,23 +45,25 @@ class ExamManageController extends Controller
             return json_encode($freeExamQuestion);
     }
 // user click start exam btn 
-    public function userClickExamBtn(Request $request){
-        $examStartTime = $request->input('examStartTime');
-        $examPaperData = $request->input('examPaperData');
+//     public function userClickExamBtn(Request $request){
+//         $examStartTime = $request->input('examStartTime');
+//         $examPaperData = $request->input('examPaperData');
+
+//         $username = Auth::user()->username;
+//         $storeData = new ManageExam();
+//         $storeData->username = $username;
+//         $storeData->departmentName = $examPaperData[0]['departmentName'];
+//         $storeData->subjectName = $examPaperData[0]['subjectName'];
+//         $storeData->chapterName = $examPaperData[0]['chapterName'];
+//         $storeData->questionCat = $examPaperData[0]['questionCat'];
+//         $storeData->set = $examPaperData[0]['question_set'];
+//         $storeData->isStartExam =$examStartTime;
+//         $storeData->save();
+//         return response()->json(['message' =>"user click success and store user clicked data in database"]);
 
 
-        $username = Auth::user()->username;
-        $storeData = new ManageExam();
-        $storeData->username = $username;
-        $storeData->departmentName = $examPaperData[0]['departmentName'];
-        $storeData->subjectName = $examPaperData[0]['subjectName'];
-        $storeData->chapterName = $examPaperData[0]['chapterName'];
-        $storeData->questionCat = $examPaperData[0]['questionCat'];
-        $storeData->set = $examPaperData[0]['question_set'];
-        $storeData->isStartExam =$examStartTime;
-        $storeData->save();
-        return response()->json(['message' =>"user click success and store user clicked data in database"]);
-}
+
+// }
 
     // store exam data from front end api call
     public function getUserAnswer(Request $request){
@@ -154,5 +156,6 @@ class ExamManageController extends Controller
     $examData = $this->FreeExamQuestionFetch();
 
         return view("FreeExam.FreeExam",['examData'=> $res,'allExaminer'=>$allData, 'examPaper'=>json_decode($examData)]);
+        
     }
 }
