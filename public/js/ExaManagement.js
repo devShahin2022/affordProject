@@ -217,13 +217,6 @@ const data = {
         var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
         myModal.show();
         _id("pushResultFormId").classList.remove('d-none');
-        _id("pushResultFormId").innerHTML = '<h3> আপনার পরীক্ষাটি সম্পন্ন হয়েছে।</h3>';
-        _id("pushResultFormId").innerHTML += `
-          <form action="{{ route('seeFreeExamResult') }}" method="GET">
-            @csrf
-              <button class="btn btn-primary w-100" type="submit">ফলাফল</button>
-          </form>
-        `;
     })
     .catch(error => {
       console.error('Error:', error);
