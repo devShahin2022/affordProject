@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddCqController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DynamicMcqExamPapersAdd;
 use App\Http\Controllers\ExamManageController;
 use App\Http\Controllers\FaqsController;
 use App\Http\Controllers\GetallCqMcqAndReportController;
@@ -121,3 +122,12 @@ Route::post('/admin/app-contact',[ContactController::class,'approvedContact'])->
 // ssc exam form addmission
 Route::get('/ssc-2024/admission',[sscExamBatchAdmController::class,'getSscExamForm'])->name('getSscExamForm')->middleware('auth');;
 Route::post('/ssc-2024/admission',[sscExamBatchAdmController::class,'storeAdmSSCExamBatch'])->name('storeAdmSSCExamBatch')->middleware('auth');;
+
+
+// dynamic exam paper set
+Route::get('/admin/exam-paper-add-mcq/{statusReset}',[DynamicMcqExamPapersAdd::class,'getPreXmPapers'])->name('addDynamicMcqQuestionGet'); // no auth
+Route::get('/admin/exam-paper-set-find',[DynamicMcqExamPapersAdd::class,'findMcqExamQuesSet'])->name('findMcqExamQuesSet'); // no auth
+Route::post('/admin/upload-xm-papers',[DynamicMcqExamPapersAdd::class,'uploadExamPapers'])->name('uploadExamPapers'); // no auth
+Route::get('/admin/upload-xm-papers/delete/{id}',[DynamicMcqExamPapersAdd::class,'deleteMcqExam'])->name('deleteMcqExam'); // no auth
+
+

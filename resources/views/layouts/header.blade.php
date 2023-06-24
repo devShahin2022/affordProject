@@ -114,6 +114,8 @@ if(Auth::user()){
                   <li><a href="{{ route('cqExamQuestionView',['statusReset'=>0]) }}" class="link-dark d-inline-flex text-decoration-none rounded">ক্রিয়েট সিকিউ এক্সাম কোয়েসচেন</a></li>
                   <li><a href="{{ route('getAllMcq') }}" class="link-dark d-inline-flex text-decoration-none rounded">সকল এমসিকিউ কোয়েসচেন</a></li>
                   <li><a href="{{ route('getAllCq') }}" class="link-dark d-inline-flex text-decoration-none rounded">সকল সিকিউ কোয়েসচেন</a></li>
+                  <li><a href="{{ route('addDynamicMcqQuestionGet',['statusReset'=>0]) }}" class="link-dark d-inline-flex text-decoration-none rounded">ডাইনামিক এমসিকিউ এক্সাম কোয়েসচেন সেট</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">ডাইনামিক সিকিউ এক্সাম কোয়েসচেন সেট</a></li>
                   <li><a href="{{ route('repotedMcq') }}" class="link-dark d-inline-flex text-decoration-none rounded">রিপোর্টেট কোয়েসচেন</a></li>
                 </ul>
               </div>
