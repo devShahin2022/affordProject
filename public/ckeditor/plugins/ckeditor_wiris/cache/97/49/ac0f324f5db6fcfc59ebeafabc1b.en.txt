@@ -1,0 +1,1 @@
+{"result":{"text":"F space equals space m a\n20 space equals space 5 space cross times a\ntherefore a space equals space 20 over 5 space equals space 4 space m s to the power of negative 2 end exponent\n"},"status":"ok"}

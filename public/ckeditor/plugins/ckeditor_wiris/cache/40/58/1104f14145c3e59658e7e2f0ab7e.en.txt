@@ -1,0 +1,1 @@
+{"result":{"text":"equals 4 space m s to the power of negative 2 end exponent"},"status":"ok"}

@@ -1,0 +1,1 @@
+{"result":{"text":"F space equals space 20 N\nm space equals space 5 k g\ntherefore space 20 space equals space 5 cross times a\na space equals space 20 over 5\nspace space space space equals space 4 space m s to the power of negative 2 end exponent space left parenthesis a n s right parenthesis\n"},"status":"ok"}

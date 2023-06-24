@@ -48,11 +48,11 @@ function freeExamCall(){
                 </div>
                 <div class="col-6 mt-2">
                   <input  value="3"  type="radio" class="btn-check" name="options${index+1}" id="options3_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100  text-start" for="options3_${index+1}">c. ${element.option2}</label>
+                  <label class="btn btn-outline-secondary w-100  text-start" for="options3_${index+1}">c. ${element.option3}</label>
                 </div>
                 <div class="col-6 mt-2">
                   <input  value="4"  type="radio" class="btn-check" name="options${index+1}" id="options_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100  text-start" for="options_${index+1}">d. ${element.option2}</label>
+                  <label class="btn btn-outline-secondary w-100  text-start" for="options_${index+1}">d. ${element.option4}</label>
                 </div>
               </div>
                 `
@@ -72,7 +72,7 @@ function freeExamCall(){
                 </div>
                 <div class="col-6 mt-2">
                   <input  value="3"  type="checkbox" class="btn-check" name="options${index+1}" id="options3_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100  text-start" for="options3_${index+1}">iii. ${element.option2}</label>
+                  <label class="btn btn-outline-secondary w-100  text-start" for="options3_${index+1}">iii. ${element.option3}</label>
                 </div>
               </div>
                 `

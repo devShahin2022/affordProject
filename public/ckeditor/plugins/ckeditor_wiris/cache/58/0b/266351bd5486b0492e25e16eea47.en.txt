@@ -1,0 +1,1 @@
+{"result":{"text":"rightwards double arrow F space equals space m a"},"status":"ok"}

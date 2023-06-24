@@ -1,0 +1,1 @@
+{"result":{"text":"colon. F equals m a"},"status":"ok"}

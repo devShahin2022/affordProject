@@ -41,57 +41,58 @@
                       ?>
                       {{-- show if image or uddipak exits --}}
                       @isset($q->photo_url)
-                        <div class="col-6">
+                        <div class="col-12">
                           <img src="{{$q->photo_url}}" class="w-100" alt="">
                         </div>
                       @endisset
                       @isset($q->uddipak)
-                        <div class="col-6">
-                          <p>{{$q->uddipak}}</p>
+                        <div class="col-12">
+                          {{-- <p>{{$q->uddipak}}</p> --}}
+                          <?php echo "<span>".$q->uddipak."</span>" ?>
                         </div>
                       @endisset
                       @if (is_array(json_decode($examData->yourAnswers)[$loop->index]))
                         @if (json_decode($examData->yourAnswers)[$loop->index][0] == json_decode($q->answer)[0])
-                          <p class="mt-2 text-success">{{$loop->index + 1}}. {{$q->question}}</p>
+                          <p class="mt-2 text-success">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?> </p>
                           @for($i=0; $i<4; $i++)
                             @if (($i+1) == json_decode($q->answer)[0])
                               <div class="col-6">
-                                <p class="text-success">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }} (Your answer correct)</p>
+                                <p class="text-success">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i]."</span>" ?> (Your answer correct)</p>
                               </div>
                             @else
                               <div class="col-6">
-                                <p class="">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
+                                <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
                               </div>
                             @endif
                           @endfor
                         @else
-                          <p class=" mt-2 text-danger">{{$loop->index + 1}}. {{$q->question}}</p>
+                          <p class=" mt-2 text-danger">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?> </p>
                           @for ($i=0; $i<4; $i++)
                             @if (json_decode($q->answer)[0] == $i+1)
                               <div class="col-6">
-                                <p class="text-success">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
+                                <p class="text-success">{{$optionTagArr4[$i]}}.  <?php echo "<span>".$optionArr4[$i]."</span>" ?> </p>
                               </div>
                             @elseif (json_decode($examData->yourAnswers)[$loop->index][0] == $i+1)
                               <div class="col-6">
-                                <p class="text-danger">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }} (Your answer wrong)</p>
+                                <p class="text-danger">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i]."</span>" ?> (Your answer wrong)</p>
                               </div>
                             @else
                               <div class="col-6">
-                                <p class="">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
+                                <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
                               </div>
                             @endif
                           @endfor
                         @endif
                       @else
-                        <p class="mt-2 text-info">{{$loop->index + 1}}. {{$q->question}}</p>
+                        <p class="mt-2 text-info">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?></p>
                         @for($i=0; $i<4; $i++)
                           @if (($i+1) == json_decode($q->answer)[0])
                             <div class="col-6">
-                              <p class="text-success">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
+                              <p class="text-success">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i] ."</span>" ?> </p>
                             </div>
                           @else
                             <div class="col-6">
-                              <p class="">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
+                              <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i] ."</span>" ?> </p>
                             </div>
                           @endif
                         @endfor
@@ -116,25 +117,25 @@
                           @endfor
                         @endif
                         @if ($flag == true)
-                          <p class="mt-2 text-success">{{$loop->index + 1}}. {{$q->question}}</p>
+                          <p class="mt-2 text-success">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?> </p>
                           @for ($i=0; $i<3; $i++)
                             @if (json_decode($examData->yourAnswers)[$loop->index][$i] == json_decode($q->answer)[$i])
                               <div class="col-6">
-                                <p class="success">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
+                                <p class="success">{{$optionTagArr4[$i]}}.<?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
                               </div>
                             @else
                               <div class="col-6">
-                                <p class="">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
+                                <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
                               </div>
                             @endif
                           @endfor
                           <i>Your answer was correct</i>
                         @endif
                         @if ($flag == false)
-                          <p class="mt-2 text-danger">{{$loop->index + 1}}. {{$q->question}}</p>
+                          <p class="mt-2 text-danger">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?></p>
                           @for ($i=0; $i<3; $i++)
                             <div class="col-6">
-                              <p class="">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
+                              <p class="">{{$optionTagArr4[$i]}}.  <?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
                             </div>
                           @endfor
                           <i class="text-danger">Your answer was wrong :
@@ -158,10 +159,10 @@
                         @endif
                       @else
                         {{--  If question skipped --}}
-                        <p class="mt-2 text-info">{{$loop->index + 1}}. {{$q->question}}</p>
+                        <p class="mt-2 text-info">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?></p>
                         @for ($i=0; $i<3; $i++)
                           <div class="col-6">
-                            <p class="">{{$optionTagArr4[$i]}}. {{ $optionArr4[$i] }}</p>
+                            <p class="">{{$optionTagArr4[$i]}}.<?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
                           </div>
                         @endfor
                         <i class="">You skipped this question </i>

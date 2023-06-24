@@ -87,13 +87,13 @@ class ExamManageController extends Controller
         $feedback = 'আপনার পরীক্ষা খারাপ হয়েছে । আপনাকে আরো ভালোভাবে পড়াশোনা করতে হবে।';
         
         $percent = ($correctAnswer/sizeof($examPaperData))*100;
-        if($percent > 90){
+        if($percent >= 90 && $percent <=100){
             $feedback = 'অভিনন্দন! আপনি চমৎকার ফলাফল করেছেন ';
         }
-        if($percent > 80){
+        if($percent >= 80 && $percent < 90){
             $feedback = 'আপনি ভালো পরীক্ষা দিয়েছেন';
         }
-        if($percent > 50){
+        if($percent >= 50 && $percent <80){
             $feedback = 'আপনার পরীক্ষা মোটামুটি হয়েছে । আরো উন্নিতি করতে হবে ';
         }
 
