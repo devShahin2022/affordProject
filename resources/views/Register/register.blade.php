@@ -47,6 +47,13 @@
                     <span class="text-danger">{{$errors->first('username')}}</span>
                     @endif
                 </div>
+                <div class="mb-3">
+                    <select name="departmentName" class="form-select w-100" aria-label="Default select example">
+                        <option value="0" >বিভাগ সিলেক্ট কর</option>
+                        <option value="বিজ্ঞান বিভাগ">বিজ্ঞান বিভাগ</option>
+                        <option value="মানবিক বিভাগ">মানবিক বিভাগ</option>
+                    </select>
+                </div>
                   <div class="mb-3">
                     <label for="exampleInputPassword" class="form-label">Password</label>
                     <input value="{{old('psw')}}" type="text" name="psw" class="form-control" id="exampleInputPassword">

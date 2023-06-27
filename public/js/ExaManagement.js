@@ -1,3 +1,4 @@
+
 try{
   function showdynamicallyModal(){
     var myModal = new bootstrap.Modal(document.getElementById('exampleModalToggle'))
@@ -8,6 +9,7 @@ showdynamicallyModal();
 
 }
 
+try{
 // start exam time 
 let currentTimeInMillisecondsStart = '';
 // question answer collect from database...
@@ -189,165 +191,189 @@ form.addEventListener('submit', function(event) {
 // data store in database
 // Data to be sent in the request body
 
-const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-const data = {
-    answer: userAnswers,
-    examStartTime: currentTimeInMillisecondsStart,
-    examEndTime: currentTimeInMillisecondsEnd,
-    examPaperData : questionData,
-    correctAnswer : countCorrectMcq,
-    wrongAnswer : countWrongMcq,
-    untouch : countUntouchMcq,
-  };
-  
-  // Options for the POST request
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': csrfToken
-    },
-    body: JSON.stringify(data)
-  };
-  
-  // Send the POST request
-  fetch('http://127.0.0.1:8000/profile/free-exam-data-store', options)
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  const data = {
+      answer: userAnswers,
+      examStartTime: currentTimeInMillisecondsStart,
+      examEndTime: currentTimeInMillisecondsEnd,
+      examPaperData : questionData,
+      correctAnswer : countCorrectMcq,
+      wrongAnswer : countWrongMcq,
+      untouch : countUntouchMcq,
+    };
+    
+    // Options for the POST request
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': csrfToken
+      },
+      body: JSON.stringify(data)
+    };
+    
+    // Send the POST request
+    fetch('http://127.0.0.1:8000/profile/free-exam-data-store', options)
+      .then(response => response.json())
+      .then(data => {
+          var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
+          myModal.show();
+          _id("pushResultFormId").classList.remove('d-none');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
+});
+
+
+}catch(e){
+
+}
+// ------------------------------------
+// add data add premium section//
+//-------------------------------------
+
+try{
+  const form1 = document.getElementById("submitExamPre");
+  form1.addEventListener('submit', function(event) {
+    event.preventDefault(); 
+    let mcqSize = _id("mcqSz").value;
+    let userAnswers = [];
+    for(let i=0; i<mcqSize; i++){
+        const selectedRadioButtons = form1.querySelectorAll(`input[name="options${i+1}"]:checked`);
+        if (selectedRadioButtons.length > 0) {
+            const selectedValues = Array.from(selectedRadioButtons).map(radioButton => radioButton.value);
+                userAnswers.push(selectedValues);
+            } else {
+                userAnswers.push(0);
+        }
+    }
+
+
+    const csrfToken2 = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    // retrive data from database
+    let departmentName = _id("departmentName").value;
+    let subjectName = _id("subjectName").value;
+    let chapterName = _id("chapterName").value;
+    let question_set = _id("question_set").value;
+
+    console.log(departmentName);
+
+    const data2 = {
+      departmentName: departmentName,
+      subjectName: subjectName,
+      chapterName: chapterName,
+      question_set : question_set
+    };
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': csrfToken2
+      },
+      body: JSON.stringify(data2)
+    };
+
+
+    // Send the POST request
+    fetch('http://127.0.0.1:8000/premium/fetch/premium-exam-data', options)
     .then(response => response.json())
     .then(data => {
-        var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
-        myModal.show();
-        _id("pushResultFormId").classList.remove('d-none');
+
+
+
+   // showing result in front end
+      // _id("pushExamQuestionMcqId").innerHTML = ''; // first null the mcq panel
+      // _id("pushExamQuestionMcqId").classList.add('d-none');
+      let countUntouchMcq = 0;
+      let countCorrectMcq = 0;
+      let countWrongMcq = 0;
+      let isMatchAns = true;
+      // calculate user exam result
+      for(let i=0; i<userAnswers.length; i++){
+          // console.log(userAnswers[i],questionData[i].answer);
+          if(userAnswers[i] == 0){
+              countUntouchMcq++;
+          }else if(userAnswers[i].length == JSON.parse(data[i].answer).length){
+              if(userAnswers[i].length == 1 && JSON.parse(data[i].answer).length ==1){
+                  if(userAnswers[i][0] == JSON.parse(data[i].answer)[0]){
+                      countCorrectMcq++;
+                  }else{
+                      countWrongMcq++;
+                  }
+              }else{
+                  for(let j=0; j<userAnswers[i].length; j++){
+                      if(userAnswers[i][j] != JSON.parse(data[i].answer)[j]){
+                          isMatchAns = false;
+                      }
+                  }
+                  if(isMatchAns){
+                      countCorrectMcq++;
+                  }else{
+                      countWrongMcq++;
+                  }
+              }
+          }else{ // defenately wrong answer
+              countWrongMcq++;
+          }
+      }
+  
+      console.log(countUntouchMcq, countCorrectMcq, countWrongMcq);
+
+
+    // exam end time
+    let currentTimeInMillisecondsEnd = new Date().getTime();
+    let examStartTime = new Date().getTime(); // ekhane jhamela ace
+
+// data store in database
+// Data to be sent in the request body
+
+  const csrfToken3 = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  const data3 = {
+      answer: userAnswers,
+      examStartTime : examStartTime,
+      examEndTime: currentTimeInMillisecondsEnd,
+      examPaperData : data,
+      correctAnswer : countCorrectMcq,
+      wrongAnswer : countWrongMcq,
+      untouch : countUntouchMcq,
+    };
+    
+    // Options for the POST request
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': csrfToken3
+      },
+      body: JSON.stringify(data3)
+    };
+    
+    // Send the POST request
+    fetch('http://127.0.0.1:8000/profile/free-exam-data-store', options)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+          var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
+          myModal.show();
+          _id("pushExamQuestionMcqId").classList.add('d-none');
+          _id("examSuccessId").classList.remove('d-none');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
+
     })
     .catch(error => {
       console.error('Error:', error);
     });
 
 
+  }); 
+}catch(e){
 
-
-
-
-
-
-
-
-
-    // questionData.forEach((element,index) => {
-    //     _id("pushExamQuestionMcqId").innerHTML += `<div class="row">`
-    //     if(element.question_type == 1){
-    //         pushTmpData.push(element.option1);
-    //         pushTmpData.push(element.option2);
-    //         pushTmpData.push(element.option3);
-    //         pushTmpData.push(element.option4);
-
-    //         if(JSON.parse(element.answer)[0] == userAnswers[0]){
-    //             _id("pushExamQuestionMcqId").innerHTML += `
-    //             <div class="col-12">
-    //               <h5 class="mb-2 text-success mt-3">${index+1}. ${element.question}</h5>
-    //             </div>`
-    //             for(let i=0; i<4; i++){
-    //                 if(JSON.parse(element.answer)[0] == i+1){
-    //                     _id("pushExamQuestionMcqId").innerHTML += `
-    //                     <div class="col-6">
-    //                     <p class="mb-2 text-success mt-3">${options4[i]}. ${pushTmpData[i]}  (your answer)</p>
-    //                     </div>`
-    //                 }else{
-    //                     _id("pushExamQuestionMcqId").innerHTML += `
-    //                     <div class="col-6">
-    //                     <p class="mb-2 mt-3">${options4[i]}. ${pushTmpData[i]}</p>
-    //                     </div>`
-    //                 }
-    //             }
-    //             pushTmpData = [];
-    //         }else{
-    //             _id("pushExamQuestionMcqId").innerHTML += `
-    //             <div class="col-12">
-    //               <h5 class="mb-2 text-danger mt-3">${index+1}. ${element.question}</h5>
-    //             </div>`
-    //             for(let i=0; i<4; i++){
-    //                 if(JSON.parse(element.answer)[0] == i+1){
-    //                     _id("pushExamQuestionMcqId").innerHTML += `
-    //                     <div class="col-6">
-    //                     <p class="mb-2 text-success mt-3">${options4[i]}.  ${pushTmpData[i]}</p>
-    //                     </div>`
-    //                 }else if(userAnswers[0] == i+1){
-    //                     _id("pushExamQuestionMcqId").innerHTML += `
-    //                     <div class="col-6">
-    //                     <p class="mb-2 text-danger mt-3">${options4[i]}.  ${pushTmpData[i]} (your answer)</p>
-    //                     </div>`
-    //                 }else{
-    //                     _id("pushExamQuestionMcqId").innerHTML += `
-    //                     <div class="col-6">
-    //                     <p class="mb-2 mt-3">${options4[i]}.  ${pushTmpData[i]}</p>
-    //                     </div>`
-    //                 }
-    //             }
-    //             pushTmpData = [];
-    //         }
-    //     }else{
-    //         pushTmpData = [];
-    //         pushTmpData.push(element.option1);
-    //         pushTmpData.push(element.option2);
-    //         pushTmpData.push(element.option3);
-
-    //         let flag = false;
-    //         if(userAnswers[index].length != JSON.parse(element.answer).length){
-                
-    //         }else{
-    //             for(let i=0; i<userAnswers[index].length; i++){
-    //                 if(userAnswers[index][i] == JSON.parse(element.answer)[i]){
-    //                     flag =true;
-    //                 }else{
-    //                     flag = false;
-    //                 }
-    //             }
-    //         }
-    //         if(flag === true){
-    //              _id("pushExamQuestionMcqId").innerHTML += `
-    //             <div class="col-12">
-    //               <h5 class="mb-2 text-success mt-3">${index+1}. ${element.question}</h5>
-    //             </div>
-    //             `
-    //             for(let i=0; i<3; i++){
-    //                 if(userAnswers[index][i] === JSON.parse(element.answer)[i]){
-    //                     _id("pushExamQuestionMcqId").innerHTML += `
-    //                     <div class="col-6">
-    //                     <p class="mb-2 mt-3">${options3[i]}.  ${pushTmpData[i]}</p>
-    //                     </div>` 
-    //                 }else{
-    //                     _id("pushExamQuestionMcqId").innerHTML += `
-    //                     <div class="col-6">
-    //                     <p class="mb-2 mt-3 ">${options3[i]}.  ${pushTmpData[i]}</p>
-    //                     </div>` 
-    //                 }
-    //             }
-    //             _id("pushExamQuestionMcqId").innerHTML += `<span class="text-success"> Your answer correct: </span>`
-    //             for(let i=0; i<JSON.parse(element.answer).length;i++){
-    //                 _id("pushExamQuestionMcqId").innerHTML += JSON.parse(element.answer)[i] + ',';
-    //             }
-    //         }
-    //          if(flag === false){
-    //              _id("pushExamQuestionMcqId").innerHTML += `
-    //             <div class="col-12">
-    //               <h5 class="mb-2 text-danger mt-3">${index+1}. ${element.question}</h5>
-    //             </div>`
-    //             for(let i=0; i<3; i++){
-    //                 _id("pushExamQuestionMcqId").innerHTML += `
-    //                 <div class="col-6">
-    //                 <p class="mb-2 mt-3">${options3[i]}.  ${pushTmpData[i]}</p>
-    //                 </div>` 
-    //             }
-    //             _id("pushExamQuestionMcqId").innerHTML += `<span class="text-danger"> Your answer wrong: </span>`
-    //             for(let i=0; i<userAnswers[index].length;i++){
-    //                 _id("pushExamQuestionMcqId").innerHTML += userAnswers[index][i]+ ','
-    //             }
-    //             _id("pushExamQuestionMcqId").innerHTML += `<span> Correct answer: </span>`
-    //             for(let i=0; i<JSON.parse(element.answer).length;i++){
-    //                 _id("pushExamQuestionMcqId").innerHTML += JSON.parse(element.answer)[i] + ',';
-    //             }
-    //         }
-    //     }
-    //     _id("pushExamQuestionMcqId").innerHTML += `</div> `;
-    // });
-
-});
+}

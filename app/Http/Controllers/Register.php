@@ -18,6 +18,9 @@ class Register extends Controller
             'psw' => 'required|min:6',
             'repeatPassword' => 'required|min:6',
         ]);
+        if($request->departmentName == 0){
+            return back()->with('pswdmath', "Please select an option");
+        }
         if($request->psw !== $request->repeatPassword){
             return back()->with('pswdmath', "Password don't match ");
         }else{
@@ -46,6 +49,7 @@ class Register extends Controller
             $register->account_type = 0; //pending requested , default 0 mean basic account, 1 mean premium account, 2 mean admission sssExam
             $register->password = Hash::make($request->psw);
             $register->role = "student";
+            $register->departmentName = $request->departmentName;
             $register->status = 1; // 0 mean pending or ban 1 mean active account
             if($register->save()){
                 return redirect('/login')->with('success',"Register success! please login");

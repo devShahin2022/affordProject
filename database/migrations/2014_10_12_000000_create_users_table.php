@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('role');
+            $table->string('departmentName');
             $table->string('photo_url')->nullable();
             $table->string('full_name')->nullable();
             $table->string('privilige')->nullable();

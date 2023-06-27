@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title',"Home page")
+@section('title',"Free exam")
 @section('content')
 
   <div class="container">
@@ -108,11 +108,11 @@
                       ?>
                       @if (is_array(json_decode($examData->yourAnswers)[$loop->index]))
                         @if (sizeof(json_decode($examData->yourAnswers)[$loop->index]) == sizeof(json_decode($q->answer)))
-                          @for ($i=0; $i<3; $i++)
+                          @for ($i=0; $i<sizeof(json_decode($q->answer)); $i++)
                             @if (json_decode($examData->yourAnswers)[$loop->index][$i] == json_decode($q->answer)[$i])
-                              {{ $flag = true }}
+                              <?php $flag = true ?>
                             @else
-                              {{ $flag = false }}
+                              <?php $flag = false ?>
                             @endif
                           @endfor
                         @endif
@@ -355,7 +355,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-
         <h3> আপনার পরীক্ষাটি সম্পন্ন হয়েছে।</h3>
         <form action="{{ route('seeFreeExamResult') }}" method="GET">
           @csrf
@@ -365,4 +364,5 @@
     </div>
   </div>
 </div>
+
 @endsection

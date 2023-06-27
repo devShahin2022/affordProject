@@ -7,8 +7,10 @@ use App\Http\Controllers\ExamManageController;
 use App\Http\Controllers\FaqsController;
 use App\Http\Controllers\GetallCqMcqAndReportController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LeaderBoardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MakeQuestionController;
+use App\Http\Controllers\ManagePremiumExams;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Register;
@@ -130,4 +132,15 @@ Route::get('/admin/exam-paper-set-find',[DynamicMcqExamPapersAdd::class,'findMcq
 Route::post('/admin/upload-xm-papers',[DynamicMcqExamPapersAdd::class,'uploadExamPapers'])->name('uploadExamPapers'); // no auth
 Route::get('/admin/upload-xm-papers/delete/{id}',[DynamicMcqExamPapersAdd::class,'deleteMcqExam'])->name('deleteMcqExam'); // no auth
 
+// premium exampanel view
+Route::get('/premium/exam-panel/{className}',[ManagePremiumExams::class,'PremiumExamPanelView'])->name('PremiumExamPanelView'); // no auth
 
+
+// get current premium exam data
+Route::post('/premium/fetch/premium-exam-data',[ManagePremiumExams::class,'getPremiumExamData']); // no auth
+Route::get('/premium/fetch/premium-exam-result',[ManagePremiumExams::class,'seePremExamResult'])->name('seePremExamResult'); // no auth
+// custom premium exam participate
+Route::get('/premium/fetch/custom-prem-exam/{className}/{subjectName}/{chapterName}/{set}',[ManagePremiumExams::class,'customExamParticipate'])->name('customExamParticipate'); // no auth
+
+// leader board routes
+Route::get('/leaderboard',[LeaderBoardController::class,'getLeaderBoardData'])->name('getLeaderBoardData'); // no auth
