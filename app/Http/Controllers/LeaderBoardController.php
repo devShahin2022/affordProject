@@ -18,7 +18,68 @@ class LeaderBoardController extends Controller
 
         // $numberOfDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         // dd($numberOfDays);
-        $monthName = '';
+        $monthName = $this->returnMonth(date('m'));
+        
+        $leaderBoardData = LeaderBoard::where('month',date('m'))->where('year',date('y'))->orderBy('totalMarks', 'desc')->get();
+        $myPosition = $this->returnPosition($leaderBoardData);
+        // prev 3 month leader board data
+
+        $PrevPostionArr = [];
+        $prevLeaderBoard = [];
+
+        // prev 1st month
+        $prevMonth1 = date("m") - 1 ;
+        $prevMonth2 = date("m") - 2 ;
+        $prevMonth3 = date("m") - 3 ;
+
+
+        $leaderBoardData1 = LeaderBoard::where('month',$prevMonth1)->where('year',date('y'))->orderBy('totalMarks', 'desc')->get();
+        $myPosition1 = $this->returnPosition($leaderBoardData1);
+
+        $leaderBoardData2 = LeaderBoard::where('month',$prevMonth2)->where('year',date('y'))->orderBy('totalMarks', 'desc')->get();
+        $myPosition2 = $this->returnPosition($leaderBoardData2);
+
+        $leaderBoardData3 = LeaderBoard::where('month',$prevMonth3)->where('year',date('y'))->orderBy('totalMarks', 'desc')->get();
+        $myPosition3 = $this->returnPosition($leaderBoardData3);
+
+
+        if($prevMonth1 <= 0){
+            $month = 12 + $prevMonth1;
+            $year = date("y")-1;
+
+            $leaderBoardData1 = LeaderBoard::where('month',$month)->where('year',$year)->orderBy('totalMarks', 'desc')->get();
+            $myPosition1 = $this->returnPosition($leaderBoardData1);
+        }
+        if($prevMonth2 <= 0){
+            $month = 12 + $prevMonth2;
+            $year = date("y")-1;
+
+            $leaderBoardData2 = LeaderBoard::where('month',$month)->where('year',$year)->orderBy('totalMarks', 'desc')->get();
+            $myPosition2 = $this->returnPosition($leaderBoardData2);
+        }
+        if($prevMonth3 <= 0){
+            $month = 12 + $prevMonth3;
+            $year = date("y")-1;
+
+            $leaderBoardData3 = LeaderBoard::where('month',$month)->where('year',$year)->orderBy('totalMarks', 'desc')->get();
+            $myPosition3 = $this->returnPosition($leaderBoardData3);
+        }
+
+        array_push( $PrevPostionArr , $myPosition1,$myPosition2,$myPosition3 );
+        array_push( $prevLeaderBoard ,$leaderBoardData1, $leaderBoardData2, $leaderBoardData3 );
+
+        
+        
+        return view("leaderBoard.leaderBoard",[
+            "leaderBoard"=>$leaderBoardData,
+            "monthName"=>$monthName,
+            "myPosition"=>$myPosition,
+            "PrevPostionArr"=>$PrevPostionArr,
+            "prevLeaderBoard"=>$prevLeaderBoard,
+        ]);
+    }
+    // return me month name
+    public function returnMonth($m){
         if(date('m') == 1){
             $monthName = "জানুয়ারি"; 
         }else if(date('m') == 2){
@@ -54,10 +115,12 @@ class LeaderBoardController extends Controller
         else if(date('m') == 12){
             $monthName = "ডিসেম্বর"; 
         }
+        return  $monthName;
+    }
 
+    // return  position
+    public function returnPosition($leaderBoardData){
         $myPosition = 0;
-
-        $leaderBoardData = LeaderBoard::orderBy('totalMarks', 'desc')->get();
         if(Auth::user() !=null){
             for ($i=0; $i <sizeof($leaderBoardData) ; $i++) { 
                 if($leaderBoardData[$i]->username == Auth::user()->username){
@@ -66,6 +129,6 @@ class LeaderBoardController extends Controller
                 }
             }
         }
-        return view("leaderBoard.leaderBoard",["leaderBoard"=>$leaderBoardData,"monthName"=>$monthName,"myPosition"=>$myPosition]);
+        return $myPosition;
     }
 }

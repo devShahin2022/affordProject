@@ -17,6 +17,7 @@
         <div class="col-md-6">
           @if ($examData && $examData->isEndExam != null)
             @if ($examData->isclickedSeeResult == 1)
+              <a  href="{{ route('freeExam') }}"><button class="btn btn-info my-3">Download question</button></a>
               <p class="lead mt-3 bg-light p-2 mb-2">এরকম আরো এক্সাইটিং পরীক্ষা দিতে চাইলে এখনি তোমার অ্যাকাউন্টটিকে প্রিমিয়াম করে নাও  - </p>
               <div class="bg-light">
                 <h3 class="bg-primary text-white p-2 mb-3">তোমার ফলাফল</h3>

@@ -12,6 +12,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MakeQuestionController;
 use App\Http\Controllers\ManagePremiumExams;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Register;
 use App\Http\Controllers\siteQuestionController;
@@ -41,11 +42,11 @@ Route::post('/logout',[LoginController::class,'logout'])->name('logout');
 Route::get('/profile/question',[ProfileController::class,'showQuestionPage'])->name('showQuestionPage')->middleware('auth');
 Route::get('/profile/faqs',[FaqsController::class,'showFaqs'])->name('showFaqs');
 // free exam management
-Route::get('/profile/free-exam',[ExamManageController::class,'showFreeExam'])->name('showFreeExam');
-Route::get('/profile/free-exam-question-fetch',[ExamManageController::class,'FreeExamQuestionFetch']);
-Route::post('/profile/free-exam-data-store',[ExamManageController::class,'getUserAnswer']); //call by api js
-Route::post('/profile/ensure-user-click-start-exam',[ExamManageController::class,'userClickExamBtn']); //call by api js
-Route::get('/profile/see-exam-result',[ExamManageController::class,'seeFreeExamResult'])->name('seeFreeExamResult'); //see exam result
+Route::get('/profile/free-exam',[ExamManageController::class,'showFreeExam'])->name('showFreeExam')->middleware('auth');
+Route::get('/profile/free-exam-question-fetch',[ExamManageController::class,'FreeExamQuestionFetch'])->middleware('auth');
+Route::post('/profile/free-exam-data-store',[ExamManageController::class,'getUserAnswer'])->middleware('auth'); //call by api js
+Route::post('/profile/ensure-user-click-start-exam',[ExamManageController::class,'userClickExamBtn'])->middleware('auth'); //call by api js
+Route::get('/profile/see-exam-result',[ExamManageController::class,'seeFreeExamResult'])->name('seeFreeExamResult')->middleware('auth'); //see exam result
 
 
 
@@ -144,3 +145,6 @@ Route::get('/premium/fetch/custom-prem-exam/{className}/{subjectName}/{chapterNa
 
 // leader board routes
 Route::get('/leaderboard',[LeaderBoardController::class,'getLeaderBoardData'])->name('getLeaderBoardData'); // no auth
+
+// generate pdf
+Route::get('/generate-pdf', [PdfController::class,'freeExam'])->name('freeExam');
