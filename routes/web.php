@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\AddCqController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CourseOutLineController;
 use App\Http\Controllers\DynamicMcqExamPapersAdd;
 use App\Http\Controllers\ExamManageController;
 use App\Http\Controllers\FaqsController;
@@ -15,6 +17,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Register;
+use App\Http\Controllers\ShowQuestionFrontendPrmController;
 use App\Http\Controllers\siteQuestionController;
 use App\Http\Controllers\sscExamBatchAdmController;
 use App\Http\Controllers\UsersTableController;
@@ -147,4 +150,17 @@ Route::get('/premium/fetch/custom-prem-exam/{className}/{subjectName}/{chapterNa
 Route::get('/leaderboard',[LeaderBoardController::class,'getLeaderBoardData'])->name('getLeaderBoardData'); // no auth
 
 // generate pdf
-Route::get('/generate-pdf', [PdfController::class,'freeExam'])->name('freeExam');
+Route::get('/generate-pdf', [PdfController::class,'freeExam'])->name('freeExam')->middleware('auth');
+
+// course outLine
+Route::get('/course-outline', [CourseOutLineController::class,'showCourseOutline'])->name('showCourseOutline');
+
+// about us page
+Route::get('/about-us', [AboutUsController::class,'showAboutUsPage'])->name('showAboutUsPage');
+
+// show question in front end
+Route::get('/premium/board-question/{book}', [ShowQuestionFrontendPrmController::class,'showBoardQuestion'])->name('showBoardQuestion');
+
+Route::get('/premium/fetch-board-question/{book}/{year}', [ShowQuestionFrontendPrmController::class,'fetchshowBoardQuestion']);
+
+// 

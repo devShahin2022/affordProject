@@ -30,8 +30,8 @@ if(Auth::user()){
           <a class="nav-link" aria-current="page" href="{{route('showAllQuestionAns')}}">প্রশ্ন/উত্তর </a>
           <a class="nav-link" href="{{route('showContact')}}">কন্টাক্ট-আস</a> 
           <a class="nav-link" aria-current="page" href="{{route("showFreeExam")}}">ফ্রি-এক্সাম</a>
-          <a class="nav-link" aria-current="page" href="#">আমাদের সম্পর্কে</a>
-          <a class="nav-link" aria-current="page" href="{#">আউটলাইন</a>
+          <a class="nav-link" aria-current="page"  href="{{ route('showAboutUsPage') }}">আমাদের সম্পর্কে</a>
+          <a class="nav-link" aria-current="page"  href="{{ route('showCourseOutline') }}">আউটলাইন</a>
           <a class="nav-link" aria-current="page"  href="{{route("showFaqs")}}">সাধারণ প্রশ্ন-উত্তর</a>
           <a class="nav-link" aria-current="page"  href="{{route("getLeaderBoardData")}}">লিডারবোর্ড</a>
           @if (Auth::user())
@@ -121,18 +121,6 @@ if(Auth::user()){
               </div>
             </li>
             <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-                Home
-              </button>
-              <div class="collapse show" id="home-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Overview</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Updates</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Reports</a></li>
-                </ul>
-              </div>
-            </li>
-            <li class="mb-1">
               <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
                 Dashboard
               </button>
@@ -169,51 +157,49 @@ if(Auth::user()){
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-      <main class="d-flex flex-nowrap">
+      <main class="d-flex overflow-auto">
         <div class="flex-shrink-0" style="width: 100%;">
           <ul class="list-unstyled ps-0">
             <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                টেন্টিটিভ আউটলাইন
+              {{-- hidden file for dynamically data load --}}
+              <input id="getDepartMentName" type="hidden" value="{{Auth::user()->departmentName}}">
+              <button id="showChapterId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#boardQuestion" aria-expanded="false">
+                বোর্ড প্রশ্ন
               </button>
-              <div class="collapse" id="orders-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">New</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Processed</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Shipped</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Returned</a></li>
+              <div class="collapse" id="boardQuestion">
+                <ul id="pushBooksNameId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  
                 </ul>
               </div>
             </li>
             <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-                কোর্স ইন্সট্রাক্টর
+              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#allLaw" aria-expanded="false">
+                সকল সুত্র
               </button>
-              <div class="collapse show" id="home-collapse">
+              <div class="collapse" id="allLaw">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Overview</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Updates</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Reports</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">সাধারণ গণিত</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">উচ্চতর গণিত</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">পদার্থবিজ্ঞান</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">রসায়নবিজ্ঞান</a></li>
                 </ul>
               </div>
             </li>
             <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-                নোট্‌স
+              <button id="showKhutiNatiId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#typemathsol" aria-expanded="false">
+                চেপ্টারের খুটিনাটি সমাধান
               </button>
-              <div class="collapse show" id="home-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Overview</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Updates</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Reports</a></li>
+              <div class="collapse" id="typemathsol">
+                <ul id="chapterKhutiNatiId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+
                 </ul>
               </div>
             </li>
             <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#targetedExam" aria-expanded="false">
                 অনলাইন এক্সাম
               </button>
-              <div class="collapse" id="dashboard-collapse">
+              <div class="collapse" id="targetedExam">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                   <li><a  href="#" class="link-dark d-inline-flex text-decoration-none rounded">এক্সাম রুটিন</a></li>
                   <li><a  href="{{ route('PremiumExamPanelView',["className"=>"নবম শ্রেণী"]) }}" class="link-dark d-inline-flex text-decoration-none rounded">নবম শ্রেণি</a></li>
@@ -223,70 +209,47 @@ if(Auth::user()){
               </div>
             </li>
             <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                প্রাক্টিস প্রবলেম
+              <button id="showTopicsId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#topicsRead" aria-expanded="false">
+                টপিকস ভিত্তিক পড়াশোনা ও নোটস
               </button>
-              <div class="collapse" id="orders-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">New</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Processed</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Shipped</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Returned</a></li>
+              <div class="collapse" id="topicsRead">
+                <ul id="pushBooksId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                 </ul>
               </div>
             </li>
             <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                আজকের কুইজ
+              <button id="showSchoolId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+                স্কুলের প্রশ্ন সমাধান
               </button>
               <div class="collapse" id="orders-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">New</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Processed</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Shipped</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Returned</a></li>
+                <ul id="pushSchoolNameId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+
                 </ul>
               </div>
             </li>
             <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                প্রাকটিস প্রবলেম 
+              <button id="showModelTestId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#affordModelTest" aria-expanded="false">
+                অ্যাফোর্ড মডেল টেস্ট
               </button>
-              <div class="collapse" id="orders-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">New</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Processed</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Shipped</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Returned</a></li>
+              <div class="collapse" id="affordModelTest">
+                <ul id="pushModelTestId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small ms-2">
+
                 </ul>
               </div>
             </li>
             <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                গুরুত্বপূর্ণ সাজেশন
+              <button id="showMcqShortCutId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#mcqSpecial" aria-expanded="false">
+                এম সি কিউ বিশ্লেষণ ও সর্টকার্ট 
               </button>
-              <div class="collapse" id="orders-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">New</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Processed</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Shipped</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Returned</a></li>
+              <div class="collapse" id="mcqSpecial">
+                <ul id="pushMcqId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+
                 </ul>
               </div>
             </li>
-            <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                তোমার ফিডব্যাক
-              </button>
-              <div class="collapse" id="orders-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">New</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Processed</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Shipped</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Returned</a></li>
-                </ul>
-              </div>
-            </li>
+            <button class="btn btn-primary w-100 mt-3" data-bs-toggle="collapse" data-bs-target="#customExam" aria-expanded="false">
+              ইচ্ছেমতো পরীক্ষা দিব
+            </button>
           </ul>
         </div>
       </main>

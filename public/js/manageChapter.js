@@ -1,3 +1,5 @@
+let boardData = '';
+
 
 // class make short
 function _class(d){
@@ -10,9 +12,21 @@ function _id(d){
 
 
 const LoadInitData = () =>{
-    // autoload exam free modal
 
-    // showdynamicallyModal();
+    try{
+        let bookName = _id('getBookName').value;
+        fetch(`http://127.0.0.1:8000/premium/fetch-board-question/${bookName}/2022`)
+        .then(response => response.json())
+        .then(data => {
+            boardData = data;
+            })
+            .catch(error => {
+                console.log('Error:', error);
+            });
+    }catch(e){
+        console.log(e);
+    }
+
 // dynamically push department
     for (let i = 0; i < 2; i++) {
         _class("pushDepartMentId")[i].innerHTML = '';
