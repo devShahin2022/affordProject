@@ -145,7 +145,7 @@
             <p class="m-0 p-0">সৃজনশীল প্রশ্ন - {{sizeof($cq)}}</p>
             <p class="m-0 p-0">বিষয় - {{$book}}</p>
         </div>
-        <div class="row">
+        <div id='pushCqId' class="row">
             @if (sizeof($cq)>0)
                 @foreach ($cq as $d)
                     <div id="id_{{$loop->index}}" class="col-md-6">

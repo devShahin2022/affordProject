@@ -296,10 +296,6 @@ let boardName = [
     {
         "boardName" : "মাদ্রাসা বোর্ড", 
         "boardYear" : ['২০১৫','২০১৬','২০১৭','২০১৮','২০১৯','২০২০','২০২১','২০২২','২০২৩']
-    },
-    {
-        "boardName" : "সকল বোর্ড", 
-        "boardYear" : ["২০১৮"]
     }
 ];
 // famous school name...

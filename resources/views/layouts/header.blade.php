@@ -121,28 +121,52 @@ if(Auth::user()){
               </div>
             </li>
             <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-                Dashboard
+              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#allLaw" aria-expanded="false">
+                সকল সুত্র প্যানেল
               </button>
-              <div class="collapse" id="dashboard-collapse">
+              <div class="collapse" id="allLaw">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Overview</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Weekly</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Monthly</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Annually</a></li>
+                  <li><a href="{{ route('getLaw',['status'=>1])}}" class="link-dark d-inline-flex text-decoration-none rounded">সুত্র আপলোড</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">সকল সুত্র</a></li>
                 </ul>
               </div>
             </li>
             <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                Orders
+              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#chaptererKhutiNati" aria-expanded="false">
+                চেপ্টারের খুটিনাটি সমাধান প্যানেল
               </button>
-              <div class="collapse" id="orders-collapse">
+              <div class="collapse" id="chaptererKhutiNati">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">New</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Processed</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Shipped</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Returned</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">আপলোড খুটিনাটি</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">বাংলা ২য়</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">ইংরেজি ১ম</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">ইংরেজি ২য়</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">সকল খুটিনাটি</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mb-1">
+              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#topicsPorasona" aria-expanded="false">
+                টপিকস ভিত্তিক পড়াশোনা ও নোটস প্যানেল
+              </button>
+              <div class="collapse" id="topicsPorasona">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">আপলোড পড়াশোনা</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">বাংলা ২য়</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">ইংরেজি ১ম</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">ইংরেজি ২য়</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">সকল পড়াশোনা</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mb-1">
+              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#mcqBisleson" aria-expanded="false">
+              এম সি কিউ বিশ্লেষণ প্যানেল
+              </button>
+              <div class="collapse" id="mcqBisleson">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">আপলোড পড়াশোনা</a></li>
+                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">সকল বিশ্লেষণ</a></li>
                 </ul>
               </div>
             </li>

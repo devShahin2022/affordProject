@@ -9,6 +9,7 @@ use App\Http\Controllers\ExamManageController;
 use App\Http\Controllers\FaqsController;
 use App\Http\Controllers\GetallCqMcqAndReportController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LawController;
 use App\Http\Controllers\LeaderBoardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MakeQuestionController;
@@ -151,6 +152,7 @@ Route::get('/leaderboard',[LeaderBoardController::class,'getLeaderBoardData'])->
 
 // generate pdf
 Route::get('/generate-pdf', [PdfController::class,'freeExam'])->name('freeExam')->middleware('auth');
+Route::get('/generate-pdf/{subject}/{chapter}/{set}', [PdfController::class,'premiumExam'])->name('premiumExam')->middleware('auth');
 
 // course outLine
 Route::get('/course-outline', [CourseOutLineController::class,'showCourseOutline'])->name('showCourseOutline');
@@ -163,4 +165,8 @@ Route::get('/premium/board-question/{book}', [ShowQuestionFrontendPrmController:
 
 Route::get('/premium/fetch-board-question/{book}/{year}', [ShowQuestionFrontendPrmController::class,'fetchshowBoardQuestion']);
 
-// 
+// upload a law
+Route::get('/admin/upload-law/{status}', [LawController::class,'getLaw'])->name('getLaw');
+Route::post('/admin/upload-law', [LawController::class,'uploadLaw'])->name('uploadLaw');
+Route::get('/admin/update-law/{id}', [LawController::class,'getUpdateLaw'])->name('getUpdateLaw');
+Route::get('/admin/delete-law/{id}', [LawController::class,'lawDelete'])->name('lawDelete');

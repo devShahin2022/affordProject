@@ -97,22 +97,18 @@ try{
     console.log(e);
 }
 
-function fetchBoardData(book){
-    // fetch('http://127.0.0.1:8000/profile/free-exam-question-fetch')
-    // .then(response => response.json())
-    // .then(data => {
-    //     console.log(data)
-    //     })
-    //     .catch(error => {
-    //         console.log('Error:', error);
-    //     });
-
-}
-
-
 _id('pushYear').addEventListener('change',function(e){
     let bookName = _id('getBookName').value;
-
+    if(_id('pushYear').value == '2018' ){
+        _id("pushBoardNameId").innerHTML = `<button onclick="getBoardNameData('সকল বোর্ড')" style="" class="btn btn-transparent btn-sm">সকল বোর্ড</button>`;
+    }else{
+        _id("pushBoardNameId").innerHTML = '';
+        boardName.forEach(element => {
+            _id("pushBoardNameId").innerHTML += `
+            <button onclick="getBoardNameData('${element.boardName}')" style="" class="btn btn-transparent btn-sm">${element.boardName}</button>
+        `
+        });
+    }
     fetch(`http://127.0.0.1:8000/premium/fetch-board-question/${bookName}/${JSON.parse(e.target.value)}`)
     .then(response => response.json())
     .then(data => {
@@ -143,6 +139,7 @@ function getBoardNameData(b){
     });
 
     _id('pushMcq').innerHTML = '';
+    _id('pushCqId').innerHTML = '';
 
     console.log(mcq);
     console.log(cq);
@@ -252,7 +249,7 @@ function getBoardNameData(b){
                                 </button>
                             </h2>
                             <div id="flush-explain_${index}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#body_id_${index}">
-                                <div class="accordion-body d-flex"> ${explain} </div>
+                                <div class="accordion-body d-flex"> ${element.explain} </div>
                             </div>
                         </div>
                     </div>`
@@ -267,7 +264,7 @@ function getBoardNameData(b){
                             </button>
                         </h2>
                         <div id="flush-similar${index}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#body_id_similar_${index}">
-                            <div class="accordion-body d-flex"> ${similar_question} </div>
+                            <div class="accordion-body d-flex"> ${element.similar_question} </div>
                         </div>
                     </div>
                 </div>
@@ -292,7 +289,9 @@ function getBoardNameData(b){
     if(cq.length == 0){
         _id('cqBoardQuestionId').innerHTML = `<h3> No data found! </h3>`;
         _id('cqNavBarId').innerHTML = ``;
+        _id('pushCqId').innerHTML = '';
     }else{
+
 
         _id('cqNavBarId').innerHTML = ``;
 
@@ -308,6 +307,137 @@ function getBoardNameData(b){
             <p class="m-0 p-0">বিষয় - ${bookName}</p>
             </div>
         `
+
+        // push cq dynamically
+        let tmpCqData = '';
+        cq.forEach((element, index)=> {
+            tmpCqData += `
+                <div class="d-flex">
+                <p class="me-1">${index + 1}.</p>
+            `
+            if(element.uddipakPhoto!=null){
+                tmpCqData += `<img src="${element.uddipakPhoto}" class="w-100" alt="">`
+            }
+            if(element.uddipakText!=null){
+                tmpCqData += `
+                    <div class='d-flex flex-wrap'> ${element.uddipakText} </div>
+                `
+            }
+            tmpCqData += `</div>`
+
+            if (element.answerQuestion1 !=null){
+                tmpCqData += `
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div style="background: #e6e6e6;"  class="accordion-item mb-1">
+                        <p class="accordion-header p-1 m-0" id="flash_1_${index}">
+                            <button style="background: #e6e6e6;" class="accordion-button collapsed p-1 m-0" type="button" data-bs-toggle="collapse" data-bs-target="#flush-1_${index}" aria-expanded="false" aria-controls="flush-collapseOne">
+                                (a) <span class='ms-1' >${element.question1}</span>
+                            </button>
+                        </p>
+                        <div id="flush-1_${index}" class="accordion-collapse collapse" aria-labelledby="flash_1_${index}" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">`
+                if (element.answerPhoto1 !=null){
+                tmpCqData += `  <img src="${element.answerPhoto1}" class="w-100" alt="">`
+                }
+
+                tmpCqData += `<p class="d-flex flex-wrap">(a) উত্তর-  <span class='ms-1'>${element.answerQuestion1}</span> </p></div>
+                            </div>
+                        </div>
+                    </div>`
+            }else{
+                tmpCqData += `
+                <p class="d-flex">(a) <span class='ms-1' >${element.question1}</span> </p>
+                `
+            }
+
+
+            if (element.answerQuestion2 !=null){
+                tmpCqData += `
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div style="background: #e6e6e6;"  class="accordion-item mb-1">
+                        <p class="accordion-header p-1 m-0" id="flash_2_${index}">
+                            <button style="background: #e6e6e6;" class="accordion-button collapsed p-1 m-0" type="button" data-bs-toggle="collapse" data-bs-target="#flush-2_${index}" aria-expanded="false" aria-controls="flush-collapseOne">
+                                (b) <span class='ms-1' >${element.question2}</span>
+                            </button>
+                        </p>
+                        <div id="flush-2_${index}" class="accordion-collapse collapse" aria-labelledby="flash_2_${index}" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">`
+
+                if (element.answerPhoto2 !=null){
+                    tmpCqData += `<img src="${element.answerPhoto2}" class="w-100" alt="">`
+                }
+                tmpCqData += `<p class="d-flex flex-wrap">(b) উত্তর-  <span class='ms-1'>${element.answerQuestion2}</span> </p></div>
+                            </div>
+                        </div>
+                    </div>`
+
+            }else{
+                tmpCqData += `
+                <p class="d-flex">(a) <span class='ms-1' >${element.question2}</span> </p>
+                `
+            }
+
+            if (element.answerQuestion3 !=null){
+                tmpCqData += `
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div style="background: #e6e6e6;"  class="accordion-item mb-1">
+                        <p class="accordion-header p-1 m-0" id="flash_3_${index}">
+                            <button style="background: #e6e6e6;" class="accordion-button collapsed p-1 m-0" type="button" data-bs-toggle="collapse" data-bs-target="#flush-3_${index}" aria-expanded="false" aria-controls="flush-collapseOne">
+                                (c) <span class='ms-1' >${element.question3}</span>
+                            </button>
+                        </p>
+                        <div id="flush-3_${index}" class="accordion-collapse collapse" aria-labelledby="flash_3_${index}" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">`
+
+
+                    if (element.answerPhoto3 !=null){
+                        tmpCqData += ` <img src="${element.answerPhoto3}" class="w-100" alt="">`
+                    }
+                    tmpCqData += `<p class="d-flex flex-wrap">(c) উত্তর-  <span class='ms-1'>${element.answerQuestion3}</span> </p></div>
+                                    </div>
+                                </div>
+                            </div>`
+            }else{
+                tmpCqData += `
+                <p class="d-flex">(a) <span class='ms-1' >${element.question3}</span> </p>
+                `
+            }
+
+            if (element.question4 !=null){
+                if (element.answerQuestion4 !=null){
+                    tmpCqData += `
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div style="background: #e6e6e6;"  class="accordion-item mb-1">
+                            <p class="accordion-header p-1 m-0" id="flash_4_${index}">
+                                <button style="background: #e6e6e6;" class="accordion-button collapsed p-1 m-0" type="button" data-bs-toggle="collapse" data-bs-target="#flush-4_${index}" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    (d) <span class='ms-1' >${element.question4}</span>
+                                </button>
+                            </p>
+                            <div id="flush-4_${index}" class="accordion-collapse collapse" aria-labelledby="flash_4_${index}" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">`
+
+                        if (element.answerPhoto4 !=null){
+                            tmpCqData += `<img src="${element.answerPhoto4}" class="w-100" alt="">`
+                        }
+                        tmpCqData += `
+                        <p class="d-flex flex-wrap">(d) উত্তর-  <span class='ms-1'>${element.answerQuestion4}</span> </p></div>
+                                </div>
+                            </div>
+                        </div>
+                        `
+                }else{
+                    tmpCqData += `
+                    <p class="d-flex">(a) <span class='ms-1' >${element.question4}</span> </p>
+                    `
+                }
+            }
+
+            _id('pushCqId').innerHTML += `
+                <div id="id_${index}" class='col-md-6'>${tmpCqData}</div>
+            `
+            tmpCqData = '';
+        });
+
     }
 
 }

@@ -53,19 +53,19 @@
                                                     <div class="col-12">
                                                     <h5 class="mb-2 mt-3">{{$loop->index + 1}}. {{$q->question}}</h5>
                                                     </div>
-                                                    <div class="col-6 mt-2">
+                                                    <div class="col-6 d-flex  d-flex mt-2">
                                                     <input value="1" type="radio" class="btn-check" name="options{{$loop->index + 1}}" id="options1_{{$loop->index + 1}}" autocomplete="">
                                                     <label class="btn btn-outline-secondary w-100 text-start" for="options1_{{$loop->index + 1}}">a. {{$q->option1}}</label>
                                                     </div>
-                                                    <div class="col-6 mt-2">
+                                                    <div class="col-6 d-flex  d-flex mt-2">
                                                     <input  value="2"  type="radio" class="btn-check" name="options{{$loop->index + 1}}" id="options2_{{$loop->index + 1}}" autocomplete="">
                                                     <label class="btn btn-outline-secondary w-100  text-start" for="options2_{{$loop->index + 1}}">b. {{$q->option2}}</label>
                                                     </div>
-                                                    <div class="col-6 mt-2">
+                                                    <div class="col-6 d-flex  d-flex mt-2">
                                                     <input  value="3"  type="radio" class="btn-check" name="options{{$loop->index + 1}}" id="options3_{{$loop->index + 1}}" autocomplete="">
                                                     <label class="btn btn-outline-secondary w-100  text-start" for="options3_{{$loop->index + 1}}">c. {{$q->option3}}</label>
                                                     </div>
-                                                    <div class="col-6 mt-2">
+                                                    <div class="col-6 d-flex  d-flex mt-2">
                                                     <input  value="4"  type="radio" class="btn-check" name="options{{$loop->index + 1}}" id="options_{{$loop->index + 1}}" autocomplete="">
                                                     <label class="btn btn-outline-secondary w-100  text-start" for="options_{{$loop->index + 1}}">d. {{$q->option4}}</label>
                                                     </div>
@@ -76,15 +76,15 @@
                                                     <div class="col-12">
                                                     <h5 class="mb-2 mt-3">{{ $loop->index +1 }}. {{$q->question}}</h5>
                                                     </div>
-                                                    <div class="col-6 mt-2">
+                                                    <div class="col-6 d-flex  d-flex mt-2">
                                                     <input value="1" type="checkbox" class="btn-check" name="options{{ $loop->index +1 }}" id="options1_{{ $loop->index +1 }}" autocomplete="">
                                                     <label class="btn btn-outline-secondary w-100 text-start" for="options1_{{ $loop->index +1 }}">i. {{$q->option1}}</label>
                                                     </div>
-                                                    <div class="col-6 mt-2">
+                                                    <div class="col-6 d-flex  d-flex mt-2">
                                                     <input  value="2"  type="checkbox" class="btn-check" name="options{{ $loop->index +1 }}" id="options2_{{ $loop->index +1 }}" autocomplete="">
                                                     <label class="btn btn-outline-secondary w-100  text-start" for="options2_{{ $loop->index +1 }}">ii. {{$q->option2}}</label>
                                                     </div>
-                                                    <div class="col-6 mt-2">
+                                                    <div class="col-6 d-flex  d-flex mt-2">
                                                     <input  value="3"  type="checkbox" class="btn-check" name="options{{ $loop->index +1 }}" id="options3_{{ $loop->index +1 }}" autocomplete="">
                                                     <label class="btn btn-outline-secondary w-100  text-start" for="options3_{{ $loop->index +1 }}">iii. {{$q->option3}}</label>
                                                     </div>
@@ -108,11 +108,16 @@
                     <div class="col-md-6">
                         @if ($examData->isEndExam != null && $examData->isclickedSeeResult ==1)
                             <h1 class="mt-3 mb-3">আমাদের পরীক্ষায় অংশগ্রহণ করার জন্য ধন্যবাদ</h1>
+                            <a  href="{{ route('premiumExam',[
+                                'subject'=>$examData->subjectName,
+                                'chapter'=>$examData->chapterName,
+                                'set'=>$examData->set
+                            ]) }}">View question and download</a>
                             {{-- see result --}}
                             <div class="bg-light mt-3 text-muted">
                                 <h3 class="bg-primary text-white p-2 mb-3">তোমার ফলাফল</h3>
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-6 ">
                                             <h5><b class="text-info">সঠিক উত্তর :</b> {{$examData->correctAnswer}}</h5>
                                             <p><b>ভুল উত্তর :</b> {{$examData->wrongAnswer}}</p>
                                             <p><b>স্কিপ প্রশ্ন :</b> {{$examData->untouch}}</p>
@@ -158,11 +163,11 @@
                                     <p class="mt-2 text-success">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?> </p>
                                     @for($i=0; $i<4; $i++)
                                         @if (($i+1) == json_decode($q->answer)[0])
-                                        <div class="col-6">
+                                        <div class="col-6 d-flex  d-flex">
                                             <p class="text-success">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i]."</span>" ?> (Your answer correct)</p>
                                         </div>
                                         @else
-                                        <div class="col-6">
+                                        <div class="col-6 d-flex  d-flex">
                                             <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
                                         </div>
                                         @endif
@@ -171,15 +176,15 @@
                                     <p class=" mt-2 text-danger">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?> </p>
                                     @for ($i=0; $i<4; $i++)
                                         @if (json_decode($q->answer)[0] == $i+1)
-                                        <div class="col-6">
+                                        <div class="col-6 d-flex  d-flex">
                                             <p class="text-success">{{$optionTagArr4[$i]}}.  <?php echo "<span>".$optionArr4[$i]."</span>" ?> </p>
                                         </div>
                                         @elseif (json_decode($examData->yourAnswers)[$loop->index][0] == $i+1)
-                                        <div class="col-6">
+                                        <div class="col-6 d-flex  d-flex">
                                             <p class="text-danger">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i]."</span>" ?> (Your answer wrong)</p>
                                         </div>
                                         @else
-                                        <div class="col-6">
+                                        <div class="col-6 d-flex  d-flex">
                                             <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
                                         </div>
                                         @endif
@@ -189,11 +194,11 @@
                                     <p class="mt-2 text-info">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?></p>
                                     @for($i=0; $i<4; $i++)
                                     @if (($i+1) == json_decode($q->answer)[0])
-                                        <div class="col-6">
+                                        <div class="col-6 d-flex  d-flex">
                                         <p class="text-success">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i] ."</span>" ?> </p>
                                         </div>
                                     @else
-                                        <div class="col-6">
+                                        <div class="col-6 d-flex  d-flex">
                                             <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i] ."</span>" ?> </p>
                                         </div>
                                     @endif
@@ -222,11 +227,11 @@
                                     <p class="mt-2 text-success">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?> </p>
                                     @for ($i=0; $i<3; $i++)
                                         @if (json_decode($examData->yourAnswers)[$loop->index][$i] == json_decode($q->answer)[$i])
-                                        <div class="col-6">
+                                        <div class="col-6 d-flex  d-flex">
                                             <p class="success">{{$optionTagArr4[$i]}}.<?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
                                         </div>
                                         @else
-                                        <div class="col-6">
+                                        <div class="col-6 d-flex  d-flex">
                                             <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
                                         </div>
                                         @endif
@@ -236,7 +241,7 @@
                                     @if ($flag == false)
                                     <p class="mt-2 text-danger">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?></p>
                                     @for ($i=0; $i<3; $i++)
-                                        <div class="col-6">
+                                        <div class="col-6 d-flex  d-flex">
                                         <p class="">{{$optionTagArr4[$i]}}.  <?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
                                         </div>
                                     @endfor
@@ -263,7 +268,7 @@
                                     {{--  If question skipped --}}
                                     <p class="mt-2 text-info">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?></p>
                                     @for ($i=0; $i<3; $i++)
-                                    <div class="col-6">
+                                    <div class="col-6 d-flex  d-flex">
                                         <p class="">{{$optionTagArr4[$i]}}.<?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
                                     </div>
                                     @endfor

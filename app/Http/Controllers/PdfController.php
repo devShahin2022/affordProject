@@ -22,4 +22,10 @@ class PdfController extends Controller
         return view("ExportMcqPdf.exportMcq",["freeExamQuestion" => $freeExamQuestion]);
     }
     // free exam question
+    public function premiumExam($subject, $chapter, $set){
+        $freeExamQuestion = AddMcq::where('subjectName',$subject)->
+        where('chapterName',$chapter)->
+        where('question_set',$set)->get();
+        return view("ExportMcqPdf.exportMcq",["freeExamQuestion" => $freeExamQuestion]);
+    }
 }
