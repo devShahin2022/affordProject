@@ -18,9 +18,11 @@ if(Auth::user()){
 <nav class="navbar navbar-expand-lg bg-light">
     <div class="@if (Auth::user() && Auth::user()->role == 'superadmin') container-fluid @else  container  @endif d-flex flex-wrap">
       <a class="navbar-brand" href="#"><span style="color:rgb(98, 194, 78);">AFFORT</span><small style="font-size:12px;color:rgb(98, 194, 78);" >private center</small></a>
+      @if(Auth::user())
       <div>
         <button class="btn btn-sm btn-outline-primary me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptionscoaching" aria-controls="offcanvasWithBothOptionscoachingLabel">ক্লাসরুম</button>  
       </div>
+      @endif
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -201,11 +203,8 @@ if(Auth::user()){
                 সকল সুত্র
               </button>
               <div class="collapse" id="allLaw">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">সাধারণ গণিত</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">উচ্চতর গণিত</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">পদার্থবিজ্ঞান</a></li>
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">রসায়নবিজ্ঞান</a></li>
+                <ul id="pushLawSubjectName" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  
                 </ul>
               </div>
             </li>

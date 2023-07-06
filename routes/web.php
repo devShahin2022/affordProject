@@ -170,3 +170,7 @@ Route::get('/admin/upload-law/{status}', [LawController::class,'getLaw'])->name(
 Route::post('/admin/upload-law', [LawController::class,'uploadLaw'])->name('uploadLaw');
 Route::get('/admin/update-law/{id}', [LawController::class,'getUpdateLaw'])->name('getUpdateLaw');
 Route::get('/admin/delete-law/{id}', [LawController::class,'lawDelete'])->name('lawDelete');
+
+// show law for user
+Route::get('/premium/law/{subject}/{chapter}', [LawController::class,'shoqLawforUser'])->name('shoqLawforUser');
+Route::get('/premium/fetch-law-data-json/{bookName}/{chapter}', [LawController::class,'fetchLawdatajson']);

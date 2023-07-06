@@ -69,7 +69,16 @@ class LawController extends Controller
             return back()->with('fail',"Something went wrong");
         }
     }
+    // funtion for show data for user
+    public function shoqLawforUser($subject,$chapter){
+        $law = UploadLaw::where('subjectName',$subject)->where('chapterName',$chapter)->get();
+        return view("LawUpload.showLawforUser",['subject'=>$subject, 'currentData'=> $law, "chapter"=>$chapter]);
+    }
 
+    public function fetchLawdatajson($bookName,$chapter){
+        $law = UploadLaw::where('subjectName',$bookName)->where('chapterName',$chapter)->get();
+        return json_encode($law);
+    }
 
 
 }

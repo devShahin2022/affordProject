@@ -50,43 +50,65 @@
                                         @foreach ($examPaper as $q)
                                             @if($q->question_type == 1)
                                                 <div class="row">
+                                                    {{-- show if image or uddipak exits --}}
+                                                    @isset($q->photo_url)
+                                                    <div class="col-12">
+                                                    <img height="30px" src="{{$q->photo_url}}" class="w-100" alt="">
+                                                    </div>
+                                                    @endisset
+                                                    @isset($q->uddipak)
+                                                        <div class="col-12">
+                                                        <?php echo "<span class='ms-2 '>".$q->uddipak."</span>" ?>
+                                                        </div>
+                                                    @endisset
                                                     <div class="col-12">
                                                     <h5 class="mb-2 mt-3">{{$loop->index + 1}}. {{$q->question}}</h5>
                                                     </div>
                                                     <div class="col-6 d-flex  d-flex mt-2">
                                                     <input value="1" type="radio" class="btn-check" name="options{{$loop->index + 1}}" id="options1_{{$loop->index + 1}}" autocomplete="">
-                                                    <label class="btn btn-outline-secondary w-100 text-start" for="options1_{{$loop->index + 1}}">a. {{$q->option1}}</label>
+                                                    <label class="d-flex btn btn-outline-secondary w-100 text-start" for="options1_{{$loop->index + 1}}">a. <?php echo "<span class='ms-2 '>".$q->option1."</span>" ?></label>
                                                     </div>
                                                     <div class="col-6 d-flex  d-flex mt-2">
                                                     <input  value="2"  type="radio" class="btn-check" name="options{{$loop->index + 1}}" id="options2_{{$loop->index + 1}}" autocomplete="">
-                                                    <label class="btn btn-outline-secondary w-100  text-start" for="options2_{{$loop->index + 1}}">b. {{$q->option2}}</label>
+                                                    <label class="d-flex btn btn-outline-secondary w-100  text-start" for="options2_{{$loop->index + 1}}">b. <?php echo "<span class='ms-2 '>".$q->option2."</span>" ?></label>
                                                     </div>
                                                     <div class="col-6 d-flex  d-flex mt-2">
                                                     <input  value="3"  type="radio" class="btn-check" name="options{{$loop->index + 1}}" id="options3_{{$loop->index + 1}}" autocomplete="">
-                                                    <label class="btn btn-outline-secondary w-100  text-start" for="options3_{{$loop->index + 1}}">c. {{$q->option3}}</label>
+                                                    <label class="d-flex btn btn-outline-secondary w-100  text-start" for="options3_{{$loop->index + 1}}">c. <?php echo "<span class='ms-2 '>".$q->option3."</span>" ?></label>
                                                     </div>
                                                     <div class="col-6 d-flex  d-flex mt-2">
                                                     <input  value="4"  type="radio" class="btn-check" name="options{{$loop->index + 1}}" id="options_{{$loop->index + 1}}" autocomplete="">
-                                                    <label class="btn btn-outline-secondary w-100  text-start" for="options_{{$loop->index + 1}}">d. {{$q->option4}}</label>
+                                                    <label class="d-flex btn btn-outline-secondary w-100  text-start" for="options_{{$loop->index + 1}}">d. <?php echo "<span class='ms-2 '>".$q->option4."</span>" ?></label>
                                                     </div>
                                                 </div>
                                             @endif
                                             @if($q->question_type == 2)
                                                 <div class="row">
+                                                    {{-- show if image or uddipak exits --}}
+                                                    @isset($q->photo_url)
+                                                    <div class="col-12">
+                                                    <img src="{{$q->photo_url}}" class="w-100" alt="">
+                                                    </div>
+                                                    @endisset
+                                                    @isset($q->uddipak)
+                                                        <div class="col-12">
+                                                        <?php echo "<span class='ms-2 '>".$q->uddipak."</span>" ?>
+                                                        </div>
+                                                    @endisset
                                                     <div class="col-12">
                                                     <h5 class="mb-2 mt-3">{{ $loop->index +1 }}. {{$q->question}}</h5>
                                                     </div>
                                                     <div class="col-6 d-flex  d-flex mt-2">
                                                     <input value="1" type="checkbox" class="btn-check" name="options{{ $loop->index +1 }}" id="options1_{{ $loop->index +1 }}" autocomplete="">
-                                                    <label class="btn btn-outline-secondary w-100 text-start" for="options1_{{ $loop->index +1 }}">i. {{$q->option1}}</label>
+                                                    <label class="d-flex btn btn-outline-secondary w-100 text-start" for="options1_{{ $loop->index +1 }}">i. <?php echo "<span class='ms-2 '>".$q->option1."</span>" ?></label>
                                                     </div>
                                                     <div class="col-6 d-flex  d-flex mt-2">
                                                     <input  value="2"  type="checkbox" class="btn-check" name="options{{ $loop->index +1 }}" id="options2_{{ $loop->index +1 }}" autocomplete="">
-                                                    <label class="btn btn-outline-secondary w-100  text-start" for="options2_{{ $loop->index +1 }}">ii. {{$q->option2}}</label>
+                                                    <label class="d-flex btn btn-outline-secondary w-100  text-start" for="options2_{{ $loop->index +1 }}">ii. <?php echo "<span class='ms-2 '>".$q->option2."</span>" ?></label>
                                                     </div>
                                                     <div class="col-6 d-flex  d-flex mt-2">
                                                     <input  value="3"  type="checkbox" class="btn-check" name="options{{ $loop->index +1 }}" id="options3_{{ $loop->index +1 }}" autocomplete="">
-                                                    <label class="btn btn-outline-secondary w-100  text-start" for="options3_{{ $loop->index +1 }}">iii. {{$q->option3}}</label>
+                                                    <label class="d-flex btn btn-outline-secondary w-100  text-start" for="options3_{{ $loop->index +1 }}">iii. <?php echo "<span class='ms-2 '>".$q->option3."</span>" ?></label>
                                                     </div>
                                                 </div>
                                             @endif
@@ -155,51 +177,51 @@
                                 @isset($q->uddipak)
                                     <div class="col-12">
                                     {{-- <p>{{$q->uddipak}}</p> --}}
-                                    <?php echo "<span>".$q->uddipak."</span>" ?>
+                                    <?php echo "<span class='ms-2 '>".$q->uddipak."</span>" ?>
                                     </div>
                                 @endisset
                                 @if (is_array(json_decode($examData->yourAnswers)[$loop->index]))
                                     @if (json_decode($examData->yourAnswers)[$loop->index][0] == json_decode($q->answer)[0])
-                                    <p class="mt-2 text-success">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?> </p>
+                                    <p class="mt-2 text-success">{{$loop->index + 1}}. <?php echo "<span class='ms-2 '>".$q->question."</span>" ?> </p>
                                     @for($i=0; $i<4; $i++)
                                         @if (($i+1) == json_decode($q->answer)[0])
                                         <div class="col-6 d-flex  d-flex">
-                                            <p class="text-success">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i]."</span>" ?> (Your answer correct)</p>
+                                            <p class="text-success">{{$optionTagArr4[$i]}}. <?php echo "<span class='ms-2 '>".$optionArr4[$i]."</span>" ?> (Your answer correct)</p>
                                         </div>
                                         @else
                                         <div class="col-6 d-flex  d-flex">
-                                            <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
+                                            <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span class='ms-2 '>".$optionArr4[$i]."</span>" ?></p>
                                         </div>
                                         @endif
                                     @endfor
                                     @else
-                                    <p class=" mt-2 text-danger">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?> </p>
+                                    <p class=" mt-2 text-danger">{{$loop->index + 1}}. <?php echo "<span class='ms-2 '>".$q->question."</span>" ?> </p>
                                     @for ($i=0; $i<4; $i++)
                                         @if (json_decode($q->answer)[0] == $i+1)
                                         <div class="col-6 d-flex  d-flex">
-                                            <p class="text-success">{{$optionTagArr4[$i]}}.  <?php echo "<span>".$optionArr4[$i]."</span>" ?> </p>
+                                            <p class="text-success">{{$optionTagArr4[$i]}}.  <?php echo "<span class='ms-2 '>".$optionArr4[$i]."</span>" ?> </p>
                                         </div>
                                         @elseif (json_decode($examData->yourAnswers)[$loop->index][0] == $i+1)
                                         <div class="col-6 d-flex  d-flex">
-                                            <p class="text-danger">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i]."</span>" ?> (Your answer wrong)</p>
+                                            <p class="text-danger">{{$optionTagArr4[$i]}}. <?php echo "<span class='ms-2 '>".$optionArr4[$i]."</span>" ?> (Your answer wrong)</p>
                                         </div>
                                         @else
                                         <div class="col-6 d-flex  d-flex">
-                                            <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
+                                            <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span class='ms-2 '>".$optionArr4[$i]."</span>" ?></p>
                                         </div>
                                         @endif
                                     @endfor
                                     @endif
                                 @else
-                                    <p class="mt-2 text-info">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?></p>
+                                    <p class="mt-2 text-info">{{$loop->index + 1}}. <?php echo "<span class='ms-2 '>".$q->question."</span>" ?></p>
                                     @for($i=0; $i<4; $i++)
                                     @if (($i+1) == json_decode($q->answer)[0])
                                         <div class="col-6 d-flex  d-flex">
-                                        <p class="text-success">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i] ."</span>" ?> </p>
+                                        <p class="text-success">{{$optionTagArr4[$i]}}. <?php echo "<span class='ms-2 '>".$optionArr4[$i] ."</span>" ?> </p>
                                         </div>
                                     @else
                                         <div class="col-6 d-flex  d-flex">
-                                            <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i] ."</span>" ?> </p>
+                                            <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span class='ms-2 '>".$optionArr4[$i] ."</span>" ?> </p>
                                         </div>
                                     @endif
                                     @endfor
@@ -224,25 +246,25 @@
                                     @endfor
                                     @endif
                                     @if ($flag == true)
-                                    <p class="mt-2 text-success">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?> </p>
+                                    <p class="mt-2 text-success">{{$loop->index + 1}}. <?php echo "<span class='ms-2 '>".$q->question."</span>" ?> </p>
                                     @for ($i=0; $i<3; $i++)
                                         @if (json_decode($examData->yourAnswers)[$loop->index][$i] == json_decode($q->answer)[$i])
                                         <div class="col-6 d-flex  d-flex">
-                                            <p class="success">{{$optionTagArr4[$i]}}.<?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
+                                            <p class="success">{{$optionTagArr4[$i]}}.<?php echo "<span class='ms-2 '>".$optionArr4[$i]."</span>" ?></p>
                                         </div>
                                         @else
                                         <div class="col-6 d-flex  d-flex">
-                                            <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
+                                            <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span class='ms-2 '>".$optionArr4[$i]."</span>" ?></p>
                                         </div>
                                         @endif
                                     @endfor
                                     <i>Your answer was correct</i>
                                     @endif
                                     @if ($flag == false)
-                                    <p class="mt-2 text-danger">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?></p>
+                                    <p class="mt-2 text-danger">{{$loop->index + 1}}. <?php echo "<span class='ms-2 '>".$q->question."</span>" ?></p>
                                     @for ($i=0; $i<3; $i++)
                                         <div class="col-6 d-flex  d-flex">
-                                        <p class="">{{$optionTagArr4[$i]}}.  <?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
+                                        <p class="">{{$optionTagArr4[$i]}}.  <?php echo "<span class='ms-2 '>".$optionArr4[$i]."</span>" ?></p>
                                         </div>
                                     @endfor
                                     <i class="text-danger">Your answer was wrong :
@@ -266,10 +288,10 @@
                                     @endif
                                 @else
                                     {{--  If question skipped --}}
-                                    <p class="mt-2 text-info">{{$loop->index + 1}}. <?php echo "<span>".$q->question."</span>" ?></p>
+                                    <p class="mt-2 text-info">{{$loop->index + 1}}. <?php echo "<span class='ms-2 '>".$q->question."</span>" ?></p>
                                     @for ($i=0; $i<3; $i++)
                                     <div class="col-6 d-flex  d-flex">
-                                        <p class="">{{$optionTagArr4[$i]}}.<?php echo "<span>".$optionArr4[$i]."</span>" ?></p>
+                                        <p class="">{{$optionTagArr4[$i]}}.<?php echo "<span class='ms-2 '>".$optionArr4[$i]."</span>" ?></p>
                                     </div>
                                     @endfor
                                     <i class="">You skipped this question </i>
@@ -298,13 +320,13 @@
                                         @isset($q->explain)
                                         <p class="lead">উত্তরের ব্যাখা - </p>
                                         <hr>
-                                            <?php echo "<span>".$q->explain."</span>" ?>
+                                            <?php echo "<span class='ms-2 '>".$q->explain."</span>" ?>
                                         @endisset
                                         @isset($q->similar_question)
                                         <hr>
                                         <p class="lead">কিছু সিমিলার উত্তর- </p>
                                         <hr>
-                                            <?php echo "<span>".$q->similar_question."</span>" ?>
+                                            <?php echo "<span class='ms-2 '>".$q->similar_question."</span>" ?>
                                         @endisset
                                         </div>
                                     </div>
