@@ -17,6 +17,7 @@ use App\Http\Controllers\ManagePremiumExams;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuestionTypeController;
 use App\Http\Controllers\Register;
 use App\Http\Controllers\ShowQuestionFrontendPrmController;
 use App\Http\Controllers\siteQuestionController;
@@ -174,3 +175,9 @@ Route::get('/admin/delete-law/{id}', [LawController::class,'lawDelete'])->name('
 // show law for user
 Route::get('/premium/law/{subject}/{chapter}', [LawController::class,'shoqLawforUser'])->name('shoqLawforUser');
 Route::get('/premium/fetch-law-data-json/{bookName}/{chapter}', [LawController::class,'fetchLawdatajson']);
+
+// each chapter manage from admin
+Route::get('/admin/upload-ques-type/{status}', [QuestionTypeController::class,'uploadQuestionTypeGet'])->name('uploadQuestionTypeGet');
+// store category data in database
+Route::post('/admin/store-cat', [QuestionTypeController::class,'storeCat'])->name('storeCat');
+Route::get('/admin/delete-type/{id}', [QuestionTypeController::class,'deleteType'])->name('deleteType');

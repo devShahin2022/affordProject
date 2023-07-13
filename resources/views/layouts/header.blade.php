@@ -139,7 +139,16 @@ if(Auth::user()){
               </button>
               <div class="collapse" id="chaptererKhutiNati">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">আপলোড খুটিনাটি</a></li>
+                  <li>
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#chaptererKhutiNati_submenu" aria-expanded="false">
+                    খুটিনাটি সমাধান
+                    </button>
+                  <div class="collapse" id="chaptererKhutiNati_submenu">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                      <li><a  href="{{ route('uploadQuestionTypeGet',['status'=>1]) }}" class="link-dark d-inline-flex text-decoration-none rounded">প্রশ্ন ক্যাটেগরি আপলোড</a></li>
+                    </ul>
+                  </div>
+                </li>
                   <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">বাংলা ২য়</a></li>
                   <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">ইংরেজি ১ম</a></li>
                   <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">ইংরেজি ২য়</a></li>
@@ -250,16 +259,7 @@ if(Auth::user()){
                 </ul>
               </div>
             </li>
-            <li class="mb-1">
-              <button id="showModelTestId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#affordModelTest" aria-expanded="false">
-                অ্যাফোর্ড মডেল টেস্ট
-              </button>
-              <div class="collapse" id="affordModelTest">
-                <ul id="pushModelTestId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small ms-2">
-
-                </ul>
-              </div>
-            </li>
+            
             <li class="mb-1">
               <button id="showMcqShortCutId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#mcqSpecial" aria-expanded="false">
                 এম সি কিউ বিশ্লেষণ ও সর্টকার্ট 
