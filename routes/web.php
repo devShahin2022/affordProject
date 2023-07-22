@@ -181,3 +181,5 @@ Route::get('/admin/upload-ques-type/{status}', [QuestionTypeController::class,'u
 // store category data in database
 Route::post('/admin/store-cat', [QuestionTypeController::class,'storeCat'])->name('storeCat');
 Route::get('/admin/delete-type/{id}', [QuestionTypeController::class,'deleteType'])->name('deleteType');
+Route::get('/admin/kaj-onusiloni/{status}', [QuestionTypeController::class,'kajOonusiloni'])->name('kajOonusiloni');
+

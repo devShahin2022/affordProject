@@ -64,4 +64,12 @@ class QuestionTypeController extends Controller
             return back()->with("success","Data delete success");
         }
     }
+    // kaj o onusiloni prosno
+    public function kajOonusiloni($status){
+        if($status == 0){
+            return view("kajOonusiloni.kajOonusiloni",["currentData" => array()]);
+        }
+        $data = QuestionType::latest()->get();
+        return view("kajOonusiloni.kajOonusiloni",["currentData" => $data]);
+    }
 }

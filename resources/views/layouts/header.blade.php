@@ -146,6 +146,7 @@ if(Auth::user()){
                   <div class="collapse" id="chaptererKhutiNati_submenu">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                       <li><a  href="{{ route('uploadQuestionTypeGet',['status'=>1]) }}" class="link-dark d-inline-flex text-decoration-none rounded">প্রশ্ন ক্যাটেগরি আপলোড</a></li>
+                      <li><a  href="{{ route('kajOonusiloni',['status'=>1]) }}" class="link-dark d-inline-flex text-decoration-none rounded">কাজ ও সাধারণ প্রশ্ন সমাধান</a></li>
                     </ul>
                   </div>
                 </li>
@@ -186,97 +187,98 @@ if(Auth::user()){
       </main>
     </div>
   </div>
-  <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptionscoaching" aria-labelledby="offcanvasWithBothOptionscoachingLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">ক্লাসরুম</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  @endif
+  @if (Auth::user())
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptionscoaching" aria-labelledby="offcanvasWithBothOptionscoachingLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">ক্লাসরুম</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <main class="d-flex overflow-auto">
+          <div class="flex-shrink-0" style="width: 100%;">
+            <ul class="list-unstyled ps-0">
+              <li class="mb-1">
+                {{-- hidden file for dynamically data load --}}
+                <input id="getDepartMentName" type="hidden" value="{{Auth::user()->departmentName}}">
+                <button id="showChapterId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#boardQuestion" aria-expanded="false">
+                  বোর্ড প্রশ্ন
+                </button>
+                <div class="collapse" id="boardQuestion">
+                  <ul id="pushBooksNameId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    
+                  </ul>
+                </div>
+              </li>
+              <li class="mb-1">
+                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#allLaw" aria-expanded="false">
+                  সকল সুত্র
+                </button>
+                <div class="collapse" id="allLaw">
+                  <ul id="pushLawSubjectName" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    
+                  </ul>
+                </div>
+              </li>
+              <li class="mb-1">
+                <button id="showKhutiNatiId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#typemathsol" aria-expanded="false">
+                  চেপ্টারের খুটিনাটি সমাধান
+                </button>
+                <div class="collapse" id="typemathsol">
+                  <ul id="chapterKhutiNatiId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+
+                  </ul>
+                </div>
+              </li>
+              <li class="mb-1">
+                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#targetedExam" aria-expanded="false">
+                  অনলাইন এক্সাম
+                </button>
+                <div class="collapse" id="targetedExam">
+                  <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a  href="#" class="link-dark d-inline-flex text-decoration-none rounded">এক্সাম রুটিন</a></li>
+                    <li><a  href="{{ route('PremiumExamPanelView',["className"=>"নবম শ্রেণী"]) }}" class="link-dark d-inline-flex text-decoration-none rounded">নবম শ্রেণি</a></li>
+                    <li><a  href="{{ route('PremiumExamPanelView',["className"=>"দশম শ্রেণী"]) }}" class="link-dark d-inline-flex text-decoration-none rounded">দশম শ্রেণি</a></li>
+                    <li><a  href="{{ route('PremiumExamPanelView',["className"=>"পরীক্ষার্থী"]) }}" class="link-dark d-inline-flex text-decoration-none rounded">পরীক্ষার্থী</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li class="mb-1">
+                <button id="showTopicsId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#topicsRead" aria-expanded="false">
+                  টপিকস ভিত্তিক পড়াশোনা ও নোটস
+                </button>
+                <div class="collapse" id="topicsRead">
+                  <ul id="pushBooksId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  </ul>
+                </div>
+              </li>
+              <li class="mb-1">
+                <button id="showSchoolId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+                  স্কুলের প্রশ্ন সমাধান
+                </button>
+                <div class="collapse" id="orders-collapse">
+                  <ul id="pushSchoolNameId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+
+                  </ul>
+                </div>
+              </li>
+              
+              <li class="mb-1">
+                <button id="showMcqShortCutId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#mcqSpecial" aria-expanded="false">
+                  এম সি কিউ বিশ্লেষণ ও সর্টকার্ট 
+                </button>
+                <div class="collapse" id="mcqSpecial">
+                  <ul id="pushMcqId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+
+                  </ul>
+                </div>
+              </li>
+              <button class="btn btn-primary w-100 mt-3" data-bs-toggle="collapse" data-bs-target="#customExam" aria-expanded="false">
+                ইচ্ছেমতো পরীক্ষা দিব
+              </button>
+            </ul>
+          </div>
+        </main>
+      </div>
     </div>
-    <div class="offcanvas-body">
-      <main class="d-flex overflow-auto">
-        <div class="flex-shrink-0" style="width: 100%;">
-          <ul class="list-unstyled ps-0">
-            <li class="mb-1">
-              {{-- hidden file for dynamically data load --}}
-              <input id="getDepartMentName" type="hidden" value="{{Auth::user()->departmentName}}">
-              <button id="showChapterId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#boardQuestion" aria-expanded="false">
-                বোর্ড প্রশ্ন
-              </button>
-              <div class="collapse" id="boardQuestion">
-                <ul id="pushBooksNameId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  
-                </ul>
-              </div>
-            </li>
-            <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#allLaw" aria-expanded="false">
-                সকল সুত্র
-              </button>
-              <div class="collapse" id="allLaw">
-                <ul id="pushLawSubjectName" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  
-                </ul>
-              </div>
-            </li>
-            <li class="mb-1">
-              <button id="showKhutiNatiId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#typemathsol" aria-expanded="false">
-                চেপ্টারের খুটিনাটি সমাধান
-              </button>
-              <div class="collapse" id="typemathsol">
-                <ul id="chapterKhutiNatiId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-
-                </ul>
-              </div>
-            </li>
-            <li class="mb-1">
-              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#targetedExam" aria-expanded="false">
-                অনলাইন এক্সাম
-              </button>
-              <div class="collapse" id="targetedExam">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  <li><a  href="#" class="link-dark d-inline-flex text-decoration-none rounded">এক্সাম রুটিন</a></li>
-                  <li><a  href="{{ route('PremiumExamPanelView',["className"=>"নবম শ্রেণী"]) }}" class="link-dark d-inline-flex text-decoration-none rounded">নবম শ্রেণি</a></li>
-                  <li><a  href="{{ route('PremiumExamPanelView',["className"=>"দশম শ্রেণী"]) }}" class="link-dark d-inline-flex text-decoration-none rounded">দশম শ্রেণি</a></li>
-                  <li><a  href="{{ route('PremiumExamPanelView',["className"=>"পরীক্ষার্থী"]) }}" class="link-dark d-inline-flex text-decoration-none rounded">পরীক্ষার্থী</a></li>
-                </ul>
-              </div>
-            </li>
-            <li class="mb-1">
-              <button id="showTopicsId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#topicsRead" aria-expanded="false">
-                টপিকস ভিত্তিক পড়াশোনা ও নোটস
-              </button>
-              <div class="collapse" id="topicsRead">
-                <ul id="pushBooksId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                </ul>
-              </div>
-            </li>
-            <li class="mb-1">
-              <button id="showSchoolId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                স্কুলের প্রশ্ন সমাধান
-              </button>
-              <div class="collapse" id="orders-collapse">
-                <ul id="pushSchoolNameId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-
-                </ul>
-              </div>
-            </li>
-            
-            <li class="mb-1">
-              <button id="showMcqShortCutId" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#mcqSpecial" aria-expanded="false">
-                এম সি কিউ বিশ্লেষণ ও সর্টকার্ট 
-              </button>
-              <div class="collapse" id="mcqSpecial">
-                <ul id="pushMcqId" class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-
-                </ul>
-              </div>
-            </li>
-            <button class="btn btn-primary w-100 mt-3" data-bs-toggle="collapse" data-bs-target="#customExam" aria-expanded="false">
-              ইচ্ছেমতো পরীক্ষা দিব
-            </button>
-          </ul>
-        </div>
-      </main>
-    </div>
-  </div>
-
-@endif
+  @endif

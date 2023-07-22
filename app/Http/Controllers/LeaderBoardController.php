@@ -9,15 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class LeaderBoardController extends Controller
 {
     public function getLeaderBoardData(){
-        // $year = date('Y');
-        // $month = date('m');
-        // $day = date('d');
-        // dd($day);
-        // $year = 2023; // Set the desired year
-        // $month = 2; // Set the desired month (June)
 
-        // $numberOfDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-        // dd($numberOfDays);
         $monthName = $this->returnMonth(date('m'));
         
         $leaderBoardData = LeaderBoard::where('month',date('m'))->where('year',date('y'))->orderBy('totalMarks', 'desc')->get();

@@ -40,21 +40,21 @@ function freeExamCall(){
                 <div class="col-12">
                   <h5 class="mb-2 mt-3">${index+1}. ${element.question}</h5>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-6 d-flex  mt-2">
                   <input value="1" type="radio" class="btn-check" name="options${index+1}" id="options1_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100 text-start" for="options1_${index+1}">a. ${element.option1}</label>
+                  <label class="btn btn-outline-secondary d-flex  w-100 text-start" for="options1_${index+1}">a. ${element.option1}</label>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-6 d-flex  mt-2">
                   <input  value="2"  type="radio" class="btn-check" name="options${index+1}" id="options2_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100  text-start" for="options2_${index+1}">b. ${element.option2}</label>
+                  <label class="btn btn-outline-secondary d-flex  w-100  text-start" for="options2_${index+1}">b. ${element.option2}</label>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-6 d-flex  mt-2">
                   <input  value="3"  type="radio" class="btn-check" name="options${index+1}" id="options3_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100  text-start" for="options3_${index+1}">c. ${element.option3}</label>
+                  <label class="btn btn-outline-secondary d-flex  w-100  text-start" for="options3_${index+1}">c. ${element.option3}</label>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-6 d-flex  mt-2">
                   <input  value="4"  type="radio" class="btn-check" name="options${index+1}" id="options_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100  text-start" for="options_${index+1}">d. ${element.option4}</label>
+                  <label class="btn btn-outline-secondary d-flex  w-100  text-start" for="options_${index+1}">d. ${element.option4}</label>
                 </div>
               </div>
                 `
@@ -64,17 +64,17 @@ function freeExamCall(){
                 <div class="col-12">
                   <h5 class="mb-2 mt-3">${index+1}. ${element.question}</h5>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-6 d-flex  mt-2">
                   <input value="1" type="checkbox" class="btn-check" name="options${index+1}" id="options1_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100 text-start" for="options1_${index+1}">i. ${element.option1}</label>
+                  <label class="btn btn-outline-secondary d-flex  w-100 text-start" for="options1_${index+1}">i. ${element.option1}</label>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-6 d-flex  mt-2">
                   <input  value="2"  type="checkbox" class="btn-check" name="options${index+1}" id="options2_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100  text-start" for="options2_${index+1}">ii. ${element.option2}</label>
+                  <label class="btn btn-outline-secondary d-flex  w-100  text-start" for="options2_${index+1}">ii. ${element.option2}</label>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-6 d-flex  mt-2">
                   <input  value="3"  type="checkbox" class="btn-check" name="options${index+1}" id="options3_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100  text-start" for="options3_${index+1}">iii. ${element.option3}</label>
+                  <label class="btn btn-outline-secondary d-flex  w-100  text-start" for="options3_${index+1}">iii. ${element.option3}</label>
                 </div>
               </div>
                 `
@@ -89,8 +89,7 @@ function freeExamCall(){
 
             const csrfToken1 = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
               const data1 = {
-                  examStartTime: currentTimeInMillisecondsStart,
-                  examPaperData : questionData
+                  examStartTime: currentTimeInMillisecondsStart
               };
               
 
@@ -104,7 +103,7 @@ function freeExamCall(){
               body: JSON.stringify(data1)
             };
             // Send the POST request
-            fetch('http://127.0.0.1:8000/profile/free-exam-data-store', options)
+            fetch('http://127.0.0.1:8000/profile/ensure-user-click-start-exam', options)
               .then(response => response.json())
               .then(data => {
                   console.log('user clicked');

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('set');
             $table->string('isStartExam');
             $table->string('isEndExam')->nullable();
+            $table->string('timeSpent')->nullable();
             $table->string('username');
             $table->string('totalQuestion')->nullable();
             $table->string('wrongAnswer')->nullable();
