@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AddMcq;
-use App\Models\LeaderBoard;
-use App\Models\ManageExam;
+use App\Models\addMcq;
+use App\Models\leaderBoard;
+use App\Models\manageExam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ExamManageController extends Controller
+class examManageController extends Controller
 {
     public function showFreeExam(){
     // ---------------------- Hard coded data for free exam ----------//
         // default exam question find ... is exist or not //
     // ---------------------- Hard coded data for free exam ----------//
         $username = Auth::user()->username;
-        $res = ManageExam::where('username',$username)->
+        $res = manageExam::where('username',$username)->
             where("departmentName","বিজ্ঞান বিভাগ")->
             where("subjectName","পদার্থবিজ্ঞান")->
             where("chapterName","বল")->
@@ -23,22 +23,46 @@ class ExamManageController extends Controller
             where("set","1")->get()->first();
 
             // all data
-            $allData = ManageExam::where("departmentName","বিজ্ঞান বিভাগ")->
+            $allData = manageExam::where("departmentName","বিজ্ঞান বিভাগ")->
             where("subjectName","পদার্থবিজ্ঞান")->
             where("chapterName","বল")->
             where("questionCat","বাই অ্যাফোর্ড প্রশ্ন")->
-            where("set","1")->latest()->get();
+            where("isclickedSeeResult",1)->
+            where("set","1")->orderBy('correctAnswer', 'desc')->orderBy('timeSpent', 'asc')->limit(100)->get();
+
+            // my position here
+
+            // ensure user hit the end exam btn yes or not
+            $ensureExamFinish = manageExam::where('username',$username)->
+            where("departmentName","বিজ্ঞান বিভাগ")->
+            where("subjectName","পদার্থবিজ্ঞান")->
+            where("chapterName","বল")->
+            where("questionCat","বাই অ্যাফোর্ড প্রশ্ন")->
+            where("isclickedSeeResult",1)->
+            where("set","1")->get()->first();
+
+            $position = 0;
+            if($ensureExamFinish !=null){
+                foreach ($allData as $d) {
+                    if($d->username == Auth::user()->username){
+                        $position ++;
+                        break;
+                    }else{
+                        $position ++;
+                    }
+                }
+            }
 
             // get exam data
             $examData = $this->FreeExamQuestionFetch();
-            return view("FreeExam.FreeExam",['examData'=> $res,'allExaminer'=>$allData,'examPaper'=>json_decode($examData)]);
+            return view("freeExam.freeExam",['examData'=> $res,'allExaminer'=>$allData,'examPaper'=>json_decode($examData),"myPosition"=>$position]);
 
     }
 
 
 // its for api call
     public function FreeExamQuestionFetch(){
-        $freeExamQuestion = AddMcq::where('departmentName','বিজ্ঞান বিভাগ')->
+        $freeExamQuestion = addMcq::where('departmentName','বিজ্ঞান বিভাগ')->
             where('subjectName','পদার্থবিজ্ঞান')->
             where('chapterName','বল')->
             where('questionCat','বাই অ্যাফোর্ড প্রশ্ন')->
@@ -57,9 +81,11 @@ class ExamManageController extends Controller
         $wrongAnswer = $request->input('wrongAnswer');
         $untouch = $request->input('untouch');
 
+        $timeSpent = $examEndTime - $examStartTime;
+
         // default exam question find ... is exist or not
         $username = Auth::user()->username;
-        $res = ManageExam::where('username',$username)->
+        $res = manageExam::where('username',$username)->
         where("departmentName",$examPaperData[0]['departmentName'])->
         where("subjectName",$examPaperData[0]['subjectName'])->
         where("chapterName",$examPaperData[0]['chapterName'])->
@@ -69,11 +95,11 @@ class ExamManageController extends Controller
 
         // data insert in leader board table
         // ensure user exists or not in leaderboard table
-        $findUser = LeaderBoard::where('username',Auth::user()->username)->
+        $findUser = leaderBoard::where('username',Auth::user()->username)->
                 where("year",date('y'))->
                 where("month",date('m'))->first();
         if($findUser == null){
-            $leaderBoard = new LeaderBoard();
+            $leaderBoard = new leaderBoard();
             $leaderBoard->year = date('y');
             $leaderBoard->month = date('m');
             $leaderBoard->username = Auth::user()->username;
@@ -100,7 +126,7 @@ class ExamManageController extends Controller
         }
 
         if($res == null){
-            $storeData = new ManageExam();
+            $storeData = new manageExam();
             $storeData->username = $username;
             $storeData->departmentName = $examPaperData[0]['departmentName'];
             $storeData->subjectName = $examPaperData[0]['subjectName'];
@@ -109,6 +135,7 @@ class ExamManageController extends Controller
             $storeData->set = $examPaperData[0]['question_set'];
             $storeData->isStartExam =$examStartTime;
             $storeData->isEndExam = $examEndTime;
+            $storeData->timeSpent = $timeSpent;
             $storeData->yourAnswers = json_encode($answers);
             $storeData->totalQuestion = sizeof($examPaperData);
             $storeData->wrongAnswer =$wrongAnswer;
@@ -127,6 +154,7 @@ class ExamManageController extends Controller
             $res->correctAnswer = $correctAnswer;
             $res->untouch =$untouch;
             $res->affordMsg =$feedback;
+            $res->timeSpent = $timeSpent;
             $res->save();
             return response()->json(['message' =>"success data insert"]);
         }
@@ -138,7 +166,7 @@ class ExamManageController extends Controller
         // default exam question find ... is exist or not //
         // ---------------------- Hard coded data for free exam ----------//
         $username = Auth::user()->username;
-        $res = ManageExam::where('username',$username)->
+        $res = manageExam::where('username',$username)->
             where("departmentName","বিজ্ঞান বিভাগ")->
             where("subjectName","পদার্থবিজ্ঞান")->
             where("chapterName","বল")->
@@ -148,16 +176,55 @@ class ExamManageController extends Controller
             $res->isclickedSeeResult = 1;
             $res->save();
         // all data
-        $allData = ManageExam::where("departmentName","বিজ্ঞান বিভাগ")->
+        $allData = manageExam::where("departmentName","বিজ্ঞান বিভাগ")->
         where("subjectName","পদার্থবিজ্ঞান")->
         where("chapterName","বল")->
         where("questionCat","বাই অ্যাফোর্ড প্রশ্ন")->
-        where("set","1")->latest()->get();
+        where("isclickedSeeResult",1)->
+        where("set","1")->orderBy('correctAnswer', 'desc')->orderBy('timeSpent','asc')->limit(100)->get();
+
+
+        // my position here
+        $ensureExamFinish = manageExam::where('username',$username)->
+        where("departmentName","বিজ্ঞান বিভাগ")->
+        where("subjectName","পদার্থবিজ্ঞান")->
+        where("chapterName","বল")->
+        where("questionCat","বাই অ্যাফোর্ড প্রশ্ন")->
+        where("isclickedSeeResult",1)->
+        where("set","1")->get()->first();
+
+        $position = 0;
+        if($ensureExamFinish !=null){
+            foreach ($allData as $d) {
+                if($d->username == Auth::user()->username){
+                    $position ++;
+                    break;
+                }else{
+                    $position ++;
+                }
+            }
+        }
 
         // get exam data
         $examData = $this->FreeExamQuestionFetch();
 
-            return view("FreeExam.FreeExam",['examData'=> $res,'allExaminer'=>$allData, 'examPaper'=>json_decode($examData)]);
-            
+            return view("freeExam.freeExam",['examData'=> $res,'allExaminer'=>$allData, 'examPaper'=>json_decode($examData),"myPosition"=>$position]);
+    }
+    public function userClickExamBtn(Request $request){
+        $examStartTime = $request->input('examStartTime');
+
+
+        $storeData = new manageExam();
+        $storeData->username =  Auth::user()->username;
+        $storeData->departmentName = "বিজ্ঞান বিভাগ";
+        $storeData->subjectName = "পদার্থবিজ্ঞান";
+        $storeData->chapterName = "বল";
+        $storeData->questionCat = "বাই অ্যাফোর্ড প্রশ্ন";
+        $storeData->questionCat = "বাই অ্যাফোর্ড প্রশ্ন";
+        $storeData->set =1;
+        $storeData->isStartExam =$examStartTime;
+        if($storeData->save()){
+            return json_encode("Start exam success");
+        }
     }
 }

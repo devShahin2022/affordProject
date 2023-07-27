@@ -6,7 +6,7 @@
     @if ($examData == null)
      <h2 class="text-center my-2 mb-4">আমাদের বল অধ্যায়ের পরীক্ষা দিয়ে প্রমাণ করে দাও তুমি কতটা বলবান!!! </h2>
     @else
-      @if ($examData &&  $examData->isEndExam ==null)
+      @if ($examData->isEndExam ==null)
       <h2 class="text-center my-2 mb-4">তোমার পরীক্ষাটি পেন্ডিং অবস্থায় আছে । ঝটপট নিচের বাটনটিতে ক্লিক করে পরীক্ষাটি সম্পন্ন করে ফেল!!!</h2>
       @else
        <h2 class="text-center my-2"> পরীক্ষায় অংশগ্রহণ করার জন্য ধন্যবাদ  </h2>
@@ -38,7 +38,8 @@
                   @foreach ($examPaper as $q)
                     @if ($q->question_type == 1)
                       <?php  
-                       array_push($optionArr4,$q->option1, $q->option2,$q->option3,$q->option4);
+                        $optionArr4 = array();
+                        array_push($optionArr4,$q->option1, $q->option2,$q->option3,$q->option4);
                       ?>
                       {{-- show if image or uddipak exits --}}
                       @isset($q->photo_url)
@@ -103,8 +104,8 @@
                       <?php $optionArr4 = array(); ?>
                     @else
                       <?php  
-                        $optionArr4 = array(); $optionTagArr4 = ["i","ii","iii"];
-                        array_push($optionArr4,$q->option1, $q->option2,$q->option3);
+                        $optionArr3 = array(); $optionTagArr3 = ["i","ii","iii"];
+                        array_push($optionArr3,$q->option1, $q->option2,$q->option3);
                         $flag = false;
                       ?>
                       @if (is_array(json_decode($examData->yourAnswers)[$loop->index]))
@@ -114,19 +115,26 @@
                               <?php $flag = true ?>
                             @else
                               <?php $flag = false ?>
+                              @break
                             @endif
                           @endfor
                         @endif
                         @if ($flag == true)
                           <p class="mt-2 text-success">{{$loop->index + 1}}. <?php echo "<span class='ms-2'>".$q->question."</span>" ?> </p>
                           @for ($i=0; $i<3; $i++)
-                            @if (json_decode($examData->yourAnswers)[$loop->index][$i] == json_decode($q->answer)[$i])
-                              <div class="col-6 d-flex">
-                                <p class="success">{{$optionTagArr4[$i]}}.<?php echo "<span class='ms-2'>".$optionArr4[$i]."</span>" ?></p>
-                              </div>
+                            @if (($i+1) <= sizeof(json_decode($examData->yourAnswers)[$loop->index]))
+                              @if (json_decode($examData->yourAnswers)[$loop->index][$i] == json_decode($q->answer)[$i])
+                                <div class="col-6 d-flex">
+                                  <p class="text-success">{{$optionTagArr3[$i]}}.<?php echo "<span class='ms-2'>".$optionArr3[$i]."</span>" ?></p>
+                                </div>
+                              @else
+                                <div class="col-6 d-flex">
+                                  <p class="">{{$optionTagArr3[$i]}}. <?php echo "<span class='ms-2'>".$optionArr3[$i]."</span>" ?></p>
+                                </div>
+                              @endif
                             @else
                               <div class="col-6 d-flex">
-                                <p class="">{{$optionTagArr4[$i]}}. <?php echo "<span class='ms-2'>".$optionArr4[$i]."</span>" ?></p>
+                                <p class="">{{$optionTagArr3[$i]}}. <?php echo "<span class='ms-2'>".$optionArr3[$i]."</span>" ?></p>
                               </div>
                             @endif
                           @endfor
@@ -136,7 +144,7 @@
                           <p class="mt-2 text-danger">{{$loop->index + 1}}. <?php echo "<span class='ms-2'>".$q->question."</span>" ?></p>
                           @for ($i=0; $i<3; $i++)
                             <div class="col-6 d-flex">
-                              <p class="">{{$optionTagArr4[$i]}}.  <?php echo "<span class='ms-2'>".$optionArr4[$i]."</span>" ?></p>
+                              <p class="">{{$optionTagArr3[$i]}}.  <?php echo "<span class='ms-2'>".$optionArr3[$i]."</span>" ?></p>
                             </div>
                           @endfor
                           <i class="text-danger">Your answer was wrong :
@@ -163,7 +171,7 @@
                         <p class="mt-2 text-info">{{$loop->index + 1}}. <?php echo "<span class='ms-2'>".$q->question."</span>" ?></p>
                         @for ($i=0; $i<3; $i++)
                           <div class="col-6 d-flex">
-                            <p class="">{{$optionTagArr4[$i]}}.<?php echo "<span class='ms-2'>".$optionArr4[$i]."</span>" ?></p>
+                            <p class="">{{$optionTagArr3[$i]}}.<?php echo "<span class='ms-2'>".$optionArr3[$i]."</span>" ?></p>
                           </div>
                         @endfor
                         <i class="">You skipped this question </i>
@@ -177,6 +185,7 @@
                           @endfor
                           </i>
                       @endif 
+                      <?php $optionArr3 = array(); ?>
                     @endif
                     {{-- add extra features --}}
                     @if ($q->explain!=null || $q->similar_question!=null)
@@ -270,30 +279,60 @@
               {{sizeof($allExaminer)}}
             @endif</p>
             <p class="lead text-center">প্রথম ১০০ জনের অবস্থান</p>
-            <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Mark</th>
-                    <th scope="col">Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @if($allExaminer != null)
-                    @foreach ($allExaminer as $d)
-                    @if (  $d->isEndExam !=null)
-                      <tr>
-                        <th scope="row">{{$loop->index +1}}</th>
-                        <td>{{$d->username}}</td>
-                        <td>{{$d->correctAnswer}}</td>
-                        <td>Time: {{json_decode($d->isEndExam) - json_decode($d->isStartExam)}}</td>
-                      </tr>
-                    @endif
-                    @endforeach
+               <div class="row bg-light p-1 rounded">
+                  @if (Auth::user() != null)
+                      <div class="col-6">
+                          <p>ইউজার নেইম - </p>
+                          <p>তোমার মার্কস -</p>
+                          <p class="text-danger"><b>পজিসন -</b></p>
+                      </div>
+                  @else
+                      <div class="col-12">
+                      <p class="text-danger"> তুমি কি আমাদের সাইটে নতুন এসেছ ? তাহলে <a href="{{ route('signUp') }}">এখানে ক্লিক</a> করে সাইন আপ করে নাও  </p>
+                      </div>
                   @endif
-                </tbody>
-              </table>
+                  @if (Auth::user() != null)
+                      <div class="col-6 text-end">
+                          <p>{{ Auth::user()->username }}</p>
+                          @if ($myPosition !=0)
+                              <p class="text-muted">{{$allExaminer[$myPosition-1]->correctAnswer}} / <small class="text-muted">{{sizeof($examPaper)}}</small></p>
+                          @else
+                              <p>পরীক্ষাটি দাও নি</p>
+                          @endif
+                          <p class="text-danger"><b>@if ($myPosition == 0)
+                              পরীক্ষাটি দাও নি
+                          @else
+                              {{$myPosition}} 
+                          @endif</b></p>
+                      </div>
+                  @endif
+              </div>
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Username</th>
+                      <th scope="col">Mark</th>
+                      <th scope="col">Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @if($allExaminer != null)
+                      @foreach ($allExaminer as $d)
+                      @if (  $d->isEndExam !=null)
+                        <tr>
+                          <th scope="row">{{$loop->index +1}}</th>
+                          <td>{{$d->username}}</td>
+                          <td>{{$d->correctAnswer}}</td>
+                          <td>Time: {{json_decode($d->isEndExam) - json_decode($d->isStartExam)}}</td>
+                        </tr>
+                      @endif
+                      @endforeach
+                    @endif
+                  </tbody>
+                </table>
+              </div>
         </div>
     </div>
   </div>

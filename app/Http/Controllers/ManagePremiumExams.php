@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AddMcq;
-use App\Models\ManageExam;
-use App\Models\PremiumExamPaper;
+use App\Models\addMcq;
+use App\Models\manageExam;
+use App\Models\premiumExamPaper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ManagePremiumExams extends Controller
+class managePremiumExams extends Controller
 {
        
     public function PremiumExamPanelView($className){
-        $premiumXMquestion = PremiumExamPaper::where('departmentName',Auth::user()->departmentName)->
+        $premiumXMquestion = premiumExamPaper::where('departmentName',Auth::user()->departmentName)->
         where('isCurrent',1)->where('targetClass',$className)->where('whichSection',"কোচিং")->first();
         $username = Auth::user()->username;
         
@@ -27,7 +27,7 @@ class ManagePremiumExams extends Controller
         if($premiumXMquestion != null){
 
 
-            $prevQuestions = PremiumExamPaper::where('departmentName',Auth::user()->departmentName)->
+            $prevQuestions = premiumExamPaper::where('departmentName',Auth::user()->departmentName)->
             where('isCurrent',0)->
             where('targetClass',$className)->
             where('subjectName',$premiumXMquestion->subjectName)->
@@ -36,13 +36,13 @@ class ManagePremiumExams extends Controller
 
             // findout user already prticipate or not
             if($prevQuestions !=null){
-                $allParticipator = ManageExam::where('username',$username)->
+                $allParticipator = manageExam::where('username',$username)->
                 where("departmentName",$premiumXMquestion->departmentName)->
                 where("subjectName",$premiumXMquestion->subjectName)->
                 where("chapterName",$premiumXMquestion->chapterName)->get();
     
                 for($i=0; $i<sizeof($prevQuestions);$i++){
-                    $data = ManageExam::where('username',$username)->
+                    $data = manageExam::where('username',$username)->
                     where("departmentName",$prevQuestions[$i]->departmentName)->
                     where("subjectName",$prevQuestions[$i]->subjectName)->
                     where("chapterName",$prevQuestions[$i]->chapterName)->
@@ -56,18 +56,18 @@ class ManagePremiumExams extends Controller
                 // dd($isAlreadyExist);
             }
 
-            $questionPaper = AddMcq::where("departmentName",$premiumXMquestion->departmentName)->
+            $questionPaper = addMcq::where("departmentName",$premiumXMquestion->departmentName)->
             where("subjectName", $premiumXMquestion->subjectName)->
             where("chapterName", $premiumXMquestion->chapterName)->
             where("question_set", $premiumXMquestion->question_set)->get();
 
             // all participator data
-            $allData = ManageExam::where("departmentName",$premiumXMquestion->departmentName)->
+            $allData = manageExam::where("departmentName",$premiumXMquestion->departmentName)->
             where("subjectName",$premiumXMquestion->subjectName)->
             where("chapterName",$premiumXMquestion->chapterName)->
             where("set",$premiumXMquestion->question_set)->latest()->get();
 
-            $res = ManageExam::where('username',$username)->
+            $res = manageExam::where('username',$username)->
                 where("departmentName",$premiumXMquestion->departmentName)->
                 where("subjectName",$premiumXMquestion->subjectName)->
                 where("chapterName",$premiumXMquestion->chapterName)->
@@ -77,7 +77,7 @@ class ManagePremiumExams extends Controller
 
         }
 
-        return view("PremiumAccount.premXmView",[
+        return view("premiumAccount.premXmView",[
             'examData'=> $res,
             "examPaper"=>$questionPaper,
             'currentExamSet'=>$premiumXMquestion,
@@ -89,7 +89,7 @@ class ManagePremiumExams extends Controller
 
     // participate custom premium exam
     public function customExamParticipate($className, $subject, $chapter, $set){
-        $premiumXMquestion = PremiumExamPaper::where('departmentName',Auth::user()->departmentName)->
+        $premiumXMquestion = premiumExamPaper::where('departmentName',Auth::user()->departmentName)->
         where('subjectName',$subject)->
         where('targetClass',$className)->
         where('whichSection',"কোচিং")->
@@ -100,7 +100,7 @@ class ManagePremiumExams extends Controller
 
         $username = Auth::user()->username;
         
-        $prevQuestions = PremiumExamPaper::where('departmentName',Auth::user()->departmentName)->
+        $prevQuestions = premiumExamPaper::where('departmentName',Auth::user()->departmentName)->
         where('isCurrent',0)->
         where('targetClass',$className)->
         where('subjectName',$premiumXMquestion->subjectName)->
@@ -109,13 +109,13 @@ class ManagePremiumExams extends Controller
         $isAlreadyExist = array();
         // findout user already prticipate or not
         if($prevQuestions !=null){
-            $allParticipator = ManageExam::where('username',$username)->
+            $allParticipator = manageExam::where('username',$username)->
             where("departmentName",$premiumXMquestion->departmentName)->
             where("subjectName",$premiumXMquestion->subjectName)->
             where("chapterName",$premiumXMquestion->chapterName)->get();
 
             for($i=0; $i<sizeof($prevQuestions);$i++){
-                $data = ManageExam::where('username',$username)->
+                $data = manageExam::where('username',$username)->
                 where("departmentName",$prevQuestions[$i]->departmentName)->
                 where("subjectName",$prevQuestions[$i]->subjectName)->
                 where("chapterName",$prevQuestions[$i]->chapterName)->
@@ -136,18 +136,18 @@ class ManagePremiumExams extends Controller
         $res = array();
         $allData = null;
         if($premiumXMquestion != null){
-            $questionPaper = AddMcq::where("departmentName",$premiumXMquestion->departmentName)->
+            $questionPaper = addMcq::where("departmentName",$premiumXMquestion->departmentName)->
             where("subjectName", $premiumXMquestion->subjectName)->
             where("chapterName", $premiumXMquestion->chapterName)->
             where("question_set", $premiumXMquestion->question_set)->get();
 
             // all participator data
-            $allData = ManageExam::where("departmentName",$premiumXMquestion->departmentName)->
+            $allData = manageExam::where("departmentName",$premiumXMquestion->departmentName)->
             where("subjectName",$premiumXMquestion->subjectName)->
             where("chapterName",$premiumXMquestion->chapterName)->
             where("set",$premiumXMquestion->question_set)->latest()->get();
 
-            $res = ManageExam::where('username',$username)->
+            $res = manageExam::where('username',$username)->
                 where("departmentName",$premiumXMquestion->departmentName)->
                 where("subjectName",$premiumXMquestion->subjectName)->
                 where("chapterName",$premiumXMquestion->chapterName)->
@@ -157,7 +157,7 @@ class ManagePremiumExams extends Controller
 
         }
 
-        return view("PremiumAccount.premXmView",[
+        return view("premiumAccount.premXmView",[
             'examData'=> $res,
             "examPaper"=>$questionPaper,
             'currentExamSet'=>$premiumXMquestion,
@@ -173,7 +173,7 @@ class ManagePremiumExams extends Controller
         $chapterName = $request->input('chapterName');
         $question_set = $request->input('question_set');
 
-        $getPremiumMcqs = AddMcq::where("departmentName",$departmentName)->where("subjectName",$subjectName)
+        $getPremiumMcqs = addMcq::where("departmentName",$departmentName)->where("subjectName",$subjectName)
             ->where("chapterName",$chapterName)
             ->where("question_set",$question_set)->get();
 
@@ -185,12 +185,12 @@ class ManagePremiumExams extends Controller
     public function seePremExamResult(Request $request){
 
         // 
-        $premiumXMquestion = PremiumExamPaper::where('departmentName',Auth::user()->departmentName)->
+        $premiumXMquestion = premiumExamPaper::where('departmentName',Auth::user()->departmentName)->
         where('isCurrent',1)->where('targetClass',$request->className)->where('whichSection',"কোচিং")->first();
 
 
         $username = Auth::user()->username;
-        $res = ManageExam::where('username',$username)->
+        $res = manageExam::where('username',$username)->
             where("departmentName",$request->departmentName)->
             where("subjectName",$request->subjectName)->
             where("chapterName",$request->chapterName)->
@@ -199,20 +199,20 @@ class ManagePremiumExams extends Controller
             $res->save();
 
         // all data
-        $allData = ManageExam::where("departmentName",$request->departmentName)->
+        $allData = manageExam::where("departmentName",$request->departmentName)->
         where("subjectName",$request->subjectName)->
         where("chapterName",$request->chapterName)->
         where("set",$request->question_set)->latest()->get();
 
         // get exam paper data
-        $questionPaper = AddMcq::where("departmentName",$request->departmentName)->
+        $questionPaper = addMcq::where("departmentName",$request->departmentName)->
         where("subjectName",$request->subjectName)->
         where("chapterName",$request->chapterName)->
         where("question_set",$request->question_set)->get();
         // dd($questionPaper);
 
 
-        $prevQuestions = PremiumExamPaper::where('departmentName',Auth::user()->departmentName)->
+        $prevQuestions = premiumExamPaper::where('departmentName',Auth::user()->departmentName)->
         where('isCurrent',0)->
         where('targetClass',$request->className)->
         where('subjectName',$request->subjectName)->
@@ -222,13 +222,13 @@ class ManagePremiumExams extends Controller
 
         $isAlreadyExist = array();
         if($prevQuestions !=null){
-            $allParticipator = ManageExam::where('username',$username)->
+            $allParticipator = manageExam::where('username',$username)->
             where("departmentName",$premiumXMquestion->departmentName)->
             where("subjectName",$premiumXMquestion->subjectName)->
             where("chapterName",$premiumXMquestion->chapterName)->get();
 
             for($i=0; $i<sizeof($prevQuestions);$i++){
-                $data = ManageExam::where('username',$username)->
+                $data = manageExam::where('username',$username)->
                 where("departmentName",$prevQuestions[$i]->departmentName)->
                 where("subjectName",$prevQuestions[$i]->subjectName)->
                 where("chapterName",$prevQuestions[$i]->chapterName)->
@@ -242,7 +242,7 @@ class ManagePremiumExams extends Controller
             // dd($isAlreadyExist);
         }
 
-        return view("PremiumAccount.premXmView",[
+        return view("premiumAccount.premXmView",[
             'examData'=> $res,
             "examPaper"=>$questionPaper,
             'currentExamSet'=>$premiumXMquestion,

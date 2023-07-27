@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CourseOutLineController extends Controller
+class courseOutLineController extends Controller
 {
     public function showCourseOutline(){
-        return view("OutLine.outline");
+        return view("outLine.outline");
     }
 }

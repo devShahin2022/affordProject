@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
+use App\Models\contact;
 use Illuminate\Http\Request;
 
-class ContactController extends Controller 
+class contactController extends Controller 
 {
     public function showContact(){
-        return view("FrontSite.Contact.contact");
+        return view("frontSite.contact.contact");
     }
     public function sendContact(Request $request){
         $validated = $request->validate([
@@ -18,7 +18,7 @@ class ContactController extends Controller
             'message' => 'required|min:10',
         ]);
 
-        $message = new Contact();
+        $message = new contact();
         $message->name = $request->name;
         $message->school = $request->schoolName;
         $message->message = $request->message;
@@ -32,16 +32,16 @@ class ContactController extends Controller
         }
     }
     public function getAdminContacts(){
-        $res = Contact::where('status',0)->get(); // pending contact
-        $res1 = Contact::where('status',1)->latest()->get(); //delivered contact
-        return view('Admin.adminContact',['pendingData'=>$res,'deliveredData'=>$res1]);
+        $res = contact::where('status',0)->get(); // pending contact
+        $res1 = contact::where('status',1)->latest()->get(); //delivered contact
+        return view('admin.adminContact',['pendingData'=>$res,'deliveredData'=>$res1]);
     } 
     public function approvedContact(Request $request){
         $validated = $request->validate([
             'text' => 'required|min:8|max:8',
         ]);
         if($request->text === 'approved'){
-            $data = Contact::where('id',$request->id)->first();
+            $data = contact::where('id',$request->id)->first();
             $data->status = 1;
             if($data->save()){
                 return back()->with('success',"Contact approved success!'");

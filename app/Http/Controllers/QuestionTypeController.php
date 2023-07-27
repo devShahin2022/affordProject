@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\QuestionType;
+use App\Models\questionType;
 use Illuminate\Http\Request;
 
-class QuestionTypeController extends Controller
+class questionTypeController extends Controller
 {
     public function uploadQuestionTypeGet($status){
         if($status == 0){
-            return view("EachChapter.uploadQuestionType",["currentData" => array()]);
+            return view("eachChapter.uploadQuestionType",["currentData" => array()]);
         }
-        $data = QuestionType::latest()->get();
-        return view("EachChapter.uploadQuestionType",["currentData" => $data]);
+        $data = questionType::latest()->get();
+        return view("eachChapter.uploadQuestionType",["currentData" => $data]);
     }
     // store question category
     public function storeCat(Request $request){
@@ -26,7 +26,7 @@ class QuestionTypeController extends Controller
         ]);
 
         // call model
-        $uploadType = new QuestionType();
+        $uploadType = new questionType();
         // proccessing image
         if(isset($request->questionImage)){
             $imageName = 'afford_uddipak'.time() . '.' . $request->questionImage->getClientOriginalExtension();
@@ -59,9 +59,17 @@ class QuestionTypeController extends Controller
     }
     // delete type
     public function deleteType( $id ){
-        $type = QuestionType::where("id",$id)->first();
+        $type = questionType::where("id",$id)->first();
         if($type->delete()){
             return back()->with("success","Data delete success");
         }
+    }
+    // kaj o onusiloni prosno
+    public function kajOonusiloni($status){
+        if($status == 0){
+            return view("kajOonusiloni.kajOonusiloni",["currentData" => array()]);
+        }
+        $data = questionType::latest()->get();
+        return view("kajOonusiloni.kajOonusiloni",["currentData" => $data]);
     }
 }

@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UploadLaw;
+use App\Models\uploadLaw;
 use Illuminate\Http\Request;
 
-class LawController extends Controller
+class lawController extends Controller
 {
     public function getLaw($status){
         if($status == 0){
-            return view("LawUpload.lowUpload",['currentData' => array()]);
+            return view("lawUpload.lowUpload",['currentData' => array()]);
         }
-        $fetchLaws = UploadLaw::latest()->get();
-        return view("LawUpload.lowUpload",['currentData' => $fetchLaws]);
+        $fetchLaws = uploadLaw::latest()->get();
+        return view("lawUpload.lowUpload",['currentData' => $fetchLaws]);
     }
     public function uploadLaw(Request $request){
         $validated = $request->validate([
@@ -27,10 +27,10 @@ class LawController extends Controller
         // dd($request->tarid);
 
         if($request->tarid !=null){
-            $uploadLaw = UploadLaw::where('id',$request->tarid)->first();
+            $uploadLaw = uploadLaw::where('id',$request->tarid)->first();
             $flag = false;
         }else{
-            $uploadLaw = new UploadLaw();
+            $uploadLaw = new uploadLaw();
         }
         $uploadLaw->departmentName = $request->departmentName;
         $uploadLaw->subjectName = $request->subjectName;
@@ -57,12 +57,12 @@ class LawController extends Controller
 
     // update a lawpanel
     public function getUpdateLaw($id){
-        $law = UploadLaw::where('id',$id)->first();
-        return view("LawUpload.updateLaw",['currentData'=>$law]);
+        $law = uploadLaw::where('id',$id)->first();
+        return view("lawUpload.updateLaw",['currentData'=>$law]);
     }
     // delete law
     public function lawDelete($id){
-        $law = UploadLaw::where('id',$id)->first();
+        $law = uploadLaw::where('id',$id)->first();
         if($law->delete()){
             return back()->with('success',"law delete success");
         }else{
@@ -71,12 +71,12 @@ class LawController extends Controller
     }
     // funtion for show data for user
     public function shoqLawforUser($subject,$chapter){
-        $law = UploadLaw::where('subjectName',$subject)->where('chapterName',$chapter)->get();
-        return view("LawUpload.showLawforUser",['subject'=>$subject, 'currentData'=> $law, "chapter"=>$chapter]);
+        $law = uploadLaw::where('subjectName',$subject)->where('chapterName',$chapter)->get();
+        return view("lawUpload.showLawforUser",['subject'=>$subject, 'currentData'=> $law, "chapter"=>$chapter]);
     }
 
     public function fetchLawdatajson($bookName,$chapter){
-        $law = UploadLaw::where('subjectName',$bookName)->where('chapterName',$chapter)->get();
+        $law = uploadLaw::where('subjectName',$bookName)->where('chapterName',$chapter)->get();
         return json_encode($law);
     }
 

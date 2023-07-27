@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class homeController extends Controller
 {
     public function showHomePage(){
-        return view('HomePage.homePage');
+        return view('homePage.homePage');
     }
 }

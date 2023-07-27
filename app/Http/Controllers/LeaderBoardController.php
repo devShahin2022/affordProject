@@ -2,25 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LeaderBoard;
+use App\Models\leaderBoard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LeaderBoardController extends Controller
+class leaderBoardController extends Controller
 {
     public function getLeaderBoardData(){
-        // $year = date('Y');
-        // $month = date('m');
-        // $day = date('d');
-        // dd($day);
-        // $year = 2023; // Set the desired year
-        // $month = 2; // Set the desired month (June)
 
-        // $numberOfDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-        // dd($numberOfDays);
         $monthName = $this->returnMonth(date('m'));
         
-        $leaderBoardData = LeaderBoard::where('month',date('m'))->where('year',date('y'))->orderBy('totalMarks', 'desc')->get();
+        $leaderBoardData = leaderBoard::where('month',date('m'))->where('year',date('y'))->orderBy('totalMarks', 'desc')->get();
         $myPosition = $this->returnPosition($leaderBoardData);
         // prev 3 month leader board data
 
@@ -33,13 +25,13 @@ class LeaderBoardController extends Controller
         $prevMonth3 = date("m") - 3 ;
 
 
-        $leaderBoardData1 = LeaderBoard::where('month',$prevMonth1)->where('year',date('y'))->orderBy('totalMarks', 'desc')->get();
+        $leaderBoardData1 = leaderBoard::where('month',$prevMonth1)->where('year',date('y'))->orderBy('totalMarks', 'desc')->get();
         $myPosition1 = $this->returnPosition($leaderBoardData1);
 
-        $leaderBoardData2 = LeaderBoard::where('month',$prevMonth2)->where('year',date('y'))->orderBy('totalMarks', 'desc')->get();
+        $leaderBoardData2 = leaderBoard::where('month',$prevMonth2)->where('year',date('y'))->orderBy('totalMarks', 'desc')->get();
         $myPosition2 = $this->returnPosition($leaderBoardData2);
 
-        $leaderBoardData3 = LeaderBoard::where('month',$prevMonth3)->where('year',date('y'))->orderBy('totalMarks', 'desc')->get();
+        $leaderBoardData3 = leaderBoard::where('month',$prevMonth3)->where('year',date('y'))->orderBy('totalMarks', 'desc')->get();
         $myPosition3 = $this->returnPosition($leaderBoardData3);
 
 
@@ -47,21 +39,21 @@ class LeaderBoardController extends Controller
             $month = 12 + $prevMonth1;
             $year = date("y")-1;
 
-            $leaderBoardData1 = LeaderBoard::where('month',$month)->where('year',$year)->orderBy('totalMarks', 'desc')->get();
+            $leaderBoardData1 = leaderBoard::where('month',$month)->where('year',$year)->orderBy('totalMarks', 'desc')->get();
             $myPosition1 = $this->returnPosition($leaderBoardData1);
         }
         if($prevMonth2 <= 0){
             $month = 12 + $prevMonth2;
             $year = date("y")-1;
 
-            $leaderBoardData2 = LeaderBoard::where('month',$month)->where('year',$year)->orderBy('totalMarks', 'desc')->get();
+            $leaderBoardData2 = leaderBoard::where('month',$month)->where('year',$year)->orderBy('totalMarks', 'desc')->get();
             $myPosition2 = $this->returnPosition($leaderBoardData2);
         }
         if($prevMonth3 <= 0){
             $month = 12 + $prevMonth3;
             $year = date("y")-1;
 
-            $leaderBoardData3 = LeaderBoard::where('month',$month)->where('year',$year)->orderBy('totalMarks', 'desc')->get();
+            $leaderBoardData3 = leaderBoard::where('month',$month)->where('year',$year)->orderBy('totalMarks', 'desc')->get();
             $myPosition3 = $this->returnPosition($leaderBoardData3);
         }
 

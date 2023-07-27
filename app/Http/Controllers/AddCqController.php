@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AddCq;
-use App\Models\AddMcq;
+use App\Models\addCq;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AddCqController extends Controller
+class addCqController extends Controller
 {
     public function getCq($statusReset){
         $lastUploadedCq = NULL; // handle reset form
         if($statusReset == 1){ // 1 means reset form
-            return view("SiteGeneralContent.AddCq.addCq",['currentData'=>$lastUploadedCq]);
+            return view("siteGeneralContent.addCq.addCq",['currentData'=>$lastUploadedCq]);
         }
-        $lastUploadedCq = AddCq::where('addedBy',Auth::user()->username)->latest()->get(); // fetch by specific user perpose
+        $lastUploadedCq = addCq::where('addedBy',Auth::user()->username)->latest()->get(); // fetch by specific user perpose
         // dd( $lastUploadedCq );
-        return view("SiteGeneralContent.AddCq.addCq",['currentData'=>$lastUploadedCq]);
+        return view("siteGeneralContent.addCq.addCq",['currentData'=>$lastUploadedCq]);
     }
     public function storeCq(Request $request){
         $validated = $request->validate([
@@ -48,7 +47,7 @@ class AddCqController extends Controller
         // validation end
         // start cq upload process
 
-        $addCq = new AddCq();
+        $addCq = new addCq();
 
         // first processing image upload
         if(isset($request->uddipakPhoto)){
@@ -162,26 +161,26 @@ class AddCqController extends Controller
         // data fectch... various criterias
         // if afford question
         if($flag == 0){
-            $getCqs = AddCq::where('departmentName', $departmentName)->
+            $getCqs = addCq::where('departmentName', $departmentName)->
             where('subjectName',$subjectName)->where('chapterName', $chapterName)->
             where('questionCat', $questionCat)->latest()->get();
         }
         // for board question
         if($flag == 1){
-            $getCqs = AddCq::where('departmentName', $departmentName)->
+            $getCqs = addCq::where('departmentName', $departmentName)->
             where('subjectName',$subjectName)->where('chapterName', $chapterName)->
             where('questionCat', $questionCat)->
             where('boardOrSchoolName',$boardOrSchoolName)->where('year',$year)->latest()->get();
         }
         // for school question
         if($flag == 2){
-            $getCqs = AddCq::where('departmentName', $departmentName)->
+            $getCqs = addCq::where('departmentName', $departmentName)->
             where('subjectName',$subjectName)->where('chapterName', $chapterName)->
             where('questionCat', $questionCat)->
             where('boardOrSchoolName',$boardOrSchoolName)->latest()->get();
         }
         // send find data to front end
-        return view("SiteGeneralContent.AddCq.addCq",['currentData'=>$getCqs]);
+        return view("siteGeneralContent.addCq.addCq",['currentData'=>$getCqs]);
     }
 
     // for search field
@@ -189,13 +188,13 @@ class AddCqController extends Controller
         $validated = $request->validate([
             'search' => 'required'
         ]);
-        $cqs = new AddCq();
+        $cqs = new addCq();
         $res = $cqs->search($request->search)->all();
-        return view("SiteGeneralContent.AddCq.addCq",['currentData'=>$res,'searchText'=>$request->search]);
+        return view("siteGeneralContent.addCq.addCq",['currentData'=>$res,'searchText'=>$request->search]);
     }
     // deactive cq publition
     public function activeOrDeactive(Request $request){
-        $cq = AddCq::where('id',$request->id)->first();
+        $cq = addCq::where('id',$request->id)->first();
         if($cq->status == 1){
             $cq->status = 0;
         }else{
@@ -206,7 +205,7 @@ class AddCqController extends Controller
     }
     // delete cq
     public function deleteCq(Request $request){
-        $cq = AddCq::where('id',$request->id)->first();
+        $cq = addCq::where('id',$request->id)->first();
         if($cq->delete()){
             return back()->with('success', 'Cq delete success');
         }else{
@@ -215,13 +214,13 @@ class AddCqController extends Controller
     }
     // view single cq
     public function viewSingleCq($serial, $id){
-        $eachCqData = AddCq::where('id',$id)->first();
-        return view("SiteGeneralContent.Cqview.singleCqView",['currentData'=>$eachCqData,'serial'=>$serial]);
+        $eachCqData = addCq::where('id',$id)->first();
+        return view("siteGeneralContent.cqview.singleCqView",['currentData'=>$eachCqData,'serial'=>$serial]);
     }
     public function viewSingleCqUpdate($serial,$id){
         $targetCq = NULL;
-        $targetCq = AddCq::where('id',$id)->get(); // fetch by specific user perpose
-        return view("SiteGeneralContent.CqEdit.cqEdit",['currentData'=>$targetCq,"id"=>$id,"serial"=>$serial]);
+        $targetCq = addCq::where('id',$id)->get(); // fetch by specific user perpose
+        return view("siteGeneralContent.cqEdit.cqEdit",['currentData'=>$targetCq,"id"=>$id,"serial"=>$serial]);
     }
     // update cq
     public function updateCq(Request $request){
@@ -254,7 +253,7 @@ class AddCqController extends Controller
         // validation end
         // start cq upload process
 
-        $addCq = AddCq::where('id',$request->id)->first();
+        $addCq = addCq::where('id',$request->id)->first();
 
         // first processing image upload
         if(isset($request->uddipakPhoto)){
@@ -336,21 +335,21 @@ class AddCqController extends Controller
     public function cqExamQuestionView($statusReset){
         $lastUploadedCq = NULL; // handle reset form
         if($statusReset == 1){ // 1 means reset form
-            return view("SiteGeneralContent.CreateExamCqQuestion.createXmcqQ",['currentData'=>$lastUploadedCq]);
+            return view("siteGeneralContent.createExamCqQuestion.createXmcqQ",['currentData'=>$lastUploadedCq]);
         }
-        $lastCQWithXmQues = AddCq::where('addedBy',Auth::user()->username)->
+        $lastCQWithXmQues = addCq::where('addedBy',Auth::user()->username)->
         where('isXmQuestion',1)->latest()->get();
         if(sizeof($lastCQWithXmQues)>0){
-            $lastUploadedCq = AddCq::where('addedBy',Auth::user()->username)->
+            $lastUploadedCq = addCq::where('addedBy',Auth::user()->username)->
             where('setNo',$lastCQWithXmQues[0]->setNo)->
             where('departmentName',$lastCQWithXmQues[0]->departmentName)->
             where('subjectName',$lastCQWithXmQues[0]->subjectName)->
             where('chapterName',$lastCQWithXmQues[0]->chapterName)->
             where('questionCat',$lastCQWithXmQues[0]->questionCat)->get();
-            return view("SiteGeneralContent.CreateExamCqQuestion.createXmcqQ",['currentData'=>$lastUploadedCq]);
+            return view("siteGeneralContent.createExamCqQuestion.createXmcqQ",['currentData'=>$lastUploadedCq]);
         }
         if(sizeof($lastCQWithXmQues)==0){
-            return view("SiteGeneralContent.CreateExamCqQuestion.createXmcqQ",['currentData'=>$lastUploadedCq]);
+            return view("siteGeneralContent.createExamCqQuestion.createXmcqQ",['currentData'=>$lastUploadedCq]);
         }
     }
 
@@ -369,10 +368,10 @@ class AddCqController extends Controller
         ]);
 
         // first check current information data available or not...
-        $data = AddCq::where('departmentName',$request->departmentName)->where('subjectName',$request->subjectName)->
+        $data = addCq::where('departmentName',$request->departmentName)->where('subjectName',$request->subjectName)->
                 where('chapterName',$request->chapterName)->where('questionCat',$request->questionCat)->latest()->get();
 
-        $addCq = new AddCq();
+        $addCq = new addCq();
        
         if($request->makeSureIsExitSet == 0){ //data set from frontend view
             $addCq->setNo = 1;
@@ -380,7 +379,7 @@ class AddCqController extends Controller
         }
         if($request->makeSureIsExitSet !=0){ //data set from frontend view
             $addCq->setNo = $request->makeSureIsExitSet;
-            $findLatestSetData = AddCq::where('setNo',$request->makeSureIsExitSet)->
+            $findLatestSetData = addCq::where('setNo',$request->makeSureIsExitSet)->
                 where('departmentName',$request->departmentName)->
                 where('subjectName',$request->subjectName)->
                 where('chapterName',$request->chapterName)->
@@ -491,20 +490,20 @@ class AddCqController extends Controller
         $questionSet = $request->questionSet;
 
         $getCqs = NULL;
-        $getCqs = AddCq::where('departmentName', $departmentName)->
+        $getCqs = addCq::where('departmentName', $departmentName)->
         where('subjectName',$subjectName)->where('chapterName', $chapterName)->
         where('questionCat', $questionCat)->where('setNo', $questionSet)->latest()->get();
         // send find data to front end
-        return view("SiteGeneralContent.CreateExamCqQuestion.createXmcqQ",['currentData'=>$getCqs]);
+        return view("siteGeneralContent.createExamCqQuestion.createXmcqQ",['currentData'=>$getCqs]);
     }
         // for search field
     public function findXmCQSearch(Request $request){
         $validated = $request->validate([
             'search' => 'required'
         ]);
-        $cqs = new AddCq();
+        $cqs = new addCq();
         $res = $cqs->search($request->search)->all();
-        return view("SiteGeneralContent.CreateExamCqQuestion.createXmcqQ",['currentData'=>$res,'searchText'=>$request->search]);
+        return view("siteGeneralContent.createExamCqQuestion.createXmcqQ",['currentData'=>$res,'searchText'=>$request->search]);
     }
 
 }

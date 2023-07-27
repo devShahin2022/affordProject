@@ -11,18 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('question_types', function (Blueprint $table) {
+        Schema::create('kajor_onusilonis', function (Blueprint $table) {
             $table->id();
             $table->string("departmentName");
             $table->string("subjectName");
             $table->string("chapterName");
-            $table->string("cat_no");
-            $table->text("quesTypeTitle");
+            $table->string("onusiloni")->nullable();
+            $table->string("kajNo")->nullable();
             $table->string("questionImg")->nullable();
             $table->text("question");
             $table->string("answerImg")->nullable();
             $table->text("answer")->nullable();
             $table->string("justAnswer")->nullable();
+            $table->string("type");
             $table->string("status")->default(1);
             $table->timestamps();
         });
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('question_types');
+        Schema::dropIfExists('kajor_onusilonis');
     }
 };
