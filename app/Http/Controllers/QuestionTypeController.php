@@ -69,7 +69,11 @@ class questionTypeController extends Controller
         if($status == 0){
             return view("kajOonusiloni.kajOonusiloni",["currentData" => array()]);
         }
+<<<<<<< HEAD
         $data = questionType::latest()->get();
+=======
+        $data = QuestionType::latest()->get();
+>>>>>>> a961923fba524b0f528acdd380c5a6bcc36976ad
         return view("kajOonusiloni.kajOonusiloni",["currentData" => $data]);
     }
 }

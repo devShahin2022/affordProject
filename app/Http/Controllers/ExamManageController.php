@@ -33,7 +33,11 @@ class examManageController extends Controller
             // my position here
 
             // ensure user hit the end exam btn yes or not
+<<<<<<< HEAD
             $ensureExamFinish = manageExam::where('username',$username)->
+=======
+            $ensureExamFinish = ManageExam::where('username',$username)->
+>>>>>>> a961923fba524b0f528acdd380c5a6bcc36976ad
             where("departmentName","বিজ্ঞান বিভাগ")->
             where("subjectName","পদার্থবিজ্ঞান")->
             where("chapterName","বল")->
@@ -55,7 +59,11 @@ class examManageController extends Controller
 
             // get exam data
             $examData = $this->FreeExamQuestionFetch();
+<<<<<<< HEAD
             return view("freeExam.freeExam",['examData'=> $res,'allExaminer'=>$allData,'examPaper'=>json_decode($examData),"myPosition"=>$position]);
+=======
+            return view("FreeExam.FreeExam",['examData'=> $res,'allExaminer'=>$allData,'examPaper'=>json_decode($examData),"myPosition"=>$position]);
+>>>>>>> a961923fba524b0f528acdd380c5a6bcc36976ad
 
     }
 
@@ -185,7 +193,11 @@ class examManageController extends Controller
 
 
         // my position here
+<<<<<<< HEAD
         $ensureExamFinish = manageExam::where('username',$username)->
+=======
+        $ensureExamFinish = ManageExam::where('username',$username)->
+>>>>>>> a961923fba524b0f528acdd380c5a6bcc36976ad
         where("departmentName","বিজ্ঞান বিভাগ")->
         where("subjectName","পদার্থবিজ্ঞান")->
         where("chapterName","বল")->
@@ -208,13 +220,21 @@ class examManageController extends Controller
         // get exam data
         $examData = $this->FreeExamQuestionFetch();
 
+<<<<<<< HEAD
             return view("freeExam.freeExam",['examData'=> $res,'allExaminer'=>$allData, 'examPaper'=>json_decode($examData),"myPosition"=>$position]);
+=======
+            return view("FreeExam.FreeExam",['examData'=> $res,'allExaminer'=>$allData, 'examPaper'=>json_decode($examData),"myPosition"=>$position]);
+>>>>>>> a961923fba524b0f528acdd380c5a6bcc36976ad
     }
     public function userClickExamBtn(Request $request){
         $examStartTime = $request->input('examStartTime');
 
 
+<<<<<<< HEAD
         $storeData = new manageExam();
+=======
+        $storeData = new ManageExam();
+>>>>>>> a961923fba524b0f528acdd380c5a6bcc36976ad
         $storeData->username =  Auth::user()->username;
         $storeData->departmentName = "বিজ্ঞান বিভাগ";
         $storeData->subjectName = "পদার্থবিজ্ঞান";

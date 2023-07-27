@@ -179,7 +179,13 @@ Route::get('/premium/fetch-law-data-json/{bookName}/{chapter}', [lawController::
 // each chapter manage from admin
 Route::get('/admin/upload-ques-type/{status}', [questionTypeController::class,'uploadQuestionTypeGet'])->name('uploadQuestionTypeGet');
 // store category data in database
+<<<<<<< HEAD
 Route::post('/admin/store-cat', [questionTypeController::class,'storeCat'])->name('storeCat');
 Route::get('/admin/delete-type/{id}', [questionTypeController::class,'deleteType'])->name('deleteType');
 Route::get('/admin/kaj-onusiloni/{status}', [questionTypeController::class,'kajOonusiloni'])->name('kajOonusiloni');
+=======
+Route::post('/admin/store-cat', [QuestionTypeController::class,'storeCat'])->name('storeCat');
+Route::get('/admin/delete-type/{id}', [QuestionTypeController::class,'deleteType'])->name('deleteType');
+Route::get('/admin/kaj-onusiloni/{status}', [QuestionTypeController::class,'kajOonusiloni'])->name('kajOonusiloni');
+>>>>>>> a961923fba524b0f528acdd380c5a6bcc36976ad
 
