@@ -1,15 +1,15 @@
 <?php 
 use App\Models\questionModel;
-use App\Models\Contact;
-use App\Models\User;
-use App\Models\Payment;
+use App\Models\contact;
+use App\Models\user;
+use App\Models\payment;
 use Illuminate\Support\Facades\Auth;
 
 $dataPending = questionModel::where('status',0)->get();
-$pendingContact = Contact::where('status',0)->get();
-$pendingAdmissionReq = Payment::where('status',0)->get();
+$pendingContact = contact::where('status',0)->get();
+$pendingAdmissionReq = payment::where('status',0)->get();
 if(Auth::user()){
-  $getUserData = User::where('id',Auth::user()->id)->first();
+  $getUserData = user::where('id',Auth::user()->id)->first();
   $userRole = $getUserData->role;
   $userAccountType = $getUserData->account_type;
 }

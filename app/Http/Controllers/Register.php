@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class Register extends Controller
+class register extends Controller
 {
     public function signUp(){
-        return view("Register.register");
+        return view("register.register");
     }
     public function register(Request $request){
         $validated = $request->validate([
@@ -24,7 +24,7 @@ class Register extends Controller
         if($request->psw !== $request->repeatPassword){
             return back()->with('pswdmath', "Password don't match ");
         }else{
-            $users = User::all();
+            $users = user::all();
             $previousPhoneNumerUsers = 0;
             $isExistUsername = false;
             foreach ($users as $user) {
@@ -43,7 +43,7 @@ class Register extends Controller
                 return back()->with('maxPhoneUser',"Phone user limit exeed!");
             }
             // data store
-            $register = new User();
+            $register = new user();
             $register->phone = $request->phone;
             $register->username = $request->username;
             $register->account_type = 0; //pending requested , default 0 mean basic account, 1 mean premium account, 2 mean admission sssExam

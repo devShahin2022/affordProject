@@ -2,35 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AddCq;
-use App\Models\AddMcq;
+use App\Models\addCq;
+use App\Models\addMcq;
 use Illuminate\Http\Request;
 
-class ShowQuestionFrontendPrmController extends Controller
+class showQuestionFrontendPrmController extends Controller
 {
     public function showBoardQuestion($book){
         // =======================================================================
         // ----------------- default dinajpur board 2022 return data --------------
         // ========================================================================
-        $mcqs = AddMcq::where("subjectName",$book)->
+        $mcqs = addMcq::where("subjectName",$book)->
             where("questionCat","বোর্ড প্রশ্ন")->
             where("boardOrSchoolName","দিনাজপুর বোর্ড")->
             where("year","২০২২")->get();
 
-        $cqs = AddCq::where("subjectName",$book)->
+        $cqs = addCq::where("subjectName",$book)->
             where("questionCat","বোর্ড প্রশ্ন")->
             where("boardOrSchoolName","দিনাজপুর বোর্ড")->
             where("year","২০২২")->get();
             // dd($mcqs);
-        return view("ShowBoardQuestion.showBoardQuestion",["book"=>$book,'mcq'=>$mcqs,'cq'=>$cqs]);
+        return view("showBoardQuestion.showBoardQuestion",["book"=>$book,'mcq'=>$mcqs,'cq'=>$cqs]);
     }
 
     public function fetchshowBoardQuestion($book,$year){
-        $mcqs = AddMcq::where("subjectName",$book)->
+        $mcqs = addMcq::where("subjectName",$book)->
             where("questionCat","বোর্ড প্রশ্ন")->
             where("year",$year)->get();
 
-        $cqs = AddCq::where("subjectName",$book)->
+        $cqs = addCq::where("subjectName",$book)->
         where("questionCat","বোর্ড প্রশ্ন")->
         where("year",$year)->get();
         $allData = [$mcqs, $cqs];

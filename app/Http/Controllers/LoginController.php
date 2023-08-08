@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Register;
+use App\Models\register;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
-class LoginController extends Controller
+class loginController extends Controller
 {   
 
     public function login(){
-        return view('Login.login');
+        return view('login.login');
     }
     public function loginProcess(Request $request){
         $credentials = $request->validate([

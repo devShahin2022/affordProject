@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\user;
 use Illuminate\Http\Request;
 
-class UsersTableController extends Controller
+class usersTableController extends Controller
 { 
     public function getAllUsers(){
-        $users = User::all();
-        return view("Admin.Allusers.user",['users'=>$users]);
+        $users = user::all();
+        return view("admin.allusers.user",['users'=>$users]);
     }
     public function privilige(){
-        $users = User::where('role','admin')->get();
-        return view("Admin.Privilige.Privilige",['users'=>$users]);
+        $users = user::where('role','admin')->get();
+        return view("admin.privilige.privilige",['users'=>$users]);
     }
     public function changeRole($name,$id,$csrf){
         if($csrf == session('csrf')){
-            $user = User::where('id',$id)->first();
+            $user = user::where('id',$id)->first();
             if($name === "disabled"){
                 $user->status = 0; //boolean value
                 $user->save();
@@ -59,13 +59,13 @@ class UsersTableController extends Controller
         $validated = $request->validate([
             'search' => 'required'
         ]);
-        $user = new User();
+        $user = new user();
         $res = $user->search($request->search)->all();
-        return view("Admin.Allusers.user",['users'=>$res,'isSearch'=>$request->search]);
+        return view("admin.allusers.user",['users'=>$res,'isSearch'=>$request->search]);
     } 
     public function changePrivilige(Request $request){
         $ps = $request->priviligeSlag;
-        $user = User::where('id',$request->id)->first();
+        $user = user::where('id',$request->id)->first();
         if($ps == 'read'){
             $user->privilige =0;
             $user->save();

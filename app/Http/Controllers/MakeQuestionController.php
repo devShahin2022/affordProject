@@ -2,32 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AddMcq;
+use App\Models\addMcq;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class MakeQuestionController extends Controller
+class makeQuestionController extends Controller
 {
     public function showMakeMcqQuesXm($statusReset){
         $lastUploadedMcq = NULL; // handle reset form
         if($statusReset == 1){ // 1 means reset form
-            return view("SiteGeneralContent.MakeQuesForExam.makeMcqXm",['currentData'=>$lastUploadedMcq]);
+            return view("siteGeneralContent.makeQuesForExam.makeMcqXm",['currentData'=>$lastUploadedMcq]);
         }
-        $lastAddedData = AddMcq::where('uploaded_by',Auth::user()->username)->
+        $lastAddedData = addMcq::where('uploaded_by',Auth::user()->username)->
         where('isXmQuestion',1)->latest()->get();
        
 
         if(sizeof($lastAddedData)>0){
-            $lastUploadedMcq = AddMcq::where('uploaded_by',Auth::user()->username)->
+            $lastUploadedMcq = addMcq::where('uploaded_by',Auth::user()->username)->
             where('question_set',$lastAddedData[0]->question_set)->
             where('departmentName',$lastAddedData[0]->departmentName)->
             where('subjectName',$lastAddedData[0]->subjectName)->
             where('chapterName',$lastAddedData[0]->chapterName)->
             where('questionCat',$lastAddedData[0]->questionCat)->get();
-            return view("SiteGeneralContent.MakeQuesForExam.makeMcqXm",['currentData'=>$lastUploadedMcq]);
+            return view("siteGeneralContent.makeQuesForExam.makeMcqXm",['currentData'=>$lastUploadedMcq]);
         }
         if(sizeof($lastAddedData)==0){
-            return view("SiteGeneralContent.MakeQuesForExam.makeMcqXm",['currentData'=>$lastUploadedMcq]);
+            return view("siteGeneralContent.makeQuesForExam.makeMcqXm",['currentData'=>$lastUploadedMcq]);
         }
     }
     public function storeMcq(Request $request){ // actually its store custom exam question for cq
@@ -44,7 +44,7 @@ class MakeQuestionController extends Controller
             'answer' => 'required',
             'max_capacity' => 'required'
         ]);
-        $addMcq = new AddMcq();
+        $addMcq = new addMcq();
         // make sure question set already exits or not
         if($request->makeSureIsExitSet == 0){ //data set from frontend view
             $addMcq->question_set = 1;
@@ -53,7 +53,7 @@ class MakeQuestionController extends Controller
         if($request->makeSureIsExitSet !=0){ //data set from frontend view
             $addMcq->max_capacity = $request->max_capacity;
             $addMcq->question_set = $request->makeSureIsExitSet;
-            $findLatestSetData = AddMcq::where('question_set',$request->makeSureIsExitSet)->
+            $findLatestSetData = addMcq::where('question_set',$request->makeSureIsExitSet)->
                 where('subjectName',$request->subjectName)->
                 where('chapterName',$request->chapterName)->get();
             if($findLatestSetData[0]->max_capacity != $request->max_capacity){
@@ -108,19 +108,19 @@ class MakeQuestionController extends Controller
             'chapterName' => 'required',
             'question_set' => 'required'
         ]);
-        $findData = AddMcq::where('departmentName',$request->departmentName)->
+        $findData = addMcq::where('departmentName',$request->departmentName)->
                     where('subjectName',$request->subjectName)->
                     where('chapterName',$request->chapterName)->
                     where('question_set',$request->question_set)->latest()->get();
-        return view('SiteGeneralContent.MakeQuesForExam.makeMcqXm',['currentData'=>$findData,'findSize'=>sizeof($findData)]);
+        return view('siteGeneralContent.makeQuesForExam.makeMcqXm',['currentData'=>$findData,'findSize'=>sizeof($findData)]);
     }
     // search mcq
     public function serachMcqXm(Request $request){
         $validated = $request->validate([
             'searchValue' => 'required',
         ]);
-        $mcqs = new AddMcq();
+        $mcqs = new addMcq();
         $res = $mcqs->search($request->searchValue)->all();
-        return view('SiteGeneralContent.MakeQuesForExam.makeMcqXm',['currentData'=>$res, 'searchText'=> $request->searchValue, 'findSize'=> sizeof($res)]);
+        return view('siteGeneralContent.makeQuesForExam.makeMcqXm',['currentData'=>$res, 'searchText'=> $request->searchValue, 'findSize'=> sizeof($res)]);
     }
 }

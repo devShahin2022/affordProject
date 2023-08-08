@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AddMcq;
-use App\Models\PremiumExamPaper;
+use App\Models\addMcq;
+use App\Models\premiumExamPaper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class DynamicMcqExamPapersAdd extends Controller
+class dynamicMcqExamPapersAdd extends Controller
 {
     // find current exam all department
     public function findCurrentXmAllDepart(){
-        $allActiveExams = PremiumExamPaper::where('isCurrent',1)->get();
+        $allActiveExams = premiumExamPaper::where('isCurrent',1)->get();
         $dataArr = array();
         if(sizeof($allActiveExams)>0){
             $class_9_sci = array();
@@ -47,19 +47,19 @@ class DynamicMcqExamPapersAdd extends Controller
         $lastUploadedMcq = NULL; // handle reset form
         $isBeforePublishedXm = array();
         if($statusReset == 1){ // 1 means reset form
-            return view("SiteGeneralContent.GetPremiumXmPapers.getPremiumMcqXmPapers",['currentData'=>$lastUploadedMcq,'totalSet'=>0,
+            return view("siteGeneralContent.getPremiumXmPapers.getPremiumMcqXmPapers",['currentData'=>$lastUploadedMcq,'totalSet'=>0,
             'isBeforePub'=>$isBeforePublishedXm,
             'activeExams'=>$this->findCurrentXmAllDepart()
         
         ]);
         }
-        $lastAddedData = AddMcq::where('uploaded_by',Auth::user()->username)->
+        $lastAddedData = addMcq::where('uploaded_by',Auth::user()->username)->
         where('isXmQuestion',1)->latest()->get();
 
 
 
         if(sizeof($lastAddedData)>0){
-            $lastUploadedMcq = AddMcq::where('uploaded_by',Auth::user()->username)->
+            $lastUploadedMcq = addMcq::where('uploaded_by',Auth::user()->username)->
             where('departmentName',$lastAddedData[0]->departmentName)->
             where('subjectName',$lastAddedData[0]->subjectName)->
             where('chapterName',$lastAddedData[0]->chapterName)->
@@ -67,7 +67,7 @@ class DynamicMcqExamPapersAdd extends Controller
 
 
             // find is before published this question is or not
-            $isBeforePublishedXm = PremiumExamPaper::where('departmentName',$lastAddedData[0]->departmentName)->
+            $isBeforePublishedXm = premiumExamPaper::where('departmentName',$lastAddedData[0]->departmentName)->
             where('subjectName',$lastAddedData[0]->subjectName)->where('chapterName',$lastAddedData[0]->chapterName)->latest()->get();
 
 
@@ -79,13 +79,13 @@ class DynamicMcqExamPapersAdd extends Controller
                     }
                 }
             }
-            return view("SiteGeneralContent.GetPremiumXmPapers.getPremiumMcqXmPapers",['currentData'=>$lastUploadedMcq,'totalSet'=>$numerOfSet,
+            return view("siteGeneralContent.getPremiumXmPapers.getPremiumMcqXmPapers",['currentData'=>$lastUploadedMcq,'totalSet'=>$numerOfSet,
             'isBeforePub'=>$isBeforePublishedXm,'activeExams'=>$this->findCurrentXmAllDepart()]);
         }
 
 
         if(sizeof($lastAddedData)==0){
-            return view("SiteGeneralContent.GetPremiumXmPapers.getPremiumMcqXmPapers",['currentData'=>$lastUploadedMcq,'totalSet'=>0,
+            return view("siteGeneralContent.getPremiumXmPapers.getPremiumMcqXmPapers",['currentData'=>$lastUploadedMcq,'totalSet'=>0,
             'isBeforePub'=>$isBeforePublishedXm,'activeExams'=>$this->findCurrentXmAllDepart()]);
         }
     }
@@ -99,7 +99,7 @@ class DynamicMcqExamPapersAdd extends Controller
             'chapterName' => 'required',
         ]);
 
-        $findData = AddMcq::where('departmentName',$request->departmentName)->
+        $findData = addMcq::where('departmentName',$request->departmentName)->
         where('subjectName',$request->subjectName)->
         where('chapterName',$request->chapterName)->latest()->get();
 
@@ -113,13 +113,13 @@ class DynamicMcqExamPapersAdd extends Controller
             }
         }
             // find is before published this question is or not
-            $isBeforePublishedXm = PremiumExamPaper::where('departmentName',$request->departmentName)->
+            $isBeforePublishedXm = premiumExamPaper::where('departmentName',$request->departmentName)->
                 where('subjectName',$request->subjectName)->where('chapterName',$request->chapterName)->latest()->get();
 
 
 
         // dd($numerOfSet);
-        return view('SiteGeneralContent.GetPremiumXmPapers.getPremiumMcqXmPapers',['currentData'=>$findData,'totalSet'=>$numerOfSet,
+        return view('siteGeneralContent.getPremiumXmPapers.getPremiumMcqXmPapers',['currentData'=>$findData,'totalSet'=>$numerOfSet,
         'isBeforePub'=>$isBeforePublishedXm,'activeExams'=>$this->findCurrentXmAllDepart()]);
     }
 
@@ -149,7 +149,7 @@ class DynamicMcqExamPapersAdd extends Controller
         $endTime = 86400000 * json_decode($deadLine) + $currentMilliseconds;
         // dd($endTime);
         // store data
-        $examPapers = new PremiumExamPaper();
+        $examPapers = new premiumExamPaper();
         $examPapers->ExamTitle =  $request->examTitle;
         $examPapers->departmentName =  $departmentName;
         $examPapers->subjectName =  $subjectName;
@@ -163,7 +163,7 @@ class DynamicMcqExamPapersAdd extends Controller
         $examPapers->isCurrent = 1; // current it
         // set previous question iscurrent of
 
-        $prevPapers = PremiumExamPaper::where('departmentName',$departmentName)->
+        $prevPapers = premiumExamPaper::where('departmentName',$departmentName)->
                 where('targetClass',$targetClass)->where('isCurrent',1)->where('whichSection',$whichSection)->latest()->first();
 
         if($prevPapers !=null){
@@ -181,7 +181,7 @@ class DynamicMcqExamPapersAdd extends Controller
 
     // delete exam paper
     public function deleteMcqExam($id){
-        $findExam = PremiumExamPaper::where('id',$id)->first();
+        $findExam = premiumExamPaper::where('id',$id)->first();
         if($findExam->delete()){
             return back()->with("success","exam delete success");
         }else{

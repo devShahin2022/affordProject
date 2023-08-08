@@ -6,7 +6,7 @@ use App\Models\questionModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class MessageController extends Controller
+class messageController extends Controller
 {
     
     public function insertMsg(Request $request){
@@ -36,7 +36,7 @@ class MessageController extends Controller
      public function showAllPendingQuestion(){
         $res = questionModel::where("status",0)->get();
         $prevres = questionModel::where("status",1)->get();
-        return view("Admin.Messages.message",['data'=>$res,'prevData'=>$prevres]);
+        return view("admin.messages.message",['data'=>$res,'prevData'=>$prevres]);
     }
 
     public function msgSending(Request $request){
@@ -70,6 +70,6 @@ class MessageController extends Controller
 
     public function showAllQuestionAnswer(){
         $res = questionModel::where("status",1)->get();
-        return view('ShowALlQA.showQA',['data' => $res]);
+        return view('showALlQA.showQA',['data' => $res]);
     }
 }

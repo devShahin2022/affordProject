@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AddMcq;
+use App\Models\addMcq;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,10 +11,10 @@ class siteQuestionController extends Controller
     public function addBoardMcqView($statusReset){
         $lastAddedData = array();
         if($statusReset == 1){
-            return view('SiteGeneralContent.AddMcq.addMcqBoard',['currentData'=>$lastAddedData]);
+            return view('siteGeneralContent.addMcq.addMcqBoard',['currentData'=>$lastAddedData]);
         }
 
-        $lastAddedData = AddMcq::where('uploaded_by',Auth::user()->username)->latest()->get();
+        $lastAddedData = addMcq::where('uploaded_by',Auth::user()->username)->latest()->get();
         if(sizeof($lastAddedData) > 0){
             $departmentName = $lastAddedData[0]->departmentName;
             $subjectName =  $lastAddedData[0]->subjectName;
@@ -24,23 +24,23 @@ class siteQuestionController extends Controller
             $year =  $lastAddedData[0]->year;
             // check static data...
             if(  $questionCat  == "বোর্ড প্রশ্ন" ){
-                $lastAddedData = AddMcq::where('departmentName',$departmentName)->where('subjectName',$subjectName)->
+                $lastAddedData = addMcq::where('departmentName',$departmentName)->where('subjectName',$subjectName)->
                 where('chapterName',$chapterName)->
                 where('boardOrSchoolName',$boardOrSchoolName)->
                 where('year',$year)->latest()->get();
             }
             if(  $questionCat  == "স্কুলের প্রশ্ন" ){
-                $lastAddedData = AddMcq::where('departmentName',$departmentName)->where('subjectName',$subjectName)->
+                $lastAddedData = addMcq::where('departmentName',$departmentName)->where('subjectName',$subjectName)->
                 where('chapterName',$chapterName)->
                 where('boardOrSchoolName',$boardOrSchoolName)->latest()->get();
             }
             if(  $questionCat  == "বাই অ্যাফোর্ড প্রশ্ন" ){
-                $lastAddedData = AddMcq::where('departmentName',$departmentName)->where('subjectName',$subjectName)->
+                $lastAddedData = addMcq::where('departmentName',$departmentName)->where('subjectName',$subjectName)->
                 where('chapterName',$chapterName)->latest()->get();
             }
-            return view('SiteGeneralContent.AddMcq.addMcqBoard',['currentData'=>$lastAddedData]);
+            return view('siteGeneralContent.addMcq.addMcqBoard',['currentData'=>$lastAddedData]);
         }else{
-            return view('SiteGeneralContent.AddMcq.addMcqBoard',['currentData'=>$lastAddedData]);
+            return view('siteGeneralContent.addMcq.addMcqBoard',['currentData'=>$lastAddedData]);
         }
     }
 
@@ -58,11 +58,11 @@ class siteQuestionController extends Controller
             'option_2'=>'required',
             'option_3'=>'required',
         ]);
-        $addMcq = new AddMcq();
+        $addMcq = new addMcq();
         $flag = false;
         if($request->id != 0){
             $flag = true;
-            $addMcq = AddMcq::where('id',$request->id)->first();
+            $addMcq = addMcq::where('id',$request->id)->first();
         }
         if($request->question_type == 0){
             return back()->with('fail',"You have to select question type");
@@ -130,21 +130,21 @@ class siteQuestionController extends Controller
             'questionCat' => 'required'
         ]);
         if(  $request->questionCat  == "বোর্ড প্রশ্ন" ){
-            $lastAddedData = AddMcq::where('departmentName',$request->departmentName)->where('subjectName',$request->subjectName)->
+            $lastAddedData = addMcq::where('departmentName',$request->departmentName)->where('subjectName',$request->subjectName)->
             where('chapterName',$request->chapterName)->
             where('boardOrSchoolName',$request->boardOrSchoolName)->
             where('year',$request->year)->latest()->get();
         }
         if(  $request->questionCat  == "স্কুলের প্রশ্ন" ){
-            $lastAddedData = AddMcq::where('departmentName',$request->departmentName)->where('subjectName',$request->subjectName)->
+            $lastAddedData = addMcq::where('departmentName',$request->departmentName)->where('subjectName',$request->subjectName)->
             where('chapterName',$request->chapterName)->
             where('boardOrSchoolName',$request->boardOrSchoolName)->latest()->get();
         }
         if(  $request->questionCat  == "বাই অ্যাফোর্ড প্রশ্ন" ){
-            $lastAddedData = AddMcq::where('departmentName',$request->departmentName)->where('subjectName',$request->subjectName)->
+            $lastAddedData = addMcq::where('departmentName',$request->departmentName)->where('subjectName',$request->subjectName)->
             where('chapterName',$request->chapterName)->latest()->get();
         }
-        return view('SiteGeneralContent.AddMcq.addMcqBoard',['currentData'=>$lastAddedData]);
+        return view('siteGeneralContent.addMcq.addMcqBoard',['currentData'=>$lastAddedData]);
     }
 
     // search mcq
@@ -152,13 +152,13 @@ class siteQuestionController extends Controller
         $validated = $request->validate([
             'searchValue' => 'required',
         ]);
-        $mcqs = new AddMcq();
+        $mcqs = new addMcq();
         $res = $mcqs->search($request->searchValue)->all();
-        return view('SiteGeneralContent.AddMcq.addMcqBoard',['currentData'=>$res, 'searchText'=> $request->searchValue]);
+        return view('siteGeneralContent.addMcq.addMcqBoard',['currentData'=>$res, 'searchText'=> $request->searchValue]);
     }
     // mcq status change
     public function changeMcqStatus(Request $request){
-        $mcq = AddMcq::where('id', $request->id)->first();
+        $mcq = addMcq::where('id', $request->id)->first();
         if($request->status_val == 0){
             $mcq->status = 1;
             $mcq->save();
@@ -171,7 +171,7 @@ class siteQuestionController extends Controller
     }
     // delete mcq 
     public function deleteMcq(Request $request){
-        $mcq = AddMcq::where('id', $request->id)->first();
+        $mcq = addMcq::where('id', $request->id)->first();
         if($mcq->delete()){
             return redirect()->route('addBoardMcqView', ['statusReset'=> 0 ])->with("success","Delete success");
         }else{
@@ -180,13 +180,13 @@ class siteQuestionController extends Controller
     }
     // single mcq view
     public function singleMcqView($id, $mcqNo){
-        $res = AddMcq::where('id',$id)->first();
-        return view('SiteGeneralContent.AddMcq.EachMcqView',['currentData'=>$res,'mcqNo'=>$mcqNo]);
+        $res = addMcq::where('id',$id)->first();
+        return view('siteGeneralContent.addMcq.eachMcqView',['currentData'=>$res,'mcqNo'=>$mcqNo]);
     }
     // update mcq panel
 
     public function McqUpdate($id, $mcqNo){
-        $res = AddMcq::where('id',$id)->first();
-        return view('SiteGeneralContent.AddMcq.UpdateMcqPanel',['currentData'=>$res,'mcqNo'=>$mcqNo]);
+        $res = addMcq::where('id',$id)->first();
+        return view('siteGeneralContent.addMcq.updateMcqPanel',['currentData'=>$res,'mcqNo'=>$mcqNo]);
     }
 }

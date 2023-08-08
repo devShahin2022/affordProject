@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class AboutUsController extends Controller
+class aboutUsController extends Controller
 {
     public function showAboutUsPage(){
-        return view("AboutUs.AboutUs");
+        return view("aboutUs.aboutUs");
     }
 }

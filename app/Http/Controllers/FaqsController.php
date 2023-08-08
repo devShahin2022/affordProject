@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class FaqsController extends Controller
+class faqsController extends Controller
 {
     public function showFaqs(){
-        return view("Faqs.Faqs");
+        return view("faqs.faqs");
     }
 }
