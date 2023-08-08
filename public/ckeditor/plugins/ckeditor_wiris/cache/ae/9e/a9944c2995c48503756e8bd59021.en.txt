@@ -1,0 +1,1 @@
+{"result":{"text":"rightwards double arrow space v subscript 2 space equals space minus fraction numerator m subscript 1 v subscript 1 over denominator m subscript 2 end fraction"},"status":"ok"}

@@ -17,11 +17,11 @@ return new class extends Migration
             $table->string("subjectName");
             $table->string("chapterName");
             $table->string("cat_no");
-            $table->string("quesTypeTitle");
+            $table->text("quesTypeTitle");
             $table->string("questionImg")->nullable();
-            $table->string("question");
+            $table->text("question");
             $table->string("answerImg")->nullable();
-            $table->string("answer")->nullable();
+            $table->text("answer")->nullable();
             $table->string("justAnswer")->nullable();
             $table->string("status")->default(1);
             $table->timestamps();

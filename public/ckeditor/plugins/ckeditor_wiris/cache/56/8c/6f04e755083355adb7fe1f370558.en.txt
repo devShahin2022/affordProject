@@ -1,0 +1,1 @@
+{"result":{"text":"rightwards double arrow P space equals space fraction numerator F s over denominator t end fraction"},"status":"ok"}

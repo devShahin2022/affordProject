@@ -1,0 +1,1 @@
+{"result":{"text":"rightwards double arrow space a space equals space 400 over 400"},"status":"ok"}

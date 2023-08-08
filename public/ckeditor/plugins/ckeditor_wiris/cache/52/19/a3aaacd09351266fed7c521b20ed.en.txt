@@ -1,0 +1,1 @@
+{"result":{"text":"rightwards double arrow 200 space equals 0 cross times 20 space plus space 1 half a cross times 20 squared"},"status":"ok"}

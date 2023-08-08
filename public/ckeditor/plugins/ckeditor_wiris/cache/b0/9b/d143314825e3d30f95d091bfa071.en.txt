@@ -1,0 +1,1 @@
+{"result":{"text":"g space equals space fraction numerator G M over denominator R squared end fraction"},"status":"ok"}

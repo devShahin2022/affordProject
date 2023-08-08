@@ -1,0 +1,1 @@
+{"result":{"text":"rightwards double arrow space m a space equals space 100 space rightwards double arrow a space equals space 100 over 200"},"status":"ok"}

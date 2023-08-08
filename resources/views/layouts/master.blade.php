@@ -10,6 +10,9 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sidebars/">
     <title>@yield('title')</title>
     <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
+    <script type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js">
+    </script>
 </head>
 <style>
     body {

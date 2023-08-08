@@ -1,0 +1,1 @@
+{"result":{"text":"S space equals space u t space plus space 1 half a t squared"},"status":"ok"}

@@ -1,0 +1,1 @@
+{"result":{"text":"therefore space F space equals space w over s"},"status":"ok"}

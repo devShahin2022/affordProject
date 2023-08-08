@@ -1,0 +1,1 @@
+{"result":{"text":"rightwards double arrow v space equals space 200 over 10"},"status":"ok"}

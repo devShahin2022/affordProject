@@ -1,0 +1,1 @@
+{"result":{"text":"therefore space f space equals space 200 space cross times space 10 space cross times 0.05 space equals space 100 N"},"status":"ok"}

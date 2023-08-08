@@ -27,11 +27,35 @@ class ExamManageController extends Controller
             where("subjectName","পদার্থবিজ্ঞান")->
             where("chapterName","বল")->
             where("questionCat","বাই অ্যাফোর্ড প্রশ্ন")->
-            where("set","1")->latest()->get();
+            where("isclickedSeeResult",1)->
+            where("set","1")->orderBy('correctAnswer', 'desc')->orderBy('timeSpent', 'asc')->limit(100)->get();
+
+            // my position here
+
+            // ensure user hit the end exam btn yes or not
+            $ensureExamFinish = ManageExam::where('username',$username)->
+            where("departmentName","বিজ্ঞান বিভাগ")->
+            where("subjectName","পদার্থবিজ্ঞান")->
+            where("chapterName","বল")->
+            where("questionCat","বাই অ্যাফোর্ড প্রশ্ন")->
+            where("isclickedSeeResult",1)->
+            where("set","1")->get()->first();
+
+            $position = 0;
+            if($ensureExamFinish !=null){
+                foreach ($allData as $d) {
+                    if($d->username == Auth::user()->username){
+                        $position ++;
+                        break;
+                    }else{
+                        $position ++;
+                    }
+                }
+            }
 
             // get exam data
             $examData = $this->FreeExamQuestionFetch();
-            return view("FreeExam.FreeExam",['examData'=> $res,'allExaminer'=>$allData,'examPaper'=>json_decode($examData)]);
+            return view("FreeExam.FreeExam",['examData'=> $res,'allExaminer'=>$allData,'examPaper'=>json_decode($examData),"myPosition"=>$position]);
 
     }
 
@@ -56,6 +80,8 @@ class ExamManageController extends Controller
         $correctAnswer = $request->input('correctAnswer');
         $wrongAnswer = $request->input('wrongAnswer');
         $untouch = $request->input('untouch');
+
+        $timeSpent = $examEndTime - $examStartTime;
 
         // default exam question find ... is exist or not
         $username = Auth::user()->username;
@@ -109,6 +135,7 @@ class ExamManageController extends Controller
             $storeData->set = $examPaperData[0]['question_set'];
             $storeData->isStartExam =$examStartTime;
             $storeData->isEndExam = $examEndTime;
+            $storeData->timeSpent = $timeSpent;
             $storeData->yourAnswers = json_encode($answers);
             $storeData->totalQuestion = sizeof($examPaperData);
             $storeData->wrongAnswer =$wrongAnswer;
@@ -127,6 +154,7 @@ class ExamManageController extends Controller
             $res->correctAnswer = $correctAnswer;
             $res->untouch =$untouch;
             $res->affordMsg =$feedback;
+            $res->timeSpent = $timeSpent;
             $res->save();
             return response()->json(['message' =>"success data insert"]);
         }
@@ -152,12 +180,51 @@ class ExamManageController extends Controller
         where("subjectName","পদার্থবিজ্ঞান")->
         where("chapterName","বল")->
         where("questionCat","বাই অ্যাফোর্ড প্রশ্ন")->
-        where("set","1")->latest()->get();
+        where("isclickedSeeResult",1)->
+        where("set","1")->orderBy('correctAnswer', 'desc')->orderBy('timeSpent', 'asc')->limit(100)->get();
+
+
+        // my position here
+        $ensureExamFinish = ManageExam::where('username',$username)->
+        where("departmentName","বিজ্ঞান বিভাগ")->
+        where("subjectName","পদার্থবিজ্ঞান")->
+        where("chapterName","বল")->
+        where("questionCat","বাই অ্যাফোর্ড প্রশ্ন")->
+        where("isclickedSeeResult",1)->
+        where("set","1")->get()->first();
+
+        $position = 0;
+        if($ensureExamFinish !=null){
+            foreach ($allData as $d) {
+                if($d->username == Auth::user()->username){
+                    $position ++;
+                    break;
+                }else{
+                    $position ++;
+                }
+            }
+        }
 
         // get exam data
         $examData = $this->FreeExamQuestionFetch();
 
-            return view("FreeExam.FreeExam",['examData'=> $res,'allExaminer'=>$allData, 'examPaper'=>json_decode($examData)]);
-            
+            return view("FreeExam.FreeExam",['examData'=> $res,'allExaminer'=>$allData, 'examPaper'=>json_decode($examData),"myPosition"=>$position]);
+    }
+    public function userClickExamBtn(Request $request){
+        $examStartTime = $request->input('examStartTime');
+
+
+        $storeData = new ManageExam();
+        $storeData->username =  Auth::user()->username;
+        $storeData->departmentName = "বিজ্ঞান বিভাগ";
+        $storeData->subjectName = "পদার্থবিজ্ঞান";
+        $storeData->chapterName = "বল";
+        $storeData->questionCat = "বাই অ্যাফোর্ড প্রশ্ন";
+        $storeData->questionCat = "বাই অ্যাফোর্ড প্রশ্ন";
+        $storeData->set =1;
+        $storeData->isStartExam =$examStartTime;
+        if($storeData->save()){
+            return json_encode("Start exam success");
+        }
     }
 }

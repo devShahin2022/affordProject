@@ -2,8 +2,11 @@
 @section("title", "Register")
 @section("content")
 <div class="container">
-    <h1 class="display-3 my-3">Register</h1>
+    <h1 class="display-3 my-3 text-center">Register</h1>
     <div class="row">
+        <div class="col-md-6">
+            <img class="w-100 my-1" src={{asset('static_image/registergif.gif')}}>
+        </div>
         <div class="col-md-6">
             @if(session('pswdmath'))
                 <div class="alert alert-danger">
@@ -68,6 +71,7 @@
                   <span class="text-danger">{{$errors->first('repeatPassword')}}</span>
                   @endif
                 </div>
+                <p class="text-muted">Already have an account? <a href="/login" >Login now</a></p>
                 <button type="submit" class="btn btn-primary">Register</button>
               </form>
         </div>

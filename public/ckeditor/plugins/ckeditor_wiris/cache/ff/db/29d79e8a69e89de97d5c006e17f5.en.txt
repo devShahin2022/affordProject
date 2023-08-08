@@ -1,0 +1,1 @@
+{"result":{"text":"rightwards double arrow space a space equals space F subscript n over m"},"status":"ok"}

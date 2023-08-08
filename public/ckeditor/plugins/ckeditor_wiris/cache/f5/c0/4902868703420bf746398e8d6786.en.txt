@@ -1,0 +1,1 @@
+{"result":{"text":"fraction numerator 7.6 over denominator 1 end fraction space equals space 7.6 space m s to the power of negative 2 end exponent"},"status":"ok"}

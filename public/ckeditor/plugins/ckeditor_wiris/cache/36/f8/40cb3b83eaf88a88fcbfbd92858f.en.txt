@@ -1,0 +1,1 @@
+{"result":{"text":"h space proportional to t squared"},"status":"ok"}

@@ -1,0 +1,1 @@
+{"result":{"text":"therefore space F space equals space W s m to the power of negative 1 end exponent"},"status":"ok"}

@@ -1,0 +1,1 @@
+{"result":{"text":"F space equals space J over m space left square bracket because space"},"status":"ok"}

@@ -1,0 +1,1 @@
+{"result":{"text":"g space proportional to space 1 over R squared"},"status":"ok"}

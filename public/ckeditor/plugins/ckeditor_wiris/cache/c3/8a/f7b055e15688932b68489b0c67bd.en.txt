@@ -1,0 +1,1 @@
+{"result":{"text":"therefore space F space equals space fraction numerator P t over denominator s end fraction"},"status":"ok"}

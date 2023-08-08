@@ -1,0 +1,1 @@
+{"result":{"text":"v subscript 1 over v subscript 2 space equals space t subscript 1 over t subscript 2"},"status":"ok"}

@@ -1,0 +1,1 @@
+{"result":{"text":"W space proportional to space g space"},"status":"ok"}

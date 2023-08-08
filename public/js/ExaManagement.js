@@ -26,6 +26,11 @@ function freeExamCall(){
     }catch(error){
       console.log(error);
     }
+    _id("pushExamQuestionMcqId").innerHTML = `
+    <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+    </div>
+    `;
     // up all settings done let's push mcq question
     fetch('http://127.0.0.1:8000/profile/free-exam-question-fetch')
     .then(response => response.json())
@@ -40,21 +45,21 @@ function freeExamCall(){
                 <div class="col-12">
                   <h5 class="mb-2 mt-3">${index+1}. ${element.question}</h5>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-6 d-flex  mt-2">
                   <input value="1" type="radio" class="btn-check" name="options${index+1}" id="options1_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100 text-start" for="options1_${index+1}">a. ${element.option1}</label>
+                  <label class="btn btn-outline-secondary d-flex  w-100 text-start" for="options1_${index+1}">a. ${element.option1}</label>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-6 d-flex  mt-2">
                   <input  value="2"  type="radio" class="btn-check" name="options${index+1}" id="options2_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100  text-start" for="options2_${index+1}">b. ${element.option2}</label>
+                  <label class="btn btn-outline-secondary d-flex  w-100  text-start" for="options2_${index+1}">b. ${element.option2}</label>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-6 d-flex  mt-2">
                   <input  value="3"  type="radio" class="btn-check" name="options${index+1}" id="options3_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100  text-start" for="options3_${index+1}">c. ${element.option3}</label>
+                  <label class="btn btn-outline-secondary d-flex  w-100  text-start" for="options3_${index+1}">c. ${element.option3}</label>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-6 d-flex  mt-2">
                   <input  value="4"  type="radio" class="btn-check" name="options${index+1}" id="options_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100  text-start" for="options_${index+1}">d. ${element.option4}</label>
+                  <label class="btn btn-outline-secondary d-flex  w-100  text-start" for="options_${index+1}">d. ${element.option4}</label>
                 </div>
               </div>
                 `
@@ -64,17 +69,17 @@ function freeExamCall(){
                 <div class="col-12">
                   <h5 class="mb-2 mt-3">${index+1}. ${element.question}</h5>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-6 d-flex  mt-2">
                   <input value="1" type="checkbox" class="btn-check" name="options${index+1}" id="options1_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100 text-start" for="options1_${index+1}">i. ${element.option1}</label>
+                  <label class="btn btn-outline-secondary d-flex  w-100 text-start" for="options1_${index+1}">i. ${element.option1}</label>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-6 d-flex  mt-2">
                   <input  value="2"  type="checkbox" class="btn-check" name="options${index+1}" id="options2_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100  text-start" for="options2_${index+1}">ii. ${element.option2}</label>
+                  <label class="btn btn-outline-secondary d-flex  w-100  text-start" for="options2_${index+1}">ii. ${element.option2}</label>
                 </div>
-                <div class="col-6 mt-2">
+                <div class="col-6 d-flex  mt-2">
                   <input  value="3"  type="checkbox" class="btn-check" name="options${index+1}" id="options3_${index+1}" autocomplete="">
-                  <label class="btn btn-outline-secondary w-100  text-start" for="options3_${index+1}">iii. ${element.option3}</label>
+                  <label class="btn btn-outline-secondary d-flex  w-100  text-start" for="options3_${index+1}">iii. ${element.option3}</label>
                 </div>
               </div>
                 `
@@ -89,8 +94,7 @@ function freeExamCall(){
 
             const csrfToken1 = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
               const data1 = {
-                  examStartTime: currentTimeInMillisecondsStart,
-                  examPaperData : questionData
+                  examStartTime: currentTimeInMillisecondsStart
               };
               
 
@@ -104,7 +108,7 @@ function freeExamCall(){
               body: JSON.stringify(data1)
             };
             // Send the POST request
-            fetch('http://127.0.0.1:8000/profile/free-exam-data-store', options)
+            fetch('http://127.0.0.1:8000/profile/ensure-user-click-start-exam', options)
               .then(response => response.json())
               .then(data => {
                   console.log('user clicked');
@@ -128,10 +132,12 @@ let options3 = ["i","ii","iii"];
 function examDataCollect(e){
     console.log(e.target());
 }
-
+var loader1 = new bootstrap.Modal(document.getElementById('staticBackdrop'));
 const form = _id('submitExam');
 form.addEventListener('submit', function(event) {
-    event.preventDefault(); 
+    event.preventDefault();
+    loader1.show();
+
     let mcqSize = _id("mcqSize").value;
     let userAnswers = [];
     for(let i=0; i<mcqSize; i++){
@@ -143,9 +149,9 @@ form.addEventListener('submit', function(event) {
                 userAnswers.push(0);
         }
     }
-    // showing result in front end
-    _id("pushExamQuestionMcqId").innerHTML = ''; // first null the mcq panel
-    _id("pushExamQuestionMcqId").classList.add('d-none');
+    // // showing result in front end
+    // _id("pushExamQuestionMcqId").innerHTML = ''; // first null the mcq panel
+    // _id("pushExamQuestionMcqId").classList.add('d-none');
     let countUntouchMcq = 0;
     let countCorrectMcq = 0;
     let countWrongMcq = 0;
@@ -181,9 +187,6 @@ form.addEventListener('submit', function(event) {
 
     console.log(countUntouchMcq, countCorrectMcq, countWrongMcq);
 
-
-
-
     // exam end time
     let currentTimeInMillisecondsEnd = new Date().getTime();
 
@@ -196,7 +199,7 @@ form.addEventListener('submit', function(event) {
       answer: userAnswers,
       examStartTime: currentTimeInMillisecondsStart,
       examEndTime: currentTimeInMillisecondsEnd,
-      examPaperData : questionData,
+      examPaperData : questionData.slice(0,1),
       correctAnswer : countCorrectMcq,
       wrongAnswer : countWrongMcq,
       untouch : countUntouchMcq,
@@ -216,16 +219,22 @@ form.addEventListener('submit', function(event) {
     fetch('http://127.0.0.1:8000/profile/free-exam-data-store', options)
       .then(response => response.json())
       .then(data => {
+        alert("okk");
+          loader1.hide();
+          // showing result in front end
+          _id("pushExamQuestionMcqId").innerHTML = ''; // first null the mcq panel
+          _id("pushExamQuestionMcqId").classList.add('d-none');
+
           var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
           myModal.show();
           _id("pushResultFormId").classList.remove('d-none');
       })
       .catch(error => {
-        console.error('Error:', error);
+        loader1.hide();
+        alert("Internal server error! Please try again later");
       });
 
 });
-
 
 }catch(e){
 
@@ -238,6 +247,8 @@ try{
   const form1 = document.getElementById("submitExamPre");
   form1.addEventListener('submit', function(event) {
     event.preventDefault(); 
+    var loader = new bootstrap.Modal(document.getElementById('staticBackdropPremium'));
+    loader.show();
     let mcqSize = _id("mcqSz").value;
     let userAnswers = [];
     for(let i=0; i<mcqSize; i++){
@@ -282,8 +293,6 @@ try{
     fetch('http://127.0.0.1:8000/premium/fetch/premium-exam-data', options)
     .then(response => response.json())
     .then(data => {
-
-
 
    // showing result in front end
       // _id("pushExamQuestionMcqId").innerHTML = ''; // first null the mcq panel
@@ -331,17 +340,17 @@ try{
 // data store in database
 // Data to be sent in the request body
 
-  const csrfToken3 = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+ 
   const data3 = {
       answer: userAnswers,
       examStartTime : examStartTime,
       examEndTime: currentTimeInMillisecondsEnd,
-      examPaperData : data,
+      examPaperData : data.slice(0,1),
       correctAnswer : countCorrectMcq,
       wrongAnswer : countWrongMcq,
       untouch : countUntouchMcq,
     };
-    
+    const csrfToken3 = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     // Options for the POST request
     const options = {
       method: 'POST',
@@ -356,20 +365,20 @@ try{
     fetch('http://127.0.0.1:8000/profile/free-exam-data-store', options)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        loader.hide();
           var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
           myModal.show();
           _id("pushExamQuestionMcqId").classList.add('d-none');
           _id("examSuccessId").classList.remove('d-none');
       })
       .catch(error => {
-        console.error('Error:', error);
+        loader.hide();
+        alert("Server error! hit the button again.");
       });
-
-
     })
     .catch(error => {
-      console.error('Error:', error);
+      loader.hide();
+      alert("Server error! hit the button again.");
     });
 
 

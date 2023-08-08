@@ -1,0 +1,1 @@
+{"result":{"text":"rightwards double arrow v subscript 2 space equals space minus fraction numerator 10 space cross times space 10 to the power of negative 3 end exponent space cross times space 3000 over denominator 1 end fraction"},"status":"ok"}

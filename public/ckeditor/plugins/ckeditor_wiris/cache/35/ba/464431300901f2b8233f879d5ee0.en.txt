@@ -1,0 +1,1 @@
+{"result":{"text":"v space proportional to space t"},"status":"ok"}

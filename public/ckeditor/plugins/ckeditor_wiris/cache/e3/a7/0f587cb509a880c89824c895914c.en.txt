@@ -1,0 +1,1 @@
+{"result":{"text":"rightwards double arrow space v space equals space u space minus space a t space rightwards double arrow 0 space equals space 9.8 space minus space 7.6 cross times t"},"status":"ok"}

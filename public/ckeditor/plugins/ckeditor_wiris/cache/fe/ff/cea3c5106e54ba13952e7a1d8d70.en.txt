@@ -1,0 +1,1 @@
+{"result":{"text":"therefore space W space equals space J s to the power of negative 1 end exponent"},"status":"ok"}

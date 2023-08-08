@@ -1,0 +1,1 @@
+{"result":{"text":"1000 space cross times space 4 space equals space 4000 space N"},"status":"ok"}

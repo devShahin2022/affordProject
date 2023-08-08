@@ -1,0 +1,1 @@
+{"result":{"text":"therefore v space equals space 20 m s to the power of negative 1 end exponent space"},"status":"ok"}

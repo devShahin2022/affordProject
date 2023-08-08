@@ -1,0 +1,1 @@
+{"result":{"text":"v space equals space u space plus space a t"},"status":"ok"}

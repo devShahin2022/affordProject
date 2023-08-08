@@ -1,0 +1,1 @@
+{"result":{"text":"mu space equals space fraction numerator f over denominator M g end fraction"},"status":"ok"}

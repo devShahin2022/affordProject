@@ -1,0 +1,1 @@
+{"result":{"text":"fraction numerator 1 over denominator square root of 7 end fraction comma negative 1 comma square root of 7 space"},"status":"ok"}

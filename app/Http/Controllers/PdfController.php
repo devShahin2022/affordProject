@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AddMcq;
+use App\Models\AddCq;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
@@ -14,18 +15,17 @@ class PdfController extends Controller
         where('chapterName','বল')->
         where('questionCat','বাই অ্যাফোর্ড প্রশ্ন')->
         where('question_set','1')->get();
-
-        // $pdf =  Pdf::loadview("ExportMcqPdf.exportMcq",["freeExamQuestion" => $freeExamQuestion]);
-        // $fileName = 'freeExam.pdf';
-        // return $pdf->download($fileName);
         
-        return view("ExportMcqPdf.exportMcq",["freeExamQuestion" => $freeExamQuestion]);
+        return view("ExportMcqPdf.exportMcq",["premiumCqQuestion" => array(),"freeExamQuestion" => $freeExamQuestion]);
     }
     // free exam question
     public function premiumExam($subject, $chapter, $set){
-        $freeExamQuestion = AddMcq::where('subjectName',$subject)->
+        $PrmiumExamQuestion = AddMcq::where('subjectName',$subject)->
         where('chapterName',$chapter)->
         where('question_set',$set)->get();
-        return view("ExportMcqPdf.exportMcq",["freeExamQuestion" => $freeExamQuestion]);
+        $examCq = AddCq::where('subjectName',$subject)->
+            where('chapterName',$chapter)->
+            where('setNo',$set)->get();
+        return view("ExportMcqPdf.exportMcq",["premiumCqQuestion" => $examCq,"freeExamQuestion" => $PrmiumExamQuestion]);
     }
 }

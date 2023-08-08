@@ -1,0 +1,1 @@
+{"result":{"text":"h subscript 1 over h subscript 2 space equals space fraction numerator t subscript 1 superscript 2 over denominator t subscript 2 superscript 2 end fraction\n"},"status":"ok"}

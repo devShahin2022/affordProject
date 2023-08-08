@@ -1,0 +1,1 @@
+{"result":{"text":"therefore space j space proportional to space t"},"status":"ok"}

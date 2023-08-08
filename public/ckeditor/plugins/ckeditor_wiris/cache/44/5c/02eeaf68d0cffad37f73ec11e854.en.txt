@@ -1,0 +1,1 @@
+{"result":{"text":"rightwards double arrow space 0 space equals space m subscript 1 v subscript 1 space plus space m subscript 2 v subscript 2"},"status":"ok"}

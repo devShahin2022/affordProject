@@ -94,6 +94,26 @@ let SiteStaticData = [
                 ]
             },
             {
+                "bookName" : "জীববিজ্ঞান",
+                "chapter" : [
+                    "জীবন পাঠ",
+                    "জীবকোষ ও টিস্যু",
+                    "কোষ বিভাজন",
+                    "জীবনীশক্তি ",
+                    "খাদ্য, পুষ্টি এবং পরিপাক",
+                    "জীবে পরিবহন",
+                    "গ্যাসীয় পরিবহন",
+                    "রেচন প্রক্রিয়া",
+                    "দৃঢ়তা প্রদান ও চলন",
+                    "সমন্বয়",
+                    "জীবের প্রজনন",
+                    "জীবের বংশগতি ও বিবর্তন",
+                    "জীবের পরিবেশ",
+                    "জীবপ্রযুক্তি",
+                    "সম্পূর্ণ বই",
+                ]
+            },
+            {
                 "bookName" : "রসায়ন",
                 "bookNum" : 2,
                 "chapter" : [
@@ -135,7 +155,19 @@ let SiteStaticData = [
                     "পরিসংখ্যান",
                     "সম্পূর্ণ বই"
                 ]
-            }
+            },
+            {
+                "bookName" : "বাংলা ২য়",
+                "bookNum" : 1,
+                "chapter" : [
+                    "(১ম + ২য় + ৩য়) পরিচ্ছেদ",
+                    "বাংলা chapter 2",
+                    "বাংলা chapter 3",
+                    "বাংলা chapter 4",
+                    "সম্পূর্ণ বই"
+                ]
+            },
+            
         ]
     },
     {
@@ -146,6 +178,17 @@ let SiteStaticData = [
                 "bookNum" : 1,
                 "chapter" : [
                     "ইতিহাস manobik chapter 1",
+                    "ইতিহাস manobik chapter 2",
+                    "ইতিহাস manobik chapter 3",
+                    "ইতিহাস manobik chapter 4",
+                    "ইতিহাস সম্পূর্ণ বই"
+                ]
+            },
+            {
+                "bookName" : "সাধারণ বিজ্ঞান",
+                "bookNum" : 1,
+                "chapter" : [
+                    "উন্নততর জীবনধারা",
                     "ইতিহাস manobik chapter 2",
                     "ইতিহাস manobik chapter 3",
                     "ইতিহাস manobik chapter 4",
@@ -172,6 +215,17 @@ let SiteStaticData = [
                     "পাতিহাস manobik chapter 3",
                     "পাতিহাস manobik chapter 4",
                     "পাতিহাস সম্পূর্ণ বই"
+                ]
+            },
+            {
+                "bookName" : "বাংলা ২য়",
+                "bookNum" : 1,
+                "chapter" : [
+                    "(১ম + ২য় + ৩য়) পরিচ্ছেদ",
+                    "বাংলা chapter 2",
+                    "বাংলা chapter 3",
+                    "বাংলা chapter 4",
+                    "সম্পূর্ণ বই"
                 ]
             }
         ]
@@ -218,14 +272,14 @@ let SiteStaticData = [
         'departMent' : "কমন বুকস",
         'data' : [
             {
-                "bookName" : "বাংলা",
+                "bookName" : "বাংলা ২য়",
                 "bookNum" : 1,
                 "chapter" : [
-                    "বাংলা chapter 1",
+                    "(১ম + ২য় + ৩য়) পরিচ্ছেদ",
                     "বাংলা chapter 2",
                     "বাংলা chapter 3",
                     "বাংলা chapter 4",
-                    "বাংলা সম্পূর্ণ বই"
+                    "সম্পূর্ণ বই"
                 ]
             },
             {

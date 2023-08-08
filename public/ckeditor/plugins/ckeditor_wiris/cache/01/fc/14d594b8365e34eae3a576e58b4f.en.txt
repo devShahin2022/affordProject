@@ -1,0 +1,1 @@
+{"result":{"text":"therefore space t space equals space fraction numerator 9.8 over denominator 7.6 end fraction space equals space 1.289 space almost equal to space 1.3 s space left parenthesis a n s w e r right parenthesis"},"status":"ok"}
